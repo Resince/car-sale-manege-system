@@ -9,6 +9,16 @@ public class Car {
     private String series;
     private String type;
 
+    public Car(int carId, double price, String structure, String powerType, String brand, String series, String type) {
+        this.carId = carId;
+        this.price = price;
+        this.structure = structure;
+        this.powerType = powerType;
+        this.brand = brand;
+        this.series = series;
+        this.type = type;
+    }
+
     public int getCarId() {
         return carId;
     }

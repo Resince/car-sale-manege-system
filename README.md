@@ -65,3 +65,7 @@ erDiagram
   + 实体类
 + service
 + UI
+
+### 一些简单规范
++ Dao 层的SQL异常要在本层处理
+

@@ -1,13 +1,10 @@
 package main.impl;
 
+import main.entity.SearchUserEntity;
 import main.entity.User;
 
 import java.util.List;
 
 public interface UserSearch {
-    User searchUserByUn(String un);
-
-    List<User> searchUserByName(String name);
-
-    User searchUserByPn(String pn);
+    List<User> searchUserByObject(SearchUserEntity searchUserEntity);
 }
