@@ -15,7 +15,7 @@ public class UpdateUserDao implements UserUpdate {
      * @return 如果失败就返回-1，成功返回更新的行数
      */
     @Override
-    public int updateUser(User user){
+    public int updateUser(User user) {
         int n=-1;
         try(Connection connection = SqlConnection.getConnection()){
             assert connection != null;
@@ -28,7 +28,7 @@ public class UpdateUserDao implements UserUpdate {
                 n = preparedStatement.executeUpdate();
             }
         }catch (SQLException e) {
-            throw new RuntimeException(e);
+            n = -1;
         }
         return n;
     }

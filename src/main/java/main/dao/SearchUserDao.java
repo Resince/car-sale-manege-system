@@ -1,9 +1,9 @@
 package main.dao;
 
-import main.entity.SearchUserEntity;
 import main.entity.User;
 import main.impl.UserSearch;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,39 +12,40 @@ import java.util.*;
 
 public class SearchUserDao implements UserSearch {
     private String sql;
-    private Map<String, String> para;
+    private final Map<String, String> para = new LinkedHashMap<>();
 
-    private String getSql(SearchUserEntity se) {
-        para = new HashMap<>();
-        if (!se.getUserName().equals("")) {
-            para.put("username", se.getUserName());
+    private String getSql(User user) {
+        StringJoiner sj = new StringJoiner("and", "select * from user where ", "  ");
+        Field[] fields = user.getClass().getDeclaredFields();
+        for (Field item : fields) {
+            try {
+                item.setAccessible(true);
+                String values = item.get(user).toString();
+                if (!values.equals("") && !values.equals("-1")) {
+                    sj.add(item.getName() + " = ? ");
+                    para.put(item.getName(), values);
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
-        if (!se.getPassword().equals("")) {
-            para.put("password", se.getPassword());
-        }
-        if (!se.getName().equals("")) {
-            para.put("name", se.getName());
-        }
-        if (!se.getPhoneNumber().equals("")) {
-            para.put("phoneNumber", se.getPhoneNumber());
-        }
-
-        StringJoiner sj = new StringJoiner(",", "select * from user where ", "order by ");
-        for (String item : para.keySet()) {
-            sj.add(item + " = ? ");
-        }
-        System.out.println(sj.toString() + se.orderString());
-        return sj.toString() + se.orderString();
+        return sj.toString();
     }
 
+    /**
+     * 按照所给的user进行搜索
+     *
+     * @param user 非空值表示搜索对应值
+     * @return 返回搜索的到类集合
+     */
     @Override
-    public List<User> searchUserByObject(SearchUserEntity searchUserEntity) {
+    public List<User> searchUserByObject(User user) {
         List<User> users = new ArrayList<>();
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(getSql(searchUserEntity))) {
-                int i=1;
-                for (String item:para.values()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(getSql(user))) {
+                int i = 1;
+                for (String item : para.values()) {
                     preparedStatement.setObject(i, item);
                     i++;
                 }

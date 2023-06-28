@@ -27,7 +27,7 @@ public class AddUserDao implements UserAdd {
                 n = preparedStatement.executeUpdate();
             }
         }catch (SQLException e) {
-            throw new RuntimeException(e);
+            n=-1;
         }
         return n;
     }

@@ -3,20 +3,29 @@ package main.entity;
 public class Car {
     private int carId;
     private double price;
-    private String structure;
+    private String type;
     private String powerType;
     private String brand;
     private String series;
-    private String type;
 
-    public Car(int carId, double price, String structure, String powerType, String brand, String series, String type) {
-        this.carId = carId;
+    public Car(double price, String type, String powerType, String brand, String series) {
+        this.carId = -1;
+        this.price=-1;
         this.price = price;
-        this.structure = structure;
-        this.powerType = powerType;
-        this.brand = brand;
-        this.series = series;
+        this.type = "";
         this.type = type;
+        this.powerType = "";
+        this.powerType = powerType;
+        this.brand = "";
+        this.brand = brand;
+        this.series = "";
+        this.series = series;
+    }
+
+    public Car(int carId, double price, String type, String powerType, String brand, String series) {
+        this(price,type,powerType,brand,series);
+        this.carId = -1;
+        this.carId = carId;
     }
 
     public int getCarId() {
@@ -35,12 +44,12 @@ public class Car {
         this.price = price;
     }
 
-    public String getStructure() {
-        return structure;
+    public String getType() {
+        return type;
     }
 
-    public void setStructure(String structure) {
-        this.structure = structure;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getPowerType() {
@@ -67,24 +76,15 @@ public class Car {
         this.series = series;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @Override
     public String toString() {
         return "Car{" +
                 "carId=" + carId +
                 ", price=" + price +
-                ", structure='" + structure + '\'' +
+                ", type='" + type + '\'' +
                 ", powerType='" + powerType + '\'' +
                 ", brand='" + brand + '\'' +
                 ", series='" + series + '\'' +
-                ", type='" + type + '\'' +
                 '}';
     }
 }
