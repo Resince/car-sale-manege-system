@@ -1,6 +1,6 @@
-package main.ui;
+package ui;
 
-import main.server.Login;
+import server.Login;
 
 public class UI {
     public static void main(String[] args) {

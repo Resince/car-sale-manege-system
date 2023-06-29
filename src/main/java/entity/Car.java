@@ -1,4 +1,4 @@
-package main.entity;
+package entity;
 
 public class Car {
     private int carId;
