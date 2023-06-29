@@ -2,6 +2,7 @@ package dao;
 
 import impl.UserManageImpl;
 import entity.User;
+import utils.AuthState;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -113,6 +114,11 @@ public class UserDao implements UserManageImpl {
             n = -1;
         }
         return n;
+    }
+
+    @Override
+    public AuthState authenticate(String inputUsername, String inputPasswd) {
+        return null;
     }
 
 
