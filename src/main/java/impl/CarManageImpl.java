@@ -1,19 +1,20 @@
 package impl;
 
 import entity.Car;
+import utils.SqlState;
 
 import java.util.List;
 
 public interface CarManageImpl {
-    int addCar(Car car);
+    SqlState addCar(Car car);
 
-    int addCar(List<Car> carList);
+    SqlState addCar(List<Car> carList);
 
-    int deleteCar(Car car);
+    SqlState deleteCar(Car car);
 
-    int deleteCar(List<Car> carList);
+    SqlState deleteCar(List<Car> carList);
 
     List<Car> searchCarByObject(Car car);
 
-    int Update(Car car);
+    SqlState UpdateCar(Car car);
 }

@@ -72,8 +72,7 @@ public class UserAccess {
     }
 
     public static AuthState authenticate(String username,String passwd){
-        AuthState res=userDao.authenticate(username,passwd);
-        return res;
+        return userDao.authenticate(username,passwd);
     }
 
     /**

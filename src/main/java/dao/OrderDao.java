@@ -3,6 +3,7 @@ package dao;
 import entity.Order;
 import impl.OrderImpl;
 import utils.SqlConnection;
+import utils.SqlState;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -14,8 +15,7 @@ import java.util.*;
 
 public class OrderDao implements OrderImpl {
     @Override
-    public int addOrder(Order order) {
-        int n = -1;
+    public SqlState addOrder(Order order) {
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(
@@ -25,12 +25,12 @@ public class OrderDao implements OrderImpl {
                 preparedStatement.setObject(3, order.getTime());
                 preparedStatement.setObject(4, order.getPurchaseMethod());
                 preparedStatement.setObject(5, order.getRemark());
-                n = preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+                return SqlState.Done;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            return SqlState.SqlError;
         }
-        return n;
     }
 
     private final Map<String, String> para = new LinkedHashMap<>();

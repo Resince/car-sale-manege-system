@@ -4,6 +4,7 @@ import impl.UserManageImpl;
 import entity.User;
 import utils.AuthState;
 import utils.SqlConnection;
+import utils.SqlState;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -20,8 +21,7 @@ public class UserDao implements UserManageImpl {
      * @return 返回值如果为-1，这说明添加失败，成功返回被修改的行数
      */
     @Override
-    public int addUser(User user) {
-        int n;
+    public SqlState addUser(User user) {
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(
@@ -30,12 +30,12 @@ public class UserDao implements UserManageImpl {
                 preparedStatement.setObject(2, user.getPassword());
                 preparedStatement.setObject(3, user.getName());
                 preparedStatement.setObject(4, user.getPhoneNumber());
-                n = preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+                return SqlState.Done;
             }
         } catch (SQLException e) {
-            n = -1;
+            return SqlState.SqlError;
         }
-        return n;
     }
 
     private final Map<String, String> para = new LinkedHashMap<>();
@@ -98,8 +98,7 @@ public class UserDao implements UserManageImpl {
      * @return 如果失败就返回-1，成功返回更新的行数
      */
     @Override
-    public int updateUser(User user) {
-        int n;
+    public SqlState updateUser(User user) {
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(
@@ -108,12 +107,12 @@ public class UserDao implements UserManageImpl {
                 preparedStatement.setObject(2, user.getName());
                 preparedStatement.setObject(3, user.getPhoneNumber());
                 preparedStatement.setObject(4, user.getUserName());
-                n = preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+                return SqlState.Done;
             }
         } catch (SQLException e) {
-            n = -1;
+            return SqlState.SqlError;
         }
-        return n;
     }
 
     @Override
@@ -124,12 +123,11 @@ public class UserDao implements UserManageImpl {
                     "select password from user where username = ?")) {
                 preparedStatement.setObject(1,inputUsername);
                 try (ResultSet rs = preparedStatement.executeQuery()) {
-                    return rs.getString(1).equals(inputPasswd)?AuthState.CorrectPassword:AuthState.IncorrectPassword;
+                    return rs.getString(1).equals(inputPasswd)?AuthState.Done:AuthState.InvalidPassword;
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            return AuthState.InvalidUsername;
         }
-        return AuthState.InvalidPassword;
     }
 }

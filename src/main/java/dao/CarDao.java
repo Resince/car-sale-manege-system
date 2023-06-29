@@ -3,6 +3,7 @@ package dao;
 import entity.Car;
 import impl.CarManageImpl;
 import utils.SqlConnection;
+import utils.SqlState;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -16,11 +17,10 @@ public class CarDao implements CarManageImpl {
      * 添加Car的信息
      *
      * @param car car的参数不应为空
-     * @return 返回总共影响的行数，失败返回-1
+     * @return 返回SqlState枚举类
      */
     @Override
-    public int addCar(Car car) {
-        int n = -1;
+    public SqlState addCar(Car car) {
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(
@@ -30,23 +30,22 @@ public class CarDao implements CarManageImpl {
                 preparedStatement.setObject(3, car.getPowerType());
                 preparedStatement.setObject(4, car.getBrand());
                 preparedStatement.setObject(5, car.getSeries());
-                n = preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+                return SqlState.Done;
             }
         } catch (SQLException e) {
-            n = -1;
+            return SqlState.SqlError;
         }
-        return n;
     }
 
     /**
      * 批量添加Car的信息
      *
      * @param carList 其中的Car 不需要要carId,为数据库自增
-     * @return 返回总共影响的行数，失败返回-1
+     * @return 返回SqlState枚举类
      */
     @Override
-    public int addCar(List<Car> carList) {
-        int[] n;
+    public SqlState addCar(List<Car> carList) {
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(
@@ -59,44 +58,43 @@ public class CarDao implements CarManageImpl {
                     preparedStatement.setObject(5, item.getSeries());
                     preparedStatement.addBatch();
                 }
-                n = preparedStatement.executeBatch();
+                preparedStatement.executeBatch();
+                return SqlState.Done;
             }
         } catch (SQLException e) {
-            return -1;
+            return SqlState.SqlError;
         }
-        return Arrays.stream(n).sum();
     }
 
     /**
      * 仅仅根据car的id对车辆进行删除
      *
      * @param car car.id不能为空
-     * @return 返回影响的行数
+     * @return 返回SqlState枚举类
      */
     @Override
-    public int deleteCar(Car car) {
-        int n = -1;
+    public SqlState deleteCar(Car car) {
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(
                     "delete from car where carId = ?")) {
                 preparedStatement.setObject(1, car.getCarId());
-                n = preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+                return SqlState.Done;
             }
         } catch (SQLException e) {
-            n = -1;
+            return SqlState.SqlError;
         }
-        return n;
     }
 
     /**
      * 仅仅根据car的id对车辆进行删除
      *
      * @param carList carList中的id不能重复,且不为空
-     * @return 返回受影响的行数
+     * @return 返回SqlState枚举类
      */
     @Override
-    public int deleteCar(List<Car> carList) {
+    public SqlState deleteCar(List<Car> carList) {
         int[] n;
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
@@ -106,12 +104,12 @@ public class CarDao implements CarManageImpl {
                     preparedStatement.setObject(1, item.getCarId());
                     preparedStatement.addBatch();
                 }
-                n = preparedStatement.executeBatch();
+                preparedStatement.executeBatch();
+                return SqlState.Done;
             }
         } catch (SQLException e) {
-            return -1;
+           return SqlState.SqlError;
         }
-        return Arrays.stream(n).sum();
     }
 
     private final Map<String, String> para = new LinkedHashMap<>();
@@ -172,8 +170,7 @@ public class CarDao implements CarManageImpl {
     }
 
     @Override
-    public int Update(Car car) {
-        int n = -1;
+    public SqlState UpdateCar(Car car) {
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(
@@ -184,11 +181,11 @@ public class CarDao implements CarManageImpl {
                 preparedStatement.setObject(4, car.getBrand());
                 preparedStatement.setObject(5, car.getSeries());
                 preparedStatement.setObject(6, car.getCarId());
-                n = preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+                return SqlState.Done;
             }
         } catch (SQLException e) {
-            n = -1;
+           return SqlState.SqlError;
         }
-        return n;
     }
 }
