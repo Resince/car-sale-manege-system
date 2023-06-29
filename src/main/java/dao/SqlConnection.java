@@ -13,6 +13,8 @@ public class SqlConnection {
         private static String user;
         private static String password;
 
+        private static Connection conn;
+
         //静态块
         static {
             try {
@@ -35,11 +37,14 @@ public class SqlConnection {
         //返回数据库连接
         public static Connection getConnection() {
             try {
-                //注册数据库的驱动
-                Class.forName(driver);
-                //获取数据库连接（里面内容依次是：主机名和端口、用户名、密码）
+                if(conn==null || conn.isClosed()){
+                    //注册数据库的驱动
+                    Class.forName(driver);
+                    //获取数据库连接（里面内容依次是：主机名和端口、用户名、密码）
+                    conn = DriverManager.getConnection(url, user, password);
+                }
                 //返回数据库连接
-                return DriverManager.getConnection(url, user, password);
+                return conn;
             } catch (Exception e) {
                 e.printStackTrace();
             }
