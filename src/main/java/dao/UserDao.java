@@ -39,7 +39,7 @@ public class UserDao implements UserManageImpl {
     private String sql;
     private final Map<String, String> para = new LinkedHashMap<>();
 
-    private String getSql(User user) {
+    private String genSql(User user) {
         StringJoiner sj = new StringJoiner("and", "select * from user where ", "  ");
         Field[] fields = user.getClass().getDeclaredFields();
         for (Field item : fields) {
@@ -68,7 +68,7 @@ public class UserDao implements UserManageImpl {
         List<User> users = new ArrayList<>();
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(getSql(user))) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(genSql(user))) {
                 int i = 1;
                 for (String item : para.values()) {
                     preparedStatement.setObject(i, item);
@@ -114,4 +114,6 @@ public class UserDao implements UserManageImpl {
         }
         return n;
     }
+
+
 }
