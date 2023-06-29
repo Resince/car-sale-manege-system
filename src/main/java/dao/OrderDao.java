@@ -1,8 +1,8 @@
 package dao;
 
 import entity.Order;
-import entity.User;
 import impl.OrderImpl;
+import utils.SqlConnection;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -33,7 +33,6 @@ public class OrderDao implements OrderImpl {
         return n;
     }
 
-    private String sql;
     private final Map<String, String> para = new LinkedHashMap<>();
 
     private String genSql(Order order) {

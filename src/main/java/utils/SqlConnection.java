@@ -1,4 +1,4 @@
-package dao;
+package utils;
 
 import java.io.InputStream;
 import java.sql.Connection;

@@ -6,5 +6,7 @@ package utils;
 public enum AuthState {
     InvalidUsername,
     InvalidPassword,
-    Correct
+    CorrectPassword,
+    IncorrectPassword
+
 }

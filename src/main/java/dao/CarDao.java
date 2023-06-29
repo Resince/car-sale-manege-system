@@ -2,6 +2,7 @@ package dao;
 
 import entity.Car;
 import impl.CarManageImpl;
+import utils.SqlConnection;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -113,7 +114,6 @@ public class CarDao implements CarManageImpl {
         return Arrays.stream(n).sum();
     }
 
-    private String sql;
     private final Map<String, String> para = new LinkedHashMap<>();
 
     public String getSql(Car car) {

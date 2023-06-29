@@ -3,6 +3,7 @@ package dao;
 import impl.UserManageImpl;
 import entity.User;
 import utils.AuthState;
+import utils.SqlConnection;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -20,7 +21,7 @@ public class UserDao implements UserManageImpl {
      */
     @Override
     public int addUser(User user) {
-        int n = -1;
+        int n;
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(
@@ -37,7 +38,6 @@ public class UserDao implements UserManageImpl {
         return n;
     }
 
-    private String sql;
     private final Map<String, String> para = new LinkedHashMap<>();
 
     private String genSql(User user) {
@@ -99,7 +99,7 @@ public class UserDao implements UserManageImpl {
      */
     @Override
     public int updateUser(User user) {
-        int n = -1;
+        int n;
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(
@@ -118,8 +118,18 @@ public class UserDao implements UserManageImpl {
 
     @Override
     public AuthState authenticate(String inputUsername, String inputPasswd) {
-        return null;
+        try (Connection connection = SqlConnection.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "select password from user where username = ?")) {
+                preparedStatement.setObject(1,inputUsername);
+                try (ResultSet rs = preparedStatement.executeQuery()) {
+                    return rs.getString(1).equals(inputPasswd)?AuthState.CorrectPassword:AuthState.IncorrectPassword;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return AuthState.InvalidPassword;
     }
-
-
 }
