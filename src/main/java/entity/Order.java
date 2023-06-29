@@ -1,6 +1,8 @@
 package entity;
 
+import java.text.Format;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Order {
     private String username;
@@ -8,6 +10,29 @@ public class Order {
     private LocalDate time;
     private String PurchaseMethod;
     private String remark;
+
+    public Order(String username, int carId, LocalDate time, String purchaseMethod, String remark) {
+        this.username = username;
+        this.carId = carId;
+        this.time = time;
+        PurchaseMethod = purchaseMethod;
+        this.remark = remark;
+    }
+
+    public Order(String username, int carId, String time, String purchaseMethod, String remark) {
+        this.username = username;
+        this.carId = carId;
+        this.time = toLocalDate(time);
+        PurchaseMethod = purchaseMethod;
+        this.remark = remark;
+    }
+
+    private LocalDate toLocalDate(String time){
+        if(time.equals("")){
+            return null;
+        }
+        return LocalDate.parse(time, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
 
     public String getUsername() {
         return username;
@@ -29,8 +54,8 @@ public class Order {
         return time;
     }
 
-    public void setTime(LocalDate time) {
-        this.time = time;
+    public void setTime(String time) {
+        this.time = toLocalDate(time);
     }
 
     public String getPurchaseMethod() {
