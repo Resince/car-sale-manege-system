@@ -5,7 +5,7 @@ import utils.SqlState;
 
 import java.util.List;
 
-public interface CarManageImpl {
+public interface CarDaoImpl {
     SqlState addCar(Car car);
 
     SqlState addCar(List<Car> carList);

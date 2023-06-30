@@ -1,45 +1,46 @@
 package entity;
 
-import java.text.Format;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Order {
-    private String username;
+    private int orderId;
     private int carId;
-    private LocalDate time;
-    private String PurchaseMethod;
-    private String remark;
+    private int userId;
+    private LocalDate orderTime;
+    private int cusID;
+    private String  cusName;
+    private String cusPhone;
+    private List<Insurance> insurances;
+    private boolean hasLicenseServer;
+    private int pmtDiscount;
+    private int deposit;
+    private LocalDate deliveryTime;
+    private int purchaseTax;
 
-    public Order(String username, int carId, LocalDate time, String purchaseMethod, String remark) {
-        this.username = username;
+    public Order(int orderId, int carId, int userId, LocalDate orderTime, int cusID, String cusName, String cusPhone, List<Insurance> insurances, boolean hasLicenseServer, int pmtDiscount, int deposit, LocalDate deliveryTime, int purchaseTax) {
+        this.orderId = orderId;
         this.carId = carId;
-        this.time = time;
-        PurchaseMethod = purchaseMethod;
-        this.remark = remark;
+        this.userId = userId;
+        this.orderTime = orderTime;
+        this.cusID = cusID;
+        this.cusName = cusName;
+        this.cusPhone = cusPhone;
+        this.insurances = insurances;
+        this.hasLicenseServer = hasLicenseServer;
+        this.pmtDiscount = pmtDiscount;
+        this.deposit = deposit;
+        this.deliveryTime = deliveryTime;
+        this.purchaseTax = purchaseTax;
     }
 
-    public Order(String username, int carId, String time, String purchaseMethod, String remark) {
-        this.username = username;
-        this.carId = carId;
-        this.time = toLocalDate(time);
-        PurchaseMethod = purchaseMethod;
-        this.remark = remark;
+    public int getOrderId() {
+        return orderId;
     }
 
-    private LocalDate toLocalDate(String time){
-        if(time.equals("")){
-            return null;
-        }
-        return LocalDate.parse(time, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public int getCarId() {
@@ -50,37 +51,91 @@ public class Order {
         this.carId = carId;
     }
 
-    public LocalDate getTime() {
-        return time;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setTime(String time) {
-        this.time = toLocalDate(time);
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getPurchaseMethod() {
-        return PurchaseMethod;
+    public LocalDate getOrderTime() {
+        return orderTime;
     }
 
-    public void setPurchaseMethod(String purchaseMethod) {
-        PurchaseMethod = purchaseMethod;
+    public void setOrderTime(LocalDate orderTime) {
+        this.orderTime = orderTime;
     }
 
-    @Override
-    public String toString() {
-        return "Purchase{" +
-                "username='" + username + '\'' +
-                ", carId=" + carId +
-                ", time=" + time +
-                ", PurchaseMethod='" + PurchaseMethod + '\'' +
-                '}';
+    public int getCusID() {
+        return cusID;
     }
 
-    public String getRemark() {
-        return remark;
+    public void setCusID(int cusID) {
+        this.cusID = cusID;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public String getCusName() {
+        return cusName;
+    }
+
+    public void setCusName(String cusName) {
+        this.cusName = cusName;
+    }
+
+    public String getCusPhone() {
+        return cusPhone;
+    }
+
+    public void setCusPhone(String cusPhone) {
+        this.cusPhone = cusPhone;
+    }
+
+    public List<Insurance> getInsurances() {
+        return insurances;
+    }
+
+    public void setInsurances(List<Insurance> insurances) {
+        this.insurances = insurances;
+    }
+
+    public boolean isHasLicenseServer() {
+        return hasLicenseServer;
+    }
+
+    public void setHasLicenseServer(boolean hasLicenseServer) {
+        this.hasLicenseServer = hasLicenseServer;
+    }
+
+    public int getPmtDiscount() {
+        return pmtDiscount;
+    }
+
+    public void setPmtDiscount(int pmtDiscount) {
+        this.pmtDiscount = pmtDiscount;
+    }
+
+    public int getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(int deposit) {
+        this.deposit = deposit;
+    }
+
+    public LocalDate getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(LocalDate deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    public int getPurchaseTax() {
+        return purchaseTax;
+    }
+
+    public void setPurchaseTax(int purchaseTax) {
+        this.purchaseTax = purchaseTax;
     }
 }

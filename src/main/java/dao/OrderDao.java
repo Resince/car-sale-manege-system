@@ -1,7 +1,7 @@
 package dao;
 
 import entity.Order;
-import impl.OrderImpl;
+import impl.OrderDaoImpl;
 import utils.SqlConnection;
 import utils.SqlState;
 
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
-public class OrderDao implements OrderImpl {
+public class OrderDao implements OrderDaoImpl {
     @Override
     public SqlState addOrder(Order order) {
         try (Connection connection = SqlConnection.getConnection()) {
@@ -69,7 +69,7 @@ public class OrderDao implements OrderImpl {
                 }
                 try (ResultSet rs = preparedStatement.executeQuery()) {
                     while (rs.next()) {
-                        String un = rs.getString(1);
+                        int userd = rs.getInt(1);
                         int carId = rs.getInt(2);
                         LocalDate localDate = rs.getDate(3).toLocalDate();
                         String p = rs.getString(4);
@@ -82,5 +82,10 @@ public class OrderDao implements OrderImpl {
             throw new RuntimeException(e);
         }
         return orders;
+    }
+
+    @Override
+    public SqlState updateOrder(Order order) {
+        return null;
     }
 }

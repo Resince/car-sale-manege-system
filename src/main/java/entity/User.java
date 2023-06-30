@@ -1,24 +1,30 @@
 package entity;
 
 public class User {
-    private String userName;
+    private int userId;
     private String password;
     private String name;
     private String phoneNumber;
+    private String type;
 
-    public User(String userName, String password, String name, String phoneNumber) {
-        this.userName = userName;
+    public User(String password, String name, String phoneNumber, String type) {
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.type = type;
     }
 
-    public String getUserName() {
-        return userName;
+    public User(int userId, String password, String name, String phoneNumber, String type) {
+        this(password,name,phoneNumber,type);
+        this.userId = userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getPassword() {
@@ -45,13 +51,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -1,7 +1,7 @@
 package dao;
 
 import entity.Car;
-import impl.CarManageImpl;
+import impl.CarDaoImpl;
 import utils.SqlConnection;
 import utils.SqlState;
 
@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class CarDao implements CarManageImpl {
+public class CarDao implements CarDaoImpl {
     /**
      * 添加Car的信息
      *
