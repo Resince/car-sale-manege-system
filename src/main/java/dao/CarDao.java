@@ -69,16 +69,16 @@ public class CarDao implements CarDaoImpl {
     /**
      * 仅仅根据car的id对车辆进行删除
      *
-     * @param car car.id不能为空
+     * @param carID
      * @return 返回SqlState枚举类
      */
     @Override
-    public SqlState deleteCar(Car car) {
+    public SqlState deleteCar(int carID) {
         try (Connection connection = SqlConnection.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(
                     "delete from car where carId = ?")) {
-                preparedStatement.setObject(1, car.getCarId());
+                preparedStatement.setObject(1, carID);
                 preparedStatement.executeUpdate();
                 return SqlState.Done;
             }

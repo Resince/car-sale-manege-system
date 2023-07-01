@@ -8,6 +8,8 @@ public class Car {
     private String brand;
     private String series;
 
+    public Car() {}
+
     public Car(double price, String type, String powerType, String brand, String series) {
         this.carId = -1;
         this.price=-1;
@@ -28,6 +30,7 @@ public class Car {
         this.carId = carId;
     }
 
+
     public int getCarId() {
         return carId;
     }
@@ -40,7 +43,7 @@ public class Car {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

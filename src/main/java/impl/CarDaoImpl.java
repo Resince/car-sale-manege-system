@@ -10,7 +10,8 @@ public interface CarDaoImpl {
 
     SqlState addCar(List<Car> carList);
 
-    SqlState deleteCar(Car car);
+
+    SqlState deleteCar(int carID);
 
     SqlState deleteCar(List<Car> carList);
 
