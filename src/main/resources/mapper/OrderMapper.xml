@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="impl.OrderMapper">
+
+    <!--  添加  -->
+    <insert id="addOrder" parameterType="entity.Car" keyProperty="orderId" useGeneratedKeys="true">
+        insert `order`
+        (carId,userId,cusId,orderTime,cusName,cusPhone,
+        hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax)
+        values (#{carId},#{userId},#{cusId},#{orderTime},#{cusName},#{cusPhone},
+        #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax})
+    </insert>
+
+    <insert id="addPurIns">
+        insert purIns
+        (insName,orderId)
+        values (#{insName},#{orderId})
+    </insert>
+
+    <insert id="addIns">
+        insert Insurances
+        (insName,price)
+        values (#{insName},#{price})
+    </insert>
+
+
+    <!--  查找  -->
+    <select id="searchOrder">
+
+    </select>
+
+    <!--  更新  -->
+    <update id="updateOrder">
+        update `order`
+        <set>
+
+        </set>
+    </update>
+
+</mapper>

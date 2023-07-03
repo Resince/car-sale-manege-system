@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="impl.CarMapper">
+
+    <!--    插入    -->
+    <insert id="addCar" parameterType="entity.Car" keyProperty="carId" useGeneratedKeys="true">
+        insert into car
+        (price,type,powerType,brand,series)
+        values(#{price},#{type},#{powerType},#{brand},#{series})
+    </insert>
+
+
+    <!--  查询  -->
+    <!--  根据Id查询Car  -->
+    <select id="selectCarByCarId" resultType="entity.Car" parameterType="int">
+        select * from car
+        where carId = #{carId}
+    </select>
+
+    <!--  根据类查询Car  -->
+    <select id="selectCar" resultType="entity.Car">
+        select * from car
+        <where>
+            <if test="price != null">and price = #{price}</if>
+            <if test="type != null ">and type = #{type}</if>
+            <if test="powerType != null ">and powerType = #{powerType}</if>
+            <if test="brand != null ">and brand = #{brand}</if>
+            <if test="series != null ">and series = #{series}</if>
+        </where>
+    </select>
+
+    <!--  删除   -->
+    <delete id="deleteCarById" parameterType="int">
+        delete from car
+        where carId = #{carId}
+    </delete>
+
+
+    <!--  更新  -->
+    <!--  实现动态更新,如果有空字段,不更新这个字段  -->
+    <update id="updateCar" parameterType="entity.Car">
+        update car
+        <set>
+            <if test="price != null">price = #{price},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="powerType != null ">powerType = #{powerType},</if>
+            <if test="brand != null ">brand = #{brand},</if>
+            <if test="series != null ">series = #{series},</if>
+        </set>
+        where carId = #{carId}
+    </update>
+</mapper>
