@@ -1,15 +1,17 @@
 package entity;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class Order {
     private Integer orderId;
     private Integer carId;
     private Integer userId;
-    private LocalDate orderTime;
     private Integer cusId;
+    private LocalDate orderTime;
     private String cusName;
     private String cusPhone;
     private List<Insurance> insurances;
@@ -20,7 +22,7 @@ public class Order {
     private LocalDate deliveryTime;
     private Integer purchaseTax;
 
-    public Order(Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
+    private Order(Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
         this.carId = carId;
         this.userId = userId;
         this.cusId = cusId;
@@ -34,21 +36,26 @@ public class Order {
         this.purchaseTax = purchaseTax;
     }
 
-    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
+    private Order(Integer orderId, Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
         this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
         this.orderId = orderId;
     }
 
-    public Order(Integer orderId, Integer carId, Integer userId, LocalDate orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax) {
-        this(orderId, carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
-        this.orderTime = orderTime;
-        this.deliveryTime = deliveryTime;
-    }
-
+    // 时间只需要用字符串来创建
     public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax) {
         this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
         this.orderTime = orderTime == null ? null : LocalDate.parse(orderTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.deliveryTime = deliveryTime == null ? null : LocalDate.parse(deliveryTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
+    // 提供给xml文件使用
+    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, LocalDate orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax) {
+        this(orderId, carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer.equals("true"), payMethod, pmtDiscount, deposit, purchaseTax);
+        this.orderTime = orderTime;
+        this.deliveryTime = deliveryTime;
+    }
+
+    public Order() {
     }
 
     public Integer getOrderId() {
@@ -175,5 +182,25 @@ public class Order {
     public Order setPurchaseTax(Integer purchaseTax) {
         this.purchaseTax = purchaseTax;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", carId=" + carId +
+                ", userId=" + userId +
+                ", cusId=" + cusId +
+                ", orderTime=" + orderTime +
+                ", cusName='" + cusName + '\'' +
+                ", cusPhone='" + cusPhone + '\'' +
+                ", insurances=" + insurances.toString() +
+                ", hasLicenseServer=" + hasLicenseServer +
+                ", payMethod='" + payMethod + '\'' +
+                ", pmtDiscount=" + pmtDiscount +
+                ", deposit=" + deposit +
+                ", deliveryTime=" + deliveryTime +
+                ", purchaseTax=" + purchaseTax +
+                '}';
     }
 }

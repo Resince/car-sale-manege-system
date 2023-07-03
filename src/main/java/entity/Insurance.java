@@ -4,6 +4,8 @@ public class Insurance {
     private String insName;
     private Double price;
 
+    public Insurance(){};
+
     public Insurance(String insName){
         this.insName = insName;
     }
@@ -29,5 +31,13 @@ public class Insurance {
     public Insurance setPrice(Double price) {
         this.price = price;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Insurance{" +
+                "insName='" + insName + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

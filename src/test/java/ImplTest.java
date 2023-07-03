@@ -86,6 +86,37 @@ public class ImplTest {
         insurances.add(new Insurance("A-Ins"));
         insurances.add(new Insurance("B-Ins"));
         System.out.println(orderDao.addOrder(order));
-        System.out.println(orderDao.addIns("D-Ins",900.0));
     }
+
+    @Test
+    public void testOrderAddIns() {
+        System.out.println(orderDao.addIns("F-Ins", 900.0));
+    }
+
+    @Test
+    public void testUpdateOrder(){
+        insurances.add(new Insurance("E-Ins"));
+        insurances.add(new Insurance("D-Ins"));
+        System.out.println(orderDao.updateOrder(order.setOrderId(1).setCusPhone("1315")));
+    }
+
+    @Test
+    public void testSearchOrder(){
+        insurances.add(new Insurance("A-Ins"));
+        List<Order> list = orderDao.searchOrder(new Order().setCusId(17).setInsurances(insurances));
+        for(Order item:list){
+            System.out.println(item);
+        }
+    }
+
+    @Test
+    public void testSearchInsByOrderId(){
+        System.out.println(orderDao.searchInsByOrderId(1));
+    }
+
+    @Test
+    public void testSearchCar(){
+        System.out.println(carDao.searchCarByPrice(2, 8));
+    }
+
 }

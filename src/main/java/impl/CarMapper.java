@@ -12,6 +12,8 @@ public interface CarMapper {
 
     List<Car> selectCarByCarId(@Param("carId") int carId);
 
+    List<Car> searchCarByPrice(@Param("priceLeft") double priceLeft, @Param("priceRight") double priceRight);
+
     List<Car> selectCar(Car car);
 
     int updateCar(Car car);

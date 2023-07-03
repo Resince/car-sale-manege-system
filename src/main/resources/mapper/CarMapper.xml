@@ -32,6 +32,12 @@
         </where>
     </select>
 
+    <!--    -->
+    <select id="searchCarByPrice" resultType="entity.Car">
+        select * from car
+        where price between #{priceLeft} and #{priceRight}
+    </select>
+
     <!--  删除   -->
     <delete id="deleteCarById" parameterType="int">
         delete from car

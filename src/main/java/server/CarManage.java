@@ -29,21 +29,10 @@ public class CarManage {
 
     /**
      *添加单个车辆信息
-     * @param price
-     * @param type
-     * @param powerType
-     * @param brand
-     * @param series
      */
     public static boolean addCar(double price, String type, String powerType, String brand, String series) {
-        // session
-        // impl
         Car car = new Car(price, type, powerType, brand, series);
-        if (manage.addCar(car) == SqlState.SqlError) {
-            logger.warning("数据库添加失败");
-            return false;
-        } else return manage.addCar(car) == SqlState.Done;
-        // session close()
+        return manage.addCar(car).getCarId()!=null;
     }
 
     /**
