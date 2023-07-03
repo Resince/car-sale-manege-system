@@ -68,6 +68,18 @@ public class CarDao {
     }
 
     /**
+     * 左闭右闭价格区间查找车辆
+     * @param price1 价格区间左侧
+     * @param price2 价格区间右侧
+     * @return 返回车辆列表
+     */
+    public List<Car> searchCarByPrice(double price1, double price2) {
+        // TODO
+
+        return null;
+    }
+
+    /**
      * 根据carID搜索车辆
      * @param carId 非空
      * @return 返回 carList

@@ -16,7 +16,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 
 public class ImplTest {
-    Car carAdd = new Car(10000, "小汽车", "电动", "大众", "A-4");
+    Car carAdd = new Car(10000.0, "小汽车", "电动", "大众", "A-4");
     Car carUpdate = new Car();
     CarDao carDao = new CarDao();
 
@@ -24,7 +24,7 @@ public class ImplTest {
     public void testAddCar() {
         System.out.println(LocalTime.now());
         for (int i = 0; i < 1000; i++) {
-            carDao.addCar(new Car(10000, "小汽车", "电动", "大众", "A-4"));
+            carDao.addCar(new Car(10000.0, "小汽车", "电动", "大众", "A-4"));
         }
         System.out.println(LocalTime.now());
     }
@@ -47,7 +47,7 @@ public class ImplTest {
         System.out.println(LocalTime.now());
         List<Car> carList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            carList.add(new Car(i, "小汽车", "电动", "大众", "A-4"));
+            carList.add(new Car((double) i, "小汽车", "电动", "大众", "A-4"));
         }
         System.out.println(carDao.addCar(carList));
         System.out.println(LocalTime.now());

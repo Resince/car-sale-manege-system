@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.Objects;
+
 public class Car {
     private Integer carId;
     private Double price;
@@ -10,7 +12,7 @@ public class Car {
 
     public Car() {}
 
-    public Car(double price, String type, String powerType, String brand, String series) {
+    public Car(Double price, String type, String powerType, String brand, String series) {
         this.price = price;
         this.type = type;
         this.powerType = powerType;
@@ -18,7 +20,7 @@ public class Car {
         this.series = series;
     }
 
-    public Car(int carId, double price, String type, String powerType, String brand, String series) {
+    public Car(int carId, Double price, String type, String powerType, String brand, String series) {
         this(price,type,powerType,brand,series);
         this.carId = carId;
     }
@@ -87,5 +89,27 @@ public class Car {
                 ", brand='" + brand + '\'' +
                 ", series='" + series + '\'' +
                 '}';
+    }
+
+    /**
+     * 用于多字段查询中判断车辆是否相等
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return carId.hashCode();
+    }
+
+    /**
+     * 用于多字段查询中判断车辆是否相等
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Car) {
+            Car c = (Car) obj;
+            return Objects.equals(this.getCarId(), c.getCarId());
+        } else return false;
     }
 }
