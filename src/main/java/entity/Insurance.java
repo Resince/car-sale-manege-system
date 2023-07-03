@@ -1,27 +1,33 @@
 package entity;
 
 public class Insurance {
-    private String name;
-    private double price;
+    private String insName;
+    private Double price;
 
-    public Insurance(String name, double price) {
-        this.name = name;
+    public Insurance(String insName){
+        this.insName = insName;
+    }
+
+    public Insurance(String insName, Double price) {
+        this.insName = insName;
         this.price = price;
     }
 
-    public String getName() {
-        return name;
+    public String getInsName() {
+        return insName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Insurance setInsName(String insName) {
+        this.insName = insName;
+        return this;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public Insurance setPrice(Double price) {
         this.price = price;
+        return this;
     }
 }

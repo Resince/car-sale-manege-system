@@ -9,49 +9,46 @@ public class Order {
     private Integer carId;
     private Integer userId;
     private LocalDate orderTime;
-    private Integer cusID;
+    private Integer cusId;
     private String cusName;
     private String cusPhone;
     private List<Insurance> insurances;
     private Boolean hasLicenseServer;
+    private String payMethod;
     private Integer pmtDiscount;
     private Integer deposit;
     private LocalDate deliveryTime;
     private Integer purchaseTax;
 
-    public Order() {
-    }
-
-    public Order(Integer orderId, Integer carId, Integer userId, String orderTime, Integer cusID, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax) {
-        this.orderId = orderId;
+    public Order(Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
         this.carId = carId;
         this.userId = userId;
-        this.orderTime = orderTime==null?null:LocalDate.parse(orderTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        this.cusID = cusID;
+        this.cusId = cusId;
         this.cusName = cusName;
         this.cusPhone = cusPhone;
         this.insurances = insurances;
         this.hasLicenseServer = hasLicenseServer;
+        this.payMethod = payMethod;
         this.pmtDiscount = pmtDiscount;
         this.deposit = deposit;
-        this.deliveryTime = deliveryTime==null?null:LocalDate.parse(deliveryTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.purchaseTax = purchaseTax;
     }
 
-    public Order(Integer orderId, Integer carId, Integer userId, LocalDate orderTime, Integer cusID, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax) {
+    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
+        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
         this.orderId = orderId;
-        this.carId = carId;
-        this.userId = userId;
+    }
+
+    public Order(Integer orderId, Integer carId, Integer userId, LocalDate orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax) {
+        this(orderId, carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
         this.orderTime = orderTime;
-        this.cusID = cusID;
-        this.cusName = cusName;
-        this.cusPhone = cusPhone;
-        this.insurances = insurances;
-        this.hasLicenseServer = hasLicenseServer;
-        this.pmtDiscount = pmtDiscount;
-        this.deposit = deposit;
         this.deliveryTime = deliveryTime;
-        this.purchaseTax = purchaseTax;
+    }
+
+    public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax) {
+        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
+        this.orderTime = orderTime == null ? null : LocalDate.parse(orderTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.deliveryTime = deliveryTime == null ? null : LocalDate.parse(deliveryTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     public Integer getOrderId() {
@@ -90,12 +87,12 @@ public class Order {
         return this;
     }
 
-    public Integer getCusID() {
-        return cusID;
+    public Integer getCusId() {
+        return cusId;
     }
 
-    public Order setCusID(Integer cusID) {
-        this.cusID = cusID;
+    public Order setCusId(Integer cusId) {
+        this.cusId = cusId;
         return this;
     }
 
@@ -132,6 +129,15 @@ public class Order {
 
     public Order setHasLicenseServer(Boolean hasLicenseServer) {
         this.hasLicenseServer = hasLicenseServer;
+        return this;
+    }
+
+    public String getPayMethod() {
+        return payMethod;
+    }
+
+    public Order setPayMethod(String payMethod) {
+        this.payMethod = payMethod;
         return this;
     }
 
