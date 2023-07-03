@@ -4,7 +4,6 @@ package server;
 import dao.CarDao;
 import entity.Car;
 import utils.ExcelReader;
-import utils.SqlState;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,11 +30,14 @@ public class CarManage {
      * @param series
      */
     public static boolean addCar(double price, String type, String powerType, String brand, String series) {
+        // session
+        // impl
         Car car = new Car(price, type, powerType, brand, series);
         if (manage.addCar(car).name().equals("SqlError")) {
             logger.warning("数据库添加失败");
             return false;
         } else return true;
+        // session close()
     }
 
     /**
@@ -64,7 +66,7 @@ public class CarManage {
      * @return SqlState
      */
     public static boolean deleteCar(int carID) {
-        if (manage.deleteCar(carID).name().equals("SqlError")) {
+        if (manage.deleteCarById(carID).name().equals("SqlError")) {
             logger.warning("数据库删除失败");
             return false;
         } else return true;

@@ -5,21 +5,40 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Order {
-    private int orderId;
-    private int carId;
-    private int userId;
+    private Integer orderId;
+    private Integer carId;
+    private Integer userId;
     private LocalDate orderTime;
-    private int cusID;
-    private String  cusName;
+    private Integer cusID;
+    private String cusName;
     private String cusPhone;
     private List<Insurance> insurances;
-    private boolean hasLicenseServer;
-    private int pmtDiscount;
-    private int deposit;
+    private Boolean hasLicenseServer;
+    private Integer pmtDiscount;
+    private Integer deposit;
     private LocalDate deliveryTime;
-    private int purchaseTax;
+    private Integer purchaseTax;
 
-    public Order(int orderId, int carId, int userId, LocalDate orderTime, int cusID, String cusName, String cusPhone, List<Insurance> insurances, boolean hasLicenseServer, int pmtDiscount, int deposit, LocalDate deliveryTime, int purchaseTax) {
+    public Order() {
+    }
+
+    public Order(Integer orderId, Integer carId, Integer userId, String orderTime, Integer cusID, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax) {
+        this.orderId = orderId;
+        this.carId = carId;
+        this.userId = userId;
+        this.orderTime = orderTime==null?null:LocalDate.parse(orderTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.cusID = cusID;
+        this.cusName = cusName;
+        this.cusPhone = cusPhone;
+        this.insurances = insurances;
+        this.hasLicenseServer = hasLicenseServer;
+        this.pmtDiscount = pmtDiscount;
+        this.deposit = deposit;
+        this.deliveryTime = deliveryTime==null?null:LocalDate.parse(deliveryTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.purchaseTax = purchaseTax;
+    }
+
+    public Order(Integer orderId, Integer carId, Integer userId, LocalDate orderTime, Integer cusID, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax) {
         this.orderId = orderId;
         this.carId = carId;
         this.userId = userId;
@@ -35,107 +54,120 @@ public class Order {
         this.purchaseTax = purchaseTax;
     }
 
-    public int getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public Order setOrderId(Integer orderId) {
         this.orderId = orderId;
+        return this;
     }
 
-    public int getCarId() {
+    public Integer getCarId() {
         return carId;
     }
 
-    public void setCarId(int carId) {
+    public Order setCarId(Integer carId) {
         this.carId = carId;
+        return this;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public Order setUserId(Integer userId) {
         this.userId = userId;
+        return this;
     }
 
     public LocalDate getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(LocalDate orderTime) {
+    public Order setOrderTime(LocalDate orderTime) {
         this.orderTime = orderTime;
+        return this;
     }
 
-    public int getCusID() {
+    public Integer getCusID() {
         return cusID;
     }
 
-    public void setCusID(int cusID) {
+    public Order setCusID(Integer cusID) {
         this.cusID = cusID;
+        return this;
     }
 
     public String getCusName() {
         return cusName;
     }
 
-    public void setCusName(String cusName) {
+    public Order setCusName(String cusName) {
         this.cusName = cusName;
+        return this;
     }
 
     public String getCusPhone() {
         return cusPhone;
     }
 
-    public void setCusPhone(String cusPhone) {
+    public Order setCusPhone(String cusPhone) {
         this.cusPhone = cusPhone;
+        return this;
     }
 
     public List<Insurance> getInsurances() {
         return insurances;
     }
 
-    public void setInsurances(List<Insurance> insurances) {
+    public Order setInsurances(List<Insurance> insurances) {
         this.insurances = insurances;
+        return this;
     }
 
-    public boolean isHasLicenseServer() {
+    public Boolean getHasLicenseServer() {
         return hasLicenseServer;
     }
 
-    public void setHasLicenseServer(boolean hasLicenseServer) {
+    public Order setHasLicenseServer(Boolean hasLicenseServer) {
         this.hasLicenseServer = hasLicenseServer;
+        return this;
     }
 
-    public int getPmtDiscount() {
+    public Integer getPmtDiscount() {
         return pmtDiscount;
     }
 
-    public void setPmtDiscount(int pmtDiscount) {
+    public Order setPmtDiscount(Integer pmtDiscount) {
         this.pmtDiscount = pmtDiscount;
+        return this;
     }
 
-    public int getDeposit() {
+    public Integer getDeposit() {
         return deposit;
     }
 
-    public void setDeposit(int deposit) {
+    public Order setDeposit(Integer deposit) {
         this.deposit = deposit;
+        return this;
     }
 
     public LocalDate getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(LocalDate deliveryTime) {
+    public Order setDeliveryTime(LocalDate deliveryTime) {
         this.deliveryTime = deliveryTime;
+        return this;
     }
 
-    public int getPurchaseTax() {
+    public Integer getPurchaseTax() {
         return purchaseTax;
     }
 
-    public void setPurchaseTax(int purchaseTax) {
+    public Order setPurchaseTax(Integer purchaseTax) {
         this.purchaseTax = purchaseTax;
+        return this;
     }
 }

@@ -124,7 +124,7 @@ erDiagram
 主要分为四个层次
 
 + impl
-+ dao
++ mapper
 + entity
 + service
 + ui
@@ -134,4 +134,32 @@ erDiagram
 
 + Dao 层的SQL异常要在本层处理
 
-  
++ 实体类在使用过程中，如果创建过程中，不需要设置所有的字段，那建议是使用set方法
+
+### MyBatis
+
++ 可以简化许多操作
++ 自动维护一个 线程池
+
+一些在编写代码时发现的不方便的地方
+
++ 在调用Mybatis的接口时，还需要维护一个 SqlSession
+```java
+@Test
+public class ImplTest {
+  @Test
+  public void testCarMapper() {
+    TestImpl test;
+    SqlSession sqlSession = SqlConnection.getSqlsession();
+    test = sqlSession.getMapper(TestImpl.class);
+    System.out.println(test.selectCarByCarId(1));
+    sqlSession.close();
+  }
+}
+```
+
+这其中需要在每一步调用数据库的过程，都要执行一遍获得sqlSession,还要及时关闭，
+这个操作重复多遍，应该需要将这个函数提取出来，这样才可以实现更好的服务
+
+> 其实关于这个问题，是有解决方法的，可以让一个框架，来维护其中的接口 test ，自动化的在每次使用 函数时都创建 sqlSession 并及时close()
+> 而现在比如 Spring 就解决了这个问题
