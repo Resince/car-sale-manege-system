@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MakeOrderController">
+   <children>
+      <MFXTextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="529.0" text="合同信息" translateX="-50.0">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </MFXTextField>
+      <TextArea prefHeight="200.0" prefWidth="200.0" text="我是你爹" />
+      <MFXButton alignment="CENTER" contentDisplay="CENTER">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </MFXButton>
+   </children>
+</VBox>
