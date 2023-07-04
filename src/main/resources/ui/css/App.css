@@ -1,0 +1,29 @@
+@import 'MFXColors.css';
+@import '../fonts/Fonts.css';
+
+.root-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-color: #ebebeb;
+    -fx-border-radius: 20;
+}
+
+.minimize-icon {
+    -fx-opacity: 0.7;
+    -mfx-color: -mfx-blue;
+}
+
+.close-icon {
+    -fx-opacity: 0.7;
+    -mfx-color: -mfx-red;
+}
+
+.minimize-icon:hover {
+    -fx-opacity: 1;
+    -mfx-color: -mfx-blue;
+}
+
+.close-icon:hover {
+    -fx-opacity: 1;
+    -mfx-color: -mfx-red;
+}
