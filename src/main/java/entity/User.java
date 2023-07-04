@@ -1,57 +1,69 @@
 package entity;
 
 public class User {
-    private String userName;
+    private Integer userId;
     private String password;
     private String name;
     private String phoneNumber;
+    private String type;
 
-    public User(String userName, String password, String name, String phoneNumber) {
-        this.userName = userName;
+    public User() {
+    }
+
+    public User(String password, String name, String phoneNumber, String type) {
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.type = type;
     }
 
-    public String getUserName() {
-        return userName;
+    public User(Integer userId, String password, String name, String phoneNumber, String type) {
+        this(password, name, phoneNumber, type);
+        this.userId = userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public User setUserId(Integer userId) {
+        this.userId = userId;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public User setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public User setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public User setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+    public String getType() {
+        return type;
+    }
+
+    public User setType(String type) {
+        this.type = type;
+        return this;
     }
 }

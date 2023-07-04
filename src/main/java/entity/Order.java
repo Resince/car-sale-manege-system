@@ -1,86 +1,206 @@
 package entity;
 
-import java.text.Format;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 
 public class Order {
-    private String username;
-    private int carId;
-    private LocalDate time;
-    private String PurchaseMethod;
-    private String remark;
+    private Integer orderId;
+    private Integer carId;
+    private Integer userId;
+    private Integer cusId;
+    private LocalDate orderTime;
+    private String cusName;
+    private String cusPhone;
+    private List<Insurance> insurances;
+    private Boolean hasLicenseServer;
+    private String payMethod;
+    private Integer pmtDiscount;
+    private Integer deposit;
+    private LocalDate deliveryTime;
+    private Integer purchaseTax;
 
-    public Order(String username, int carId, LocalDate time, String purchaseMethod, String remark) {
-        this.username = username;
+    private Order(Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
         this.carId = carId;
-        this.time = time;
-        PurchaseMethod = purchaseMethod;
-        this.remark = remark;
+        this.userId = userId;
+        this.cusId = cusId;
+        this.cusName = cusName;
+        this.cusPhone = cusPhone;
+        this.insurances = insurances;
+        this.hasLicenseServer = hasLicenseServer;
+        this.payMethod = payMethod;
+        this.pmtDiscount = pmtDiscount;
+        this.deposit = deposit;
+        this.purchaseTax = purchaseTax;
     }
 
-    public Order(String username, int carId, String time, String purchaseMethod, String remark) {
-        this.username = username;
-        this.carId = carId;
-        this.time = toLocalDate(time);
-        PurchaseMethod = purchaseMethod;
-        this.remark = remark;
+    private Order(Integer orderId, Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
+        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
+        this.orderId = orderId;
     }
 
-    private LocalDate toLocalDate(String time){
-        if(time.equals("")){
-            return null;
-        }
-        return LocalDate.parse(time, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    // 时间只需要用字符串来创建
+    public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax) {
+        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
+        this.orderTime = orderTime == null ? null : LocalDate.parse(orderTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.deliveryTime = deliveryTime == null ? null : LocalDate.parse(deliveryTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
-    public String getUsername() {
-        return username;
+    // 提供给xml文件使用
+    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, LocalDate orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax) {
+        this(orderId, carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer.equals("true"), payMethod, pmtDiscount, deposit, purchaseTax);
+        this.orderTime = orderTime;
+        this.deliveryTime = deliveryTime;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public Order() {
     }
 
-    public int getCarId() {
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public Order setOrderId(Integer orderId) {
+        this.orderId = orderId;
+        return this;
+    }
+
+    public Integer getCarId() {
         return carId;
     }
 
-    public void setCarId(int carId) {
+    public Order setCarId(Integer carId) {
         this.carId = carId;
+        return this;
     }
 
-    public LocalDate getTime() {
-        return time;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setTime(String time) {
-        this.time = toLocalDate(time);
+    public Order setUserId(Integer userId) {
+        this.userId = userId;
+        return this;
     }
 
-    public String getPurchaseMethod() {
-        return PurchaseMethod;
+    public LocalDate getOrderTime() {
+        return orderTime;
     }
 
-    public void setPurchaseMethod(String purchaseMethod) {
-        PurchaseMethod = purchaseMethod;
+    public Order setOrderTime(LocalDate orderTime) {
+        this.orderTime = orderTime;
+        return this;
+    }
+
+    public Integer getCusId() {
+        return cusId;
+    }
+
+    public Order setCusId(Integer cusId) {
+        this.cusId = cusId;
+        return this;
+    }
+
+    public String getCusName() {
+        return cusName;
+    }
+
+    public Order setCusName(String cusName) {
+        this.cusName = cusName;
+        return this;
+    }
+
+    public String getCusPhone() {
+        return cusPhone;
+    }
+
+    public Order setCusPhone(String cusPhone) {
+        this.cusPhone = cusPhone;
+        return this;
+    }
+
+    public List<Insurance> getInsurances() {
+        return insurances;
+    }
+
+    public Order setInsurances(List<Insurance> insurances) {
+        this.insurances = insurances;
+        return this;
+    }
+
+    public Boolean getHasLicenseServer() {
+        return hasLicenseServer;
+    }
+
+    public Order setHasLicenseServer(Boolean hasLicenseServer) {
+        this.hasLicenseServer = hasLicenseServer;
+        return this;
+    }
+
+    public String getPayMethod() {
+        return payMethod;
+    }
+
+    public Order setPayMethod(String payMethod) {
+        this.payMethod = payMethod;
+        return this;
+    }
+
+    public Integer getPmtDiscount() {
+        return pmtDiscount;
+    }
+
+    public Order setPmtDiscount(Integer pmtDiscount) {
+        this.pmtDiscount = pmtDiscount;
+        return this;
+    }
+
+    public Integer getDeposit() {
+        return deposit;
+    }
+
+    public Order setDeposit(Integer deposit) {
+        this.deposit = deposit;
+        return this;
+    }
+
+    public LocalDate getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public Order setDeliveryTime(LocalDate deliveryTime) {
+        this.deliveryTime = deliveryTime;
+        return this;
+    }
+
+    public Integer getPurchaseTax() {
+        return purchaseTax;
+    }
+
+    public Order setPurchaseTax(Integer purchaseTax) {
+        this.purchaseTax = purchaseTax;
+        return this;
     }
 
     @Override
     public String toString() {
-        return "Purchase{" +
-                "username='" + username + '\'' +
+        return "Order{" +
+                "orderId=" + orderId +
                 ", carId=" + carId +
-                ", time=" + time +
-                ", PurchaseMethod='" + PurchaseMethod + '\'' +
+                ", userId=" + userId +
+                ", cusId=" + cusId +
+                ", orderTime=" + orderTime +
+                ", cusName='" + cusName + '\'' +
+                ", cusPhone='" + cusPhone + '\'' +
+                ", insurances=" + insurances.toString() +
+                ", hasLicenseServer=" + hasLicenseServer +
+                ", payMethod='" + payMethod + '\'' +
+                ", pmtDiscount=" + pmtDiscount +
+                ", deposit=" + deposit +
+                ", deliveryTime=" + deliveryTime +
+                ", purchaseTax=" + purchaseTax +
                 '}';
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
     }
 }

@@ -1,133 +1,71 @@
 package dao;
 
-import impl.UserManageImpl;
 import entity.User;
+import impl.UserMapper;
+import org.apache.ibatis.session.SqlSession;
 import utils.AuthState;
 import utils.SqlConnection;
 import utils.SqlState;
 
-import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
 
-public class UserDao implements UserManageImpl {
+public class UserDao {
+    UserMapper userDao;
+
     /**
-     * 添加新用户
-     *
-     * @param user user中不允许有空值
-     * @return 返回值如果为-1，这说明添加失败，成功返回被修改的行数
+     * 添加user
+     * @return 返回user,其中有自增的主键
      */
-    @Override
     public SqlState addUser(User user) {
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "insert into user (username,password,name,phoneNumber) values (?,?,?,?)")) {
-                preparedStatement.setObject(1, user.getUserName());
-                preparedStatement.setObject(2, user.getPassword());
-                preparedStatement.setObject(3, user.getName());
-                preparedStatement.setObject(4, user.getPhoneNumber());
-                preparedStatement.executeUpdate();
-                return SqlState.Done;
-            }
-        } catch (SQLException e) {
-            return SqlState.SqlError;
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            userDao = sqlSession.getMapper(UserMapper.class);
+            int ans = userDao.addUser(user);
+            System.out.println(user.getUserId());
+            sqlSession.commit();
+            return SqlState.Done;
         }
-    }
-
-    private final Map<String, String> para = new LinkedHashMap<>();
-
-    private String genSql(User user) {
-        StringJoiner sj = new StringJoiner("and", "select * from user where ", "  ");
-        Field[] fields = user.getClass().getDeclaredFields();
-        for (Field item : fields) {
-            try {
-                item.setAccessible(true);
-                String values = item.get(user).toString();
-                if (!values.equals("") && !values.equals("-1")) {
-                    sj.add(item.getName() + " = ? ");
-                    para.put(item.getName(), values);
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return sj.toString();
     }
 
     /**
-     * 按照所给的user进行搜索
-     *
-     * @param user 非空值表示搜索对应值
-     * @return 返回搜索的到类集合
+     * 按照非空字段进行搜索
+     * @param user 非空字段被认为是搜索对象
+     * @return 返回user的list
      */
-    @Override
-    public List<User> searchUserByObject(User user) {
-        List<User> users = new ArrayList<>();
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(genSql(user))) {
-                int i = 1;
-                for (String item : para.values()) {
-                    preparedStatement.setObject(i, item);
-                    i++;
-                }
-                try (ResultSet rs = preparedStatement.executeQuery()) {
-                    while (rs.next()) {
-                        String un = rs.getString(1);
-                        String pwd = rs.getString(2);
-                        String name = rs.getString(3);
-                        String pn = rs.getString(4);
-                        users.add(new User(un, pwd, name, pn));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public List<User> searchUser(User user) {
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            userDao = sqlSession.getMapper(UserMapper.class);
+            return userDao.searchUser(user);
         }
-        return users;
     }
 
     /**
-     * 更新其中的User数据
-     *
-     * @param user user中的数据非空
-     * @return 如果失败就返回-1，成功返回更新的行数
+     * 按照非空字段进行更新，空字段保留
      */
-    @Override
     public SqlState updateUser(User user) {
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "update user set password=?,name=?,phoneNumber=? where username=?")) {
-                preparedStatement.setObject(1, user.getPassword());
-                preparedStatement.setObject(2, user.getName());
-                preparedStatement.setObject(3, user.getPhoneNumber());
-                preparedStatement.setObject(4, user.getUserName());
-                preparedStatement.executeUpdate();
-                return SqlState.Done;
-            }
-        } catch (SQLException e) {
-            return SqlState.SqlError;
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            userDao = sqlSession.getMapper(UserMapper.class);
+            int ans = userDao.updateUser(user);
+            sqlSession.commit();
+            return SqlState.Done;
         }
     }
 
-    @Override
-    public AuthState authenticate(String inputUsername, String inputPasswd) {
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "select password from user where username = ?")) {
-                preparedStatement.setObject(1,inputUsername);
-                try (ResultSet rs = preparedStatement.executeQuery()) {
-                    return rs.getString(1).equals(inputPasswd)?AuthState.Done:AuthState.InvalidPassword;
-                }
+    /**
+     * 身份认证，如果只有userId，那么就是寻找是否有这个用户
+     * 如果都有且不为空，则是验证这个账号的密码是否正确
+     * 但是在验证密码是否是否为正确时，会提前验证是否账号是否存在
+     * @return AuthState
+     */
+    public AuthState authenticate(int inputUserId, String inputPasswd) {
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            userDao = sqlSession.getMapper(UserMapper.class);
+            if(userDao.authenticate(inputUserId, null)==null){
+                return AuthState.InvalidUsername;
+            }else if(inputPasswd!=null && userDao.authenticate(inputUserId,inputPasswd)==null){
+                return AuthState.InvalidPassword;
+            }else {
+                return AuthState.Done;
             }
-        } catch (SQLException e) {
-            return AuthState.InvalidUsername;
         }
     }
 }

@@ -1,79 +1,82 @@
 package entity;
 
+import java.util.Objects;
+
 public class Car {
-    private int carId;
-    private double price;
+    private Integer carId;
+    private Double price;
     private String type;
     private String powerType;
     private String brand;
     private String series;
 
-    public Car(double price, String type, String powerType, String brand, String series) {
-        this.carId = -1;
-        this.price=-1;
+    public Car() {}
+
+    public Car(Double price, String type, String powerType, String brand, String series) {
         this.price = price;
-        this.type = "";
         this.type = type;
-        this.powerType = "";
         this.powerType = powerType;
-        this.brand = "";
         this.brand = brand;
-        this.series = "";
         this.series = series;
     }
 
-    public Car(int carId, double price, String type, String powerType, String brand, String series) {
+    public Car(int carId, Double price, String type, String powerType, String brand, String series) {
         this(price,type,powerType,brand,series);
-        this.carId = -1;
         this.carId = carId;
     }
 
-    public int getCarId() {
+    public Integer getCarId() {
         return carId;
     }
 
-    public void setCarId(int carId) {
+    public Car setCarId(Integer carId) {
         this.carId = carId;
+        return this;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public Car setPrice(Double price) {
         this.price = price;
+        return this;
     }
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public Car setType(String type) {
         this.type = type;
+        return this;
     }
 
     public String getPowerType() {
         return powerType;
     }
 
-    public void setPowerType(String powerType) {
+    public Car setPowerType(String powerType) {
         this.powerType = powerType;
+        return this;
     }
 
     public String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
+    public Car setBrand(String brand) {
         this.brand = brand;
+        return this;
     }
 
     public String getSeries() {
         return series;
     }
 
-    public void setSeries(String series) {
+    public Car setSeries(String series) {
         this.series = series;
+        return this;
     }
 
     @Override
@@ -86,5 +89,27 @@ public class Car {
                 ", brand='" + brand + '\'' +
                 ", series='" + series + '\'' +
                 '}';
+    }
+
+    /**
+     * 用于多字段查询中判断车辆是否相等
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return carId.hashCode();
+    }
+
+    /**
+     * 用于多字段查询中判断车辆是否相等
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Car) {
+            Car c = (Car) obj;
+            return Objects.equals(this.getCarId(), c.getCarId());
+        } else return false;
     }
 }

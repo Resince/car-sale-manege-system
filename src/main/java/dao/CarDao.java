@@ -1,191 +1,126 @@
 package dao;
 
 import entity.Car;
-import impl.CarManageImpl;
+import impl.CarMapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.SqlSession;
 import utils.SqlConnection;
 import utils.SqlState;
 
-import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
 
-public class CarDao implements CarManageImpl {
+public class CarDao {
+    CarMapper carDao;
+
     /**
-     * 添加Car的信息
+     * 添加车辆
      *
-     * @param car car的参数不应为空
-     * @return 返回SqlState枚举类
+     * @param car carId不需要填写,填写了也会忽视,其他的字段应该非空
+     * @return 返回Car, 其中包含car新增的carId
      */
-    @Override
-    public SqlState addCar(Car car) {
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "insert into car (price,type,powerType,brand,series) values (?,?,?,?,?)")) {
-                preparedStatement.setObject(1, car.getPrice());
-                preparedStatement.setObject(2, car.getType());
-                preparedStatement.setObject(3, car.getPowerType());
-                preparedStatement.setObject(4, car.getBrand());
-                preparedStatement.setObject(5, car.getSeries());
-                preparedStatement.executeUpdate();
-                return SqlState.Done;
-            }
-        } catch (SQLException e) {
-            return SqlState.SqlError;
+    public Car addCar(Car car) {
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            carDao = sqlSession.getMapper(CarMapper.class);
+            int ans = carDao.addCar(car);
+            sqlSession.commit();
+            return car;
         }
     }
 
     /**
-     * 批量添加Car的信息
+     * 批量添加车辆
      *
-     * @param carList 其中的Car 不需要要carId,为数据库自增
-     * @return 返回SqlState枚举类
+     * @param carList 车辆的List
+     * @return 返回SqlState
      */
-    @Override
     public SqlState addCar(List<Car> carList) {
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "insert into car (price,type,powerType,brand,series) values (?,?,?,?,?)")) {
-                for (Car item : carList) {
-                    preparedStatement.setObject(1, item.getPrice());
-                    preparedStatement.setObject(2, item.getType());
-                    preparedStatement.setObject(3, item.getPowerType());
-                    preparedStatement.setObject(4, item.getBrand());
-                    preparedStatement.setObject(5, item.getSeries());
-                    preparedStatement.addBatch();
-                }
-                preparedStatement.executeBatch();
-                return SqlState.Done;
+        try (SqlSession sqlSession = SqlConnection.getSession(true)) {
+            carDao = sqlSession.getMapper(CarMapper.class);
+            for (Car item : carList) {
+                carDao.addCar(item);
             }
-        } catch (SQLException e) {
-            return SqlState.SqlError;
+            sqlSession.commit();
+            return SqlState.Done;
         }
     }
 
     /**
-     * 仅仅根据car的id对车辆进行删除
+     * 根据carId删除车辆
      *
-     * @param car car.id不能为空
-     * @return 返回SqlState枚举类
+     * @param carID carId应从原有的类中指定
+     * @return 返回SqlState
      */
-    @Override
-    public SqlState deleteCar(Car car) {
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "delete from car where carId = ?")) {
-                preparedStatement.setObject(1, car.getCarId());
-                preparedStatement.executeUpdate();
-                return SqlState.Done;
-            }
-        } catch (SQLException e) {
-            return SqlState.SqlError;
+    public SqlState deleteCarById(int carID) {
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            carDao = sqlSession.getMapper(CarMapper.class);
+            int ans = carDao.deleteCarById(carID);
+            sqlSession.commit();
+            return SqlState.Done;
         }
     }
 
     /**
-     * 仅仅根据car的id对车辆进行删除
+     * 动态搜索车辆
      *
-     * @param carList carList中的id不能重复,且不为空
-     * @return 返回SqlState枚举类
+     * @param car 其中搜索其中的非空字段,如果都为空那么就搜索全部车辆
+     * @return 返回 carList
      */
-    @Override
-    public SqlState deleteCar(List<Car> carList) {
-        int[] n;
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "delete from car where carId = ?")) {
-                for (Car item : carList) {
-                    preparedStatement.setObject(1, item.getCarId());
-                    preparedStatement.addBatch();
-                }
-                preparedStatement.executeBatch();
-                return SqlState.Done;
-            }
-        } catch (SQLException e) {
-           return SqlState.SqlError;
+    public List<Car> searchCar(Car car) {
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            carDao = sqlSession.getMapper(CarMapper.class);
+            return carDao.selectCar(car);
         }
-    }
-
-    private final Map<String, String> para = new LinkedHashMap<>();
-
-    public String getSql(Car car) {
-        StringJoiner sj = new StringJoiner(" and ", "select * from car where ", " ");
-        Field[] fields = car.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            try {
-                field.setAccessible(true);
-                String values = field.get(car).toString();
-                if (!values.equals("") && !values.equals("-1") && !values.equals("-1.0")) {
-                    sj.add(field.getName() + " = ? ");
-                    para.put(field.getName(), values);
-                }
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return sj.toString();
     }
 
     /**
-     * 通过传入的Car类进行搜索
+     * 左闭右闭价格区间查找车辆
      *
-     * @param car 根据传入的非空数据，进行搜索，如果数据为空说明不以该参数搜索
-     * @return car的list
-     * 举例：如果传入的是 car(123456,"","","","") 则说明搜索 价格为123456的car
+     * @param priceLeft  价格区间左侧
+     * @param priceRight 价格区间右侧
+     * @return 返回车辆列表
      */
-    @Override
-    public List<Car> searchCarByObject(Car car) {
-        List<Car> cars = new ArrayList<>();
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(getSql(car))) {
-                int i = 1;
-                for (String item : para.values()) {
-                    preparedStatement.setObject(i, item);
-                    i++;
-                }
-                System.out.println(preparedStatement.toString());
-                try (ResultSet rs = preparedStatement.executeQuery()) {
-                    while (rs.next()) {
-                        int carId = rs.getInt(1);
-                        double price = rs.getDouble(2);
-                        String type = rs.getString(3);
-                        String powerType = rs.getString(4);
-                        String brand = rs.getString(5);
-                        String series = rs.getString(6);
-                        cars.add(new Car(carId, price, type, powerType, brand, series));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public List<Car> searchCarByPrice(double priceLeft, double priceRight) {
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            carDao = sqlSession.getMapper(CarMapper.class);
+            return carDao.searchCarByPrice(priceLeft, priceRight);
         }
-        return cars;
     }
 
-    @Override
+    /**
+     * 根据carID搜索车辆
+     *
+     * @param carId 非空
+     * @return 返回 carList
+     */
+    public List<Car> selectCarByCarId(int carId) {
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            carDao = sqlSession.getMapper(CarMapper.class);
+            return carDao.selectCarByCarId(carId);
+        }
+    }
+
+    /**
+     * 动态更新Car信息
+     *
+     * @param car 参数 carId 为必须填写的字段,其他的字段都可以为空
+     * @return 返回 SqlState
+     * 有两种car参数实例创建方法
+     * <br>
+     * 1. 使用new Car(1, null ,null,"电动","大众","A-2")
+     * 不需要的字段设为null即可
+     * <br>
+     * 2. 使用set方法 Car car = new Car() car.setCarId(1)
+     * 不需要更新的内容就不设置,默认为空
+     * <br>
+     * 推荐使用方法2
+     */
     public SqlState UpdateCar(Car car) {
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "update car set price = ?,type= ? ,powerType= ? ,brand= ? ,series= ? where carId = ? ")) {
-                preparedStatement.setObject(1, car.getPrice());
-                preparedStatement.setObject(2, car.getType());
-                preparedStatement.setObject(3, car.getPowerType());
-                preparedStatement.setObject(4, car.getBrand());
-                preparedStatement.setObject(5, car.getSeries());
-                preparedStatement.setObject(6, car.getCarId());
-                preparedStatement.executeUpdate();
-                return SqlState.Done;
-            }
-        } catch (SQLException e) {
-           return SqlState.SqlError;
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            carDao = sqlSession.getMapper(CarMapper.class);
+            int ans = carDao.updateCar(car);
+            sqlSession.commit();
+            return SqlState.Done;
         }
     }
+
 }

@@ -46,17 +46,17 @@ public class UserAccess {
 
     /**
      *
-     * @param username 用户名，只能字母+数字
+     * @param userId 用户唯一标识
      * @param passwd 密码，6-10位，必须同时密码+数字
      * @param name 姓名
      * @param phoneNumber 电话号
      * @return 注册状态码
      */
-    public static RegState register(String username, String passwd, String name, String phoneNumber){
+    public static RegState register(int userId, String passwd, String name, String phoneNumber){
         int passwdH=strIsValid(passwd);
-        if(passwdH==0 || strIsValid(username)==0)
+        if(passwdH==0 || strIsValid(String.valueOf(userId))==0)
             return RegState.InvalidCharacter;
-        if(userDao.authenticate(username,"")!=AuthState.InvalidUsername)
+        if(userDao.authenticate(userId,null)!=AuthState.InvalidUsername)
             return RegState.UsernameExists;
         if(passwd.length()<6)
             return RegState.ShortPassword;
@@ -66,19 +66,19 @@ public class UserAccess {
             return RegState.SimplePassword;
         if(!phoneNumberIsValid(phoneNumber))
             return RegState.InvalidPhoneNumber;
-        User user=new User(username,passwd,name,phoneNumber);
+        User user=new User(String.valueOf(userId),passwd,name,phoneNumber);
         userDao.addUser(user);
         return RegState.Done;
     }
 
-    public static AuthState authenticate(String username,String passwd){
-        return userDao.authenticate(username,passwd);
+    public static AuthState authenticate(int userId,String passwd){
+        return userDao.authenticate(userId,passwd);
     }
 
     /**
      * 修改用户信息，调用前应该再次验证身份
      */
-    public static void update(String username, UserInfo key,String val){
+    public static void update(int useId, UserInfo key,String val){
 //        User user=new User()
         //TODO
     }

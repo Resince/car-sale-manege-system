@@ -1,86 +1,99 @@
 package dao;
 
+import entity.Insurance;
 import entity.Order;
-import impl.OrderImpl;
+import impl.OrderMapper;
+import org.apache.ibatis.session.SqlSession;
 import utils.SqlConnection;
 import utils.SqlState;
 
-import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
 
-public class OrderDao implements OrderImpl {
-    @Override
-    public SqlState addOrder(Order order) {
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "insert into `order` (username,carId,time,PurchaseMethod,remark) values (?,?,?,?,?)")) {
-                preparedStatement.setObject(1, order.getUsername());
-                preparedStatement.setObject(2, order.getCarId());
-                preparedStatement.setObject(3, order.getTime());
-                preparedStatement.setObject(4, order.getPurchaseMethod());
-                preparedStatement.setObject(5, order.getRemark());
-                preparedStatement.executeUpdate();
-                return SqlState.Done;
+public class OrderDao {
+    OrderMapper orderDao;
+
+    /**
+     * 添加订单
+     *
+     * @param order 其中的orderId应该为空，该字段无论有无，系统都是自动添加
+     * @return 返回添加完的order,在其中有自动添加上的orderId
+     */
+    public Order addOrder(Order order) {
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            orderDao = sqlSession.getMapper(OrderMapper.class);
+            List<Insurance> insurances = order.getInsurances();
+            orderDao.addOrder(order);
+            for (Insurance item : insurances) {
+                orderDao.addPurIns(item.getInsName(), order.getOrderId());
             }
-        } catch (SQLException e) {
-            return SqlState.SqlError;
+            sqlSession.commit();
+            return order;
         }
     }
 
-    private final Map<String, String> para = new LinkedHashMap<>();
-
-    private String genSql(Order order) {
-        StringJoiner sj = new StringJoiner("and ", "select * from `order` where ", "  ");
-        Field[] fields = order.getClass().getDeclaredFields();
-        for (Field item : fields) {
-            try {
-                item.setAccessible(true);
-                if (item.get(order) == null) {
-                    continue;
-                }
-                String values = item.get(order).toString();
-                if (!values.equals("") && !values.equals("-1")) {
-                    sj.add(item.getName() + " = ? ");
-                    para.put(item.getName(), values);
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+    /**
+     *  添加保险信息
+     * @param name 保险的名字
+     * @param price 保险的价格
+     * @return 返回SqlState
+     */
+    public SqlState addIns(String name, double price) {
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            orderDao = sqlSession.getMapper(OrderMapper.class);
+            int n = orderDao.addIns(name, price);
+            sqlSession.commit();
+            return SqlState.Done;
         }
-        return sj.toString();
     }
 
-    @Override
+    /**
+     * 搜索订单<br>
+     * 支持按照order中的非空字段进行搜索<br>
+     * <strong>但是不支持按照保险的信息进行检索</strong><br>
+     * 举例： 不支持：<br>
+     * insurances.add(new Insurance("A-Ins"));<br>
+     * searchOrder(new Order().setCusId(17).setInsurances(insurances));<br>
+     * 这样无法找到同时拥有 A-Ins 和 cusId=17的order
+     * @param order 其中的非空字段作为搜索的对象
+     * @return 返回Order的集合
+     */
     public List<Order> searchOrder(Order order) {
-        List<Order> orders = new ArrayList<>();
-        try (Connection connection = SqlConnection.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(genSql(order))) {
-                int i = 1;
-                for (String item : para.values()) {
-                    preparedStatement.setObject(i, item);
-                    i++;
-                }
-                try (ResultSet rs = preparedStatement.executeQuery()) {
-                    while (rs.next()) {
-                        String un = rs.getString(1);
-                        int carId = rs.getInt(2);
-                        LocalDate localDate = rs.getDate(3).toLocalDate();
-                        String p = rs.getString(4);
-                        String mark = rs.getString(5);
-                        orders.add(new Order(un,carId,localDate,p,mark));
-                    }
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            orderDao = sqlSession.getMapper(OrderMapper.class);
+            return orderDao.searchOrder(order);
+        }
+    }
+
+    /**
+     * 根据orderId搜索保险信息
+     * @return 返回Insurance的list
+     */
+    public List<Insurance> searchInsByOrderId(int orderId){
+        try(SqlSession sqlSession = SqlConnection.getSession()){
+            orderDao = sqlSession.getMapper(OrderMapper.class);
+            return orderDao.searchInsByOrderId(orderId);
+        }
+    }
+
+    /**
+     * 更新order其中的值<br>
+     * 如果字段没有设置，那就说明不更新
+     * @param order 其中orderId不应该为空
+     * @return 更新的行数
+     */
+    public SqlState updateOrder(Order order) {
+        try (SqlSession sqlSession = SqlConnection.getSession()) {
+            orderDao = sqlSession.getMapper(OrderMapper.class);
+            orderDao.updateOrder(order);
+            if (order.getInsurances() != null) {
+                orderDao.deletePurIns(order.getOrderId());
+                for (Insurance item : order.getInsurances()) {
+                    orderDao.addPurIns(item.getInsName(), order.getOrderId());
                 }
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            sqlSession.commit();
+            return SqlState.Done;
         }
-        return orders;
     }
+
 }
