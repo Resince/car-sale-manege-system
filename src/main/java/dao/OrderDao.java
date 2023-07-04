@@ -19,16 +19,15 @@ public class OrderDao {
      * @return 返回添加完的order,在其中有自动添加上的orderId
      */
     public Order addOrder(Order order) {
-        try (SqlSession sqlSession = SqlConnection.getSession()) {
-            orderDao = sqlSession.getMapper(OrderMapper.class);
-            List<Insurance> insurances = order.getInsurances();
-            orderDao.addOrder(order);
-            for (Insurance item : insurances) {
-                orderDao.addPurIns(item.getInsName(), order.getOrderId());
-            }
-            sqlSession.commit();
-            return order;
+        SqlSession sqlSession = SqlConnection.getSession();
+        orderDao = sqlSession.getMapper(OrderMapper.class);
+        List<Insurance> insurances = order.getInsurances();
+        orderDao.addOrder(order);
+        for (Insurance item : insurances) {
+            orderDao.addPurIns(item.getInsName(), order.getOrderId());
         }
+        sqlSession.commit();
+        return order;
     }
 
     /**
@@ -38,12 +37,11 @@ public class OrderDao {
      * @return 返回SqlState
      */
     public SqlState addIns(String name, double price) {
-        try (SqlSession sqlSession = SqlConnection.getSession()) {
-            orderDao = sqlSession.getMapper(OrderMapper.class);
-            int n = orderDao.addIns(name, price);
-            sqlSession.commit();
-            return SqlState.Done;
-        }
+        SqlSession sqlSession = SqlConnection.getSession();
+        orderDao = sqlSession.getMapper(OrderMapper.class);
+        int n = orderDao.addIns(name, price);
+        sqlSession.commit();
+        return SqlState.Done;
     }
 
     /**
@@ -58,10 +56,9 @@ public class OrderDao {
      * @return 返回Order的集合
      */
     public List<Order> searchOrder(Order order) {
-        try (SqlSession sqlSession = SqlConnection.getSession()) {
-            orderDao = sqlSession.getMapper(OrderMapper.class);
-            return orderDao.searchOrder(order);
-        }
+        SqlSession sqlSession = SqlConnection.getSession();
+        orderDao = sqlSession.getMapper(OrderMapper.class);
+        return orderDao.searchOrder(order);
     }
 
     /**
@@ -69,10 +66,9 @@ public class OrderDao {
      * @return 返回Insurance的list
      */
     public List<Insurance> searchInsByOrderId(int orderId){
-        try(SqlSession sqlSession = SqlConnection.getSession()){
-            orderDao = sqlSession.getMapper(OrderMapper.class);
-            return orderDao.searchInsByOrderId(orderId);
-        }
+        SqlSession sqlSession = SqlConnection.getSession();
+        orderDao = sqlSession.getMapper(OrderMapper.class);
+        return orderDao.searchInsByOrderId(orderId);
     }
 
     /**
@@ -82,18 +78,17 @@ public class OrderDao {
      * @return 更新的行数
      */
     public SqlState updateOrder(Order order) {
-        try (SqlSession sqlSession = SqlConnection.getSession()) {
-            orderDao = sqlSession.getMapper(OrderMapper.class);
-            orderDao.updateOrder(order);
-            if (order.getInsurances() != null) {
-                orderDao.deletePurIns(order.getOrderId());
-                for (Insurance item : order.getInsurances()) {
-                    orderDao.addPurIns(item.getInsName(), order.getOrderId());
-                }
+        SqlSession sqlSession = SqlConnection.getSession();
+        orderDao = sqlSession.getMapper(OrderMapper.class);
+        orderDao.updateOrder(order);
+        if (order.getInsurances() != null) {
+            orderDao.deletePurIns(order.getOrderId());
+            for (Insurance item : order.getInsurances()) {
+                orderDao.addPurIns(item.getInsName(), order.getOrderId());
             }
-            sqlSession.commit();
-            return SqlState.Done;
         }
+        sqlSession.commit();
+        return SqlState.Done;
     }
 
 }

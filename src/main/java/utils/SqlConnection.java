@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
@@ -62,9 +63,8 @@ public class SqlConnection {
 
     static {
         try {
-            try (InputStream inputStream = Resources.getResourceAsStream(RESOURCE)) {
-                sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-            }
+            Reader reader=Resources.getResourceAsReader(RESOURCE);
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
         } catch (IOException e) {
             e.printStackTrace();
         }

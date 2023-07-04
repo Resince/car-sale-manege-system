@@ -2,7 +2,6 @@ package dao;
 
 import entity.Car;
 import impl.CarMapper;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import utils.SqlConnection;
 import utils.SqlState;
@@ -19,12 +18,11 @@ public class CarDao {
      * @return 返回Car, 其中包含car新增的carId
      */
     public Car addCar(Car car) {
-        try (SqlSession sqlSession = SqlConnection.getSession()) {
-            carDao = sqlSession.getMapper(CarMapper.class);
-            int ans = carDao.addCar(car);
-            sqlSession.commit();
-            return car;
-        }
+        SqlSession sqlSession = SqlConnection.getSession();
+        carDao = sqlSession.getMapper(CarMapper.class);
+        int ans = carDao.addCar(car);
+        sqlSession.commit();
+        return car;
     }
 
     /**
@@ -34,14 +32,13 @@ public class CarDao {
      * @return 返回SqlState
      */
     public SqlState addCar(List<Car> carList) {
-        try (SqlSession sqlSession = SqlConnection.getSession(true)) {
-            carDao = sqlSession.getMapper(CarMapper.class);
-            for (Car item : carList) {
-                carDao.addCar(item);
-            }
-            sqlSession.commit();
-            return SqlState.Done;
+        SqlSession sqlSession = SqlConnection.getSession(true);
+        carDao = sqlSession.getMapper(CarMapper.class);
+        for (Car item : carList) {
+            carDao.addCar(item);
         }
+        sqlSession.commit();
+        return SqlState.Done;
     }
 
     /**
@@ -51,12 +48,11 @@ public class CarDao {
      * @return 返回SqlState
      */
     public SqlState deleteCarById(int carID) {
-        try (SqlSession sqlSession = SqlConnection.getSession()) {
-            carDao = sqlSession.getMapper(CarMapper.class);
-            int ans = carDao.deleteCarById(carID);
-            sqlSession.commit();
-            return SqlState.Done;
-        }
+        SqlSession sqlSession = SqlConnection.getSession();
+        carDao = sqlSession.getMapper(CarMapper.class);
+        int ans = carDao.deleteCarById(carID);
+        sqlSession.commit();
+        return SqlState.Done;
     }
 
     /**
@@ -66,10 +62,9 @@ public class CarDao {
      * @return 返回 carList
      */
     public List<Car> searchCar(Car car) {
-        try (SqlSession sqlSession = SqlConnection.getSession()) {
-            carDao = sqlSession.getMapper(CarMapper.class);
-            return carDao.selectCar(car);
-        }
+        SqlSession sqlSession = SqlConnection.getSession();
+        carDao = sqlSession.getMapper(CarMapper.class);
+        return carDao.selectCar(car);
     }
 
     /**
@@ -80,10 +75,9 @@ public class CarDao {
      * @return 返回车辆列表
      */
     public List<Car> searchCarByPrice(double priceLeft, double priceRight) {
-        try (SqlSession sqlSession = SqlConnection.getSession()) {
-            carDao = sqlSession.getMapper(CarMapper.class);
-            return carDao.searchCarByPrice(priceLeft, priceRight);
-        }
+        SqlSession sqlSession = SqlConnection.getSession();
+        carDao = sqlSession.getMapper(CarMapper.class);
+        return carDao.searchCarByPrice(priceLeft, priceRight);
     }
 
     /**
@@ -93,10 +87,9 @@ public class CarDao {
      * @return 返回 carList
      */
     public List<Car> selectCarByCarId(int carId) {
-        try (SqlSession sqlSession = SqlConnection.getSession()) {
-            carDao = sqlSession.getMapper(CarMapper.class);
-            return carDao.selectCarByCarId(carId);
-        }
+        SqlSession sqlSession = SqlConnection.getSession();
+        carDao = sqlSession.getMapper(CarMapper.class);
+        return carDao.selectCarByCarId(carId);
     }
 
     /**
@@ -115,12 +108,11 @@ public class CarDao {
      * 推荐使用方法2
      */
     public SqlState UpdateCar(Car car) {
-        try (SqlSession sqlSession = SqlConnection.getSession()) {
-            carDao = sqlSession.getMapper(CarMapper.class);
-            int ans = carDao.updateCar(car);
-            sqlSession.commit();
-            return SqlState.Done;
-        }
+        SqlSession sqlSession = SqlConnection.getSession();
+        carDao = sqlSession.getMapper(CarMapper.class);
+        int ans = carDao.updateCar(car);
+        sqlSession.commit();
+        return SqlState.Done;
     }
 
 }
