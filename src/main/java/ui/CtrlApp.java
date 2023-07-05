@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -41,6 +42,9 @@ public class CtrlApp implements Initializable {
     private HBox windowHeader;
     @FXML
     private MFXScrollPane contentPane;
+    @FXML
+    private Label title;
+
     private final ToggleGroup toggleGroup;
 
     public CtrlApp(Stage stage) {
@@ -85,7 +89,10 @@ public class CtrlApp implements Initializable {
 
         Parent view_makeOrder = loadView("fxml/MakeOrder.fxml", c -> new MakeOrderController());
         ToggleButton toggle_makeOrder = createToggle("mfx-angle-right", "签订订单", 0);
-        toggle_makeOrder.setOnAction(event -> contentPane.setContent(view_makeOrder));
+        toggle_makeOrder.setOnAction(event -> {
+            contentPane.setContent(view_makeOrder);
+            title.setText("订单信息");
+        });
         navBar.getChildren().add(toggle_makeOrder);
     }
 }
