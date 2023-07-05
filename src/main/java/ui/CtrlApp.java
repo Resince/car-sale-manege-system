@@ -83,7 +83,6 @@ public class CtrlApp implements Initializable {
             stage.setY(event.getScreenY() + yOffset);
         });
 
-
         Parent view_makeOrder = loadView("fxml/MakeOrder.fxml", c -> new MakeOrderController());
         ToggleButton toggle_makeOrder = createToggle("mfx-angle-right", "签订订单", 0);
         toggle_makeOrder.setOnAction(event -> contentPane.setContent(view_makeOrder));

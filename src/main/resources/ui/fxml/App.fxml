@@ -16,8 +16,8 @@
                   <VBox fx:id="navBar" prefHeight="405.0" prefWidth="240.0" />
               </children>
           </VBox>
-      <MFXScrollPane fx:id="contentPane" layoutX="240.0" prefHeight="540.0" prefWidth="720.0" />
-        <HBox fx:id="windowHeader" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="960.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MFXScrollPane fx:id="contentPane" layoutX="240.0" prefHeight="540.0" prefWidth="720.0" style="-fx-background-radius: 0 20 20 0;" />
+        <HBox fx:id="windowHeader" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="960.0" spacing="10.0" style="-fx-background-radius: 0 20 0 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <MFXFontIcon fx:id="minimizeIcon" description="fas-circle" size="20.0" styleClass="minimize-icon" />
             <MFXFontIcon fx:id="closeIcon" description="fas-circle" size="20.0" styleClass="close-icon" />

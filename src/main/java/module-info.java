@@ -16,5 +16,6 @@ module ui {
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;
     opens ui to javafx.fxml;
+    opens ui.controllers to javafx.fxml;
     exports ui;
 }
