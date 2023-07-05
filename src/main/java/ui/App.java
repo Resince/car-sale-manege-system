@@ -26,18 +26,18 @@ public class App extends Application {
         launch(args);
     }
 
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage stage) throws Exception{
         CSSFX.start();
 
         FXMLLoader loader = new FXMLLoader(App.class.getResource("fxml/App.fxml"));
-        loader.setControllerFactory(c -> new CtrlApp(primaryStage));
+        loader.setControllerFactory(c -> new CtrlApp(stage));
 
         Scene scene = new Scene(loader.load());
         MFXThemeManager.addOn(scene, Themes.DEFAULT, Themes.LEGACY);
         scene.setFill(Color.TRANSPARENT);
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.setTitle("Hello!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
     }
 }

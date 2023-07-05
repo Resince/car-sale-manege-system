@@ -62,9 +62,10 @@ public class CtrlApp implements Initializable {
         return toggleNode;
     }
 
-    private Parent loadView(String fxmlName, Callback<Class<?>, Object> controllerFactory){
+    public static Parent loadView(String fxmlName, Callback<Class<?>, Object> controllerFactory){
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlName));
-        loader.setControllerFactory(controllerFactory);
+        if(controllerFactory!=null)
+            loader.setControllerFactory(controllerFactory);
         try {
             return loader.load();
         }
@@ -87,7 +88,7 @@ public class CtrlApp implements Initializable {
             stage.setY(event.getScreenY() + yOffset);
         });
 
-        Parent view_makeOrder = loadView("fxml/MakeOrder.fxml", c -> new MakeOrderController());
+        Parent view_makeOrder = loadView("fxml/MakeOrder.fxml", c -> new MakeOrderController(stage));
         ToggleButton toggle_makeOrder = createToggle("mfx-angle-right", "签订订单", 0);
         toggle_makeOrder.setOnAction(event -> {
             contentPane.setContent(view_makeOrder);

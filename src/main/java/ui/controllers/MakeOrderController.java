@@ -1,16 +1,25 @@
 package ui.controllers;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXCheckListView;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.*;
+import io.github.palexdev.materialfx.controls.base.MFXLabeled;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
+import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
+import io.github.palexdev.materialfx.enums.ScrimPriority;
+import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import ui.CtrlApp;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -20,6 +29,8 @@ import java.util.ResourceBundle;
  * description：
  */
 public class MakeOrderController implements Initializable {
+    @FXML
+    private GridPane gradPane_content;
     @FXML
     private MFXComboBox<String> combo_brand;
     @FXML
@@ -39,7 +50,16 @@ public class MakeOrderController implements Initializable {
     @FXML
     private MFXButton btn_confirm;
 
+    private MFXGenericDialog dialogContent;
+    private MFXStageDialog dialog;
+
     String name, tel, sid, addr;
+
+    Stage stage;
+
+    public MakeOrderController(Stage stage) {
+        this.stage = stage;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,24 +71,47 @@ public class MakeOrderController implements Initializable {
         ObservableList<String> regCarList = FXCollections.observableList(Arrays.stream(regCarArray).toList());
         combo_regCar.setItems(regCarList);
 
-        text_name.setOnAction(c -> {
-            name = text_name.getText();
-            System.out.println("text_name on action");
-        });
-        text_addr.setOnMouseExited(c -> {
-            addr = text_addr.getText();
-            System.out.println("text_addr on input method text changed");
-        });
-        text_tel.setOnAction(c -> {
-            tel = text_tel.getText();
-        });
-        text_sid.setOnAction(c -> {
-            sid = text_sid.getText();
-        });
+        MFXTextField textField=new MFXTextField();
+        textField.setFloatingText("114");
+        textField.setText("233333");
+
+        dialogContent = MFXGenericDialogBuilder.build()
+                .makeScrollable(true)
+                .get();
+        dialog = MFXGenericDialogBuilder.build(dialogContent)
+                .toStageDialogBuilder()
+                .initOwner(stage)
+                .initModality(Modality.APPLICATION_MODAL)
+                .setDraggable(true)
+                .setTitle("Dialogs Preview")
+                .setOwnerNode(gradPane_content)
+                .setScrimPriority(ScrimPriority.WINDOW)
+                .setScrimOwner(true)
+                .get();
+
+        MFXScrollPane scrollPane=new MFXScrollPane();
+        scrollPane.setMaxSize(450,380);
+        Parent view_confirmOrder = CtrlApp.loadView("fxml/ConfirmOrder.fxml", null);
+        scrollPane.setContent(view_confirmOrder);
+        dialogContent.setContent(scrollPane);
+
+        dialogContent.addActions(
+                Map.entry(new MFXButton("Confirm"), event -> {
+                }),
+                Map.entry(new MFXButton("Cancel"), event -> dialog.close())
+        );
 
         btn_confirm.setOnMouseClicked(c -> {
+            name = text_name.getText();
+            sid = text_sid.getText();
+            tel = text_tel.getText();
+            addr = text_addr.getText();
             System.out.println(name + addr + tel + sid);
-        });
 
+            MFXFontIcon infoIcon = new MFXFontIcon("fas-circle-info", 18);
+            dialogContent.setHeaderIcon(infoIcon);
+            dialogContent.setHeaderText("Confirm");
+            dialog.showDialog();
+        });
     }
 }
