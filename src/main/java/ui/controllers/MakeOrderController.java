@@ -1,7 +1,6 @@
 package ui.controllers;
 
 import io.github.palexdev.materialfx.controls.*;
-import io.github.palexdev.materialfx.controls.base.MFXLabeled;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
@@ -75,6 +74,22 @@ public class MakeOrderController implements Initializable {
         textField.setFloatingText("114");
         textField.setText("233333");
 
+        dialogContent=MFXGenericDialogBuilder.build().get();
+        MFXScrollPane scrollPane=new MFXScrollPane();
+        scrollPane.setMaxSize(450,380);
+        Parent view_confirmOrder = CtrlApp.loadView("fxml/ConfirmOrder.fxml", null);
+        scrollPane.setContent(view_confirmOrder);
+        dialogContent.setContent(scrollPane);
+
+        dialog=MFXGenericDialogBuilder.build(dialogContent).toStageDialogBuilder().get();
+        dialog.initOwner(stage);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setDraggable(true);
+        dialog.setTitle("Confirm Order");
+        dialog.setOwnerNode(gradPane_content);
+        dialog.setScrimPriority(ScrimPriority.WINDOW);
+        dialog.setScrimOwner(true);
+/*
         dialogContent = MFXGenericDialogBuilder.build()
                 .makeScrollable(true)
                 .get();
@@ -88,13 +103,7 @@ public class MakeOrderController implements Initializable {
                 .setScrimPriority(ScrimPriority.WINDOW)
                 .setScrimOwner(true)
                 .get();
-
-        MFXScrollPane scrollPane=new MFXScrollPane();
-        scrollPane.setMaxSize(450,380);
-        Parent view_confirmOrder = CtrlApp.loadView("fxml/ConfirmOrder.fxml", null);
-        scrollPane.setContent(view_confirmOrder);
-        dialogContent.setContent(scrollPane);
-
+*/
         dialogContent.addActions(
                 Map.entry(new MFXButton("Confirm"), event -> {
                 }),
