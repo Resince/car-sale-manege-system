@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface OrderMapper {
-    void addOrder(Order order);
+    int addOrder(Order order);
 
-    void addPurIns(@Param("insName")String insName, @Param("orderId") int orderId);
+    int addPurIns(@Param("insName")String insName, @Param("orderId") int orderId);
 
     int addIns(@Param("insName") String insName,@Param("price") double price);
 
@@ -17,7 +17,7 @@ public interface OrderMapper {
 
     List<Insurance> searchInsByOrderId(int orderId);
 
-    void updateOrder(Order order);
+    int updateOrder(Order order);
 
-    void deletePurIns(int orderId);
+    int deletePurIns(int orderId);
 }

@@ -1,7 +1,11 @@
 package entity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class Order {
@@ -9,7 +13,7 @@ public class Order {
     private Integer carId;
     private Integer userId;
     private Integer cusId;
-    private LocalDate orderTime;
+    private Date orderTime;
     private String cusName;
     private String cusPhone;
     private List<Insurance> insurances;
@@ -17,7 +21,7 @@ public class Order {
     private String payMethod;
     private Integer pmtDiscount;
     private Integer deposit;
-    private LocalDate deliveryTime;
+    private Date deliveryTime;
     private Integer purchaseTax;
     private String cusAddress;
 
@@ -44,27 +48,22 @@ public class Order {
     // 时间只需要用字符串来创建
     public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax,String address) {
         this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax,address);
-        this.orderTime = orderTime == null ? null : LocalDate.parse(orderTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        this.deliveryTime = deliveryTime == null ? null : LocalDate.parse(deliveryTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        try {
+            this.orderTime = orderTime == null ? null : new SimpleDateFormat("yyyy-MM-dd").parse(orderTime);
+            this.deliveryTime = deliveryTime == null ? null : new SimpleDateFormat("yyyy-MM-dd").parse(deliveryTime);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // 提供给xml文件使用
-    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, LocalDate orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax,String address) {
+    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, Date orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Date deliveryTime, Integer purchaseTax, String address) {
         this(orderId, carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer.equals("true"), payMethod, pmtDiscount, deposit, purchaseTax,address);
         this.orderTime = orderTime;
         this.deliveryTime = deliveryTime;
     }
 
     public Order() {
-    }
-
-    public String getCusAddress() {
-        return cusAddress;
-    }
-
-    public Order setCusAddress(String cusAddress) {
-        this.cusAddress = cusAddress;
-        return this;
     }
 
     public Integer getOrderId() {
@@ -94,21 +93,21 @@ public class Order {
         return this;
     }
 
-    public LocalDate getOrderTime() {
-        return orderTime;
-    }
-
-    public Order setOrderTime(LocalDate orderTime) {
-        this.orderTime = orderTime;
-        return this;
-    }
-
     public Integer getCusId() {
         return cusId;
     }
 
     public Order setCusId(Integer cusId) {
         this.cusId = cusId;
+        return this;
+    }
+
+    public Date getOrderTime() {
+        return orderTime;
+    }
+
+    public Order setOrderTime(Date orderTime) {
+        this.orderTime = orderTime;
         return this;
     }
 
@@ -175,11 +174,11 @@ public class Order {
         return this;
     }
 
-    public LocalDate getDeliveryTime() {
+    public Date getDeliveryTime() {
         return deliveryTime;
     }
 
-    public Order setDeliveryTime(LocalDate deliveryTime) {
+    public Order setDeliveryTime(Date deliveryTime) {
         this.deliveryTime = deliveryTime;
         return this;
     }
@@ -193,6 +192,15 @@ public class Order {
         return this;
     }
 
+    public String getCusAddress() {
+        return cusAddress;
+    }
+
+    public Order setCusAddress(String cusAddress) {
+        this.cusAddress = cusAddress;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -203,13 +211,14 @@ public class Order {
                 ", orderTime=" + orderTime +
                 ", cusName='" + cusName + '\'' +
                 ", cusPhone='" + cusPhone + '\'' +
-                ", insurances=" + insurances.toString() +
+                ", insurances=" + insurances +
                 ", hasLicenseServer=" + hasLicenseServer +
                 ", payMethod='" + payMethod + '\'' +
                 ", pmtDiscount=" + pmtDiscount +
                 ", deposit=" + deposit +
                 ", deliveryTime=" + deliveryTime +
                 ", purchaseTax=" + purchaseTax +
+                ", cusAddress='" + cusAddress + '\'' +
                 '}';
     }
 }
