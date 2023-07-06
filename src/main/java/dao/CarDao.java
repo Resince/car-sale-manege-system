@@ -86,10 +86,11 @@ public class CarDao {
      * @param carId 非空
      * @return 返回 carList
      */
-    public List<Car> selectCarByCarId(int carId) {
+    public Car selectCarByCarId(int carId) {
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
-        return carDao.selectCarByCarId(carId);
+        List<Car> c = carDao.selectCarByCarId(carId);
+        return (c == null) ? null : c.get(0);
     }
 
     /**
