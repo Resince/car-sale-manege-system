@@ -92,6 +92,12 @@ public class CarDao {
         return carDao.selectCarByCarId(carId);
     }
 
+    public List<Car> searchBrandSeries(){
+        SqlSession sqlSession = SqlConnection.getSession();
+        carDao = sqlSession.getMapper(CarMapper.class);
+        return carDao.searchBrandSeries();
+    }
+
     /**
      * 动态更新Car信息
      *
@@ -114,5 +120,4 @@ public class CarDao {
         sqlSession.commit();
         return SqlState.Done;
     }
-
 }

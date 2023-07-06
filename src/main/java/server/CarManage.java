@@ -7,12 +7,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import utils.ExcelReader;
 import utils.SqlState;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
-
-import static java.util.stream.Collectors.toList;
 
 public class CarManage {
 
@@ -30,8 +26,8 @@ public class CarManage {
     /**
      *添加单个车辆信息
      */
-    public static boolean addCar(double price, String type, String powerType, String brand, String series) {
-        Car car = new Car(price, type, powerType, brand, series);
+    public static boolean addCar(double price, String type, String powerType, String brand, String series,int number) {
+        Car car = new Car(price, type, powerType, brand, series,number);
         return manage.addCar(car).getCarId()!=null;
     }
 
@@ -67,26 +63,6 @@ public class CarManage {
         } else return manage.deleteCarById(carID) == SqlState.Done;
     }
 
-//    /**
-//     * 批量删除车辆信息
-//     * @param fileName Excel文件地址
-//     * @return boolean
-//     */
-//    public static boolean deleteCarList(String fileName){
-//        List<Car> delete = ExcelReader.readExcel(fileName);
-//        if (null == delete)
-//        {
-//            logger.warning("文件读取数据为空！");
-//            return false;
-//        }
-//        else {
-//            if (manage.addCar(delete) == SqlState.SqlError) {
-//                logger.warning("数据库删除失败");
-//                return false;
-//            } else return manage.addCar(delete);
-//        }
-//    }
-
     /**
      * 根据车辆类型进行搜索
      * @param type 车辆类型
@@ -101,7 +77,7 @@ public class CarManage {
     /**
      * 根据车辆品牌进行搜索
      * @param brand 车辆品牌
-     * @return 返回车辆链表
+     * @return 返回车辆集合
      */
     public static List<Car> searchCarByBrand(String brand) {
         Car c = new Car();
@@ -112,7 +88,7 @@ public class CarManage {
     /**
      * 根据车辆能源类型进行搜索
      * @param powerType 车辆能源类型
-     * @return 返回车辆链表
+     * @return 返回车辆集合
      */
     public static List<Car> searchCarByPowerType(String powerType) {
         Car c = new Car();
@@ -143,7 +119,6 @@ public class CarManage {
 
     /**
      * 根据多字段查询
-     *
      * 例：
      * CarManage.searchCarByMultiple(searchCarByPrice(100000, 200000), searchCarByBand("dd");
      * 根据三个字段查询则再套用一层
@@ -168,12 +143,27 @@ public class CarManage {
      * @param series 不需要修改则传入null
      * @return 返回是否更新成功
      */
-    public static boolean updateCar(int carID, Double price, String type, String powerType, String brand, String series) {
-        Car c = new Car(carID, price, type, powerType, brand, series);
+    public static boolean updateCar(int carID, Double price, String type, String powerType, String brand, String series,int number) {
+        Car c = new Car(carID, price, type, powerType, brand, series,number);
         if (manage.UpdateCar(c) == SqlState.SqlError) {
             logger.warning("数据库更新失败!");
             return false;
         } else return manage.UpdateCar(c) == SqlState.Done;
+    }
+
+    public static Map<String,List<String>> getBSMap(){
+        Map<String,List<String>> bsMap = new HashMap<>();
+        List<Car> carList = manage.searchBrandSeries();
+        carList.forEach(item->{
+            if(bsMap.containsKey(item.getBrand())){
+                bsMap.get(item.getBrand()).add(item.getSeries());
+            }else{
+                List<String> templist = new ArrayList<>();
+                templist.add(item.getSeries());
+                bsMap.put(item.getBrand(),templist);
+            }
+        });
+        return bsMap;
     }
 
 }

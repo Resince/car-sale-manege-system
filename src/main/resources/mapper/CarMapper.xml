@@ -8,8 +8,8 @@
     <!--    插入    -->
     <insert id="addCar" parameterType="entity.Car" keyProperty="carId" useGeneratedKeys="true">
         insert into car
-        (price,type,powerType,brand,series)
-        values(#{price},#{type},#{powerType},#{brand},#{series})
+        (price,type,powerType,brand,series,number)
+        values(#{price},#{type},#{powerType},#{brand},#{series},#{number})
     </insert>
 
 
@@ -29,13 +29,20 @@
             <if test="powerType != null ">and powerType = #{powerType}</if>
             <if test="brand != null ">and brand = #{brand}</if>
             <if test="series != null ">and series = #{series}</if>
+            <if test="number != null ">and number = #{number}</if>
         </where>
     </select>
 
-    <!--    -->
+    <!--  根据价格查询Car  -->
     <select id="searchCarByPrice" resultType="entity.Car">
         select * from car
         where price between #{priceLeft} and #{priceRight}
+    </select>
+
+    <!--  查询车辆的所有品牌和系列  -->
+    <select id="searchBrandSeries" resultType="entity.Car">
+        select brand,series
+        from car
     </select>
 
     <!--  删除   -->
@@ -55,6 +62,7 @@
             <if test="powerType != null ">powerType = #{powerType},</if>
             <if test="brand != null ">brand = #{brand},</if>
             <if test="series != null ">series = #{series},</if>
+            <if test="number != null ">number = #{number},</if>
         </set>
         where carId = #{carId}
     </update>

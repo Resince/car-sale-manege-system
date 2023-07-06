@@ -16,5 +16,7 @@ public interface CarMapper {
 
     List<Car> selectCar(Car car);
 
+    List<Car> searchBrandSeries();
+
     int updateCar(Car car);
 }
