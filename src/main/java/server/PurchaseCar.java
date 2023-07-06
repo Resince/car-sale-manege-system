@@ -6,7 +6,6 @@ import entity.Car;
 import entity.Insurance;
 import entity.Order;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -17,18 +16,6 @@ public class PurchaseCar {
 
     /**
      * 添加预写入的订单信息
-     *
-     * @param brand            车辆品牌
-     * @param series           车辆系列
-     * @param userId           销售员id
-     * @param cusID            客户身份证
-     * @param cusName          客户姓名
-     * @param cusPhone         客户电话号码
-     * @param address          客户家庭住址
-     * @param insurances       保险信息, 传入list
-     * @param hasLicenseServer 上牌
-     * @param payMethod        付款方式
-     * @return 返回订单实体，可以继续用返回值输出以显示完整订单信息
      * 例：
      * System.out.println(addOrder(...));
      * <p>
