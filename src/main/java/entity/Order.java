@@ -21,8 +21,9 @@ public class Order {
     private Integer deposit;
     private LocalDate deliveryTime;
     private Integer purchaseTax;
+    private String cusAddress;
 
-    private Order(Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
+    private Order(Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax,String cusAddress) {
         this.carId = carId;
         this.userId = userId;
         this.cusId = cusId;
@@ -34,28 +35,38 @@ public class Order {
         this.pmtDiscount = pmtDiscount;
         this.deposit = deposit;
         this.purchaseTax = purchaseTax;
+        this.cusAddress = cusAddress;
     }
 
-    private Order(Integer orderId, Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
-        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
+    private Order(Integer orderId, Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax,String cusAddress) {
+        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax,cusAddress);
         this.orderId = orderId;
     }
 
     // 时间只需要用字符串来创建
-    public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax) {
-        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
+    public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax,String cusAddress) {
+        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax,cusAddress);
         this.orderTime = orderTime == null ? null : LocalDate.parse(orderTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.deliveryTime = deliveryTime == null ? null : LocalDate.parse(deliveryTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     // 提供给xml文件使用
-    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, LocalDate orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax) {
-        this(orderId, carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer.equals("true"), payMethod, pmtDiscount, deposit, purchaseTax);
+    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, LocalDate orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax,String cusAddress) {
+        this(orderId, carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer.equals("true"), payMethod, pmtDiscount, deposit, purchaseTax,cusAddress);
         this.orderTime = orderTime;
         this.deliveryTime = deliveryTime;
     }
 
     public Order() {
+    }
+
+    public String getCusAddress() {
+        return cusAddress;
+    }
+
+    public Order setCusAddress(String cusAddress) {
+        this.cusAddress = cusAddress;
+        return this;
     }
 
     public Integer getOrderId() {
@@ -194,13 +205,14 @@ public class Order {
                 ", orderTime=" + orderTime +
                 ", cusName='" + cusName + '\'' +
                 ", cusPhone='" + cusPhone + '\'' +
-                ", insurances=" + insurances.toString() +
+                ", insurances=" + insurances +
                 ", hasLicenseServer=" + hasLicenseServer +
                 ", payMethod='" + payMethod + '\'' +
                 ", pmtDiscount=" + pmtDiscount +
                 ", deposit=" + deposit +
                 ", deliveryTime=" + deliveryTime +
                 ", purchaseTax=" + purchaseTax +
+                ", cusAddress='" + cusAddress + '\'' +
                 '}';
     }
 }
