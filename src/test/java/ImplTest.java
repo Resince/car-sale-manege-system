@@ -6,6 +6,7 @@ import entity.Insurance;
 import entity.Order;
 import entity.User;
 import org.junit.Test;
+import server.PurchaseCar;
 import utils.SqlState;
 
 import java.time.LocalTime;
@@ -106,13 +107,15 @@ public class ImplTest {
     }
 
     @Test
-    public void testSearchInsByOrderId(){
-        System.out.println(orderDao.searchInsByOrderId(1));
-    }
-
-    @Test
     public void testSearchCar(){
         System.out.println(carDao.searchCarByPrice(2, 8));
     }
 
+    @Test
+    public void testGetInsurancePrice(){
+        Insurance insurance = new Insurance("车损险");
+//        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
+//        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
+//        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
+    }
 }

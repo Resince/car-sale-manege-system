@@ -86,6 +86,10 @@
         </where>
     </select>
 
+    <select id="searchAllInsurance" resultType="entity.Insurance">
+        select * from Insurances
+    </select>
+
     <!--  更新  -->
     <update id="updateOrder">
         update `order`

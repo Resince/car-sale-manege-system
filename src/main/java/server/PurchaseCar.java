@@ -5,15 +5,15 @@ import dao.OrderDao;
 import entity.Car;
 import entity.Insurance;
 import entity.Order;
-import utils.SqlState;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class PurchaseCar {
     private static final OrderDao manage = new OrderDao();
+
+    private static List<Insurance> insuranceList;
 
     /**
      * 添加预写入的订单信息
@@ -37,16 +37,14 @@ public class PurchaseCar {
      * 店内优惠制度为：购买纯动力汽车打九五折
      * 上牌价格当前默认1000元
      */
-    public static Order addPreOrder(String brand, String series, Integer userId, Integer cusID, String cusName, String cusPhone, String address, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod) {
-        Car car = new CarDao().searchCar(new Car().setBrand(brand).setSeries(series)).get(0);
+    public static Order addPreOrder(Order order, String brand, String series) {
+        Car car = CarManage.searchCarByBrandSeries(brand, series);
         int carId = car.getCarId();
         double price = car.getPrice();
         int deposit = culDeposit(price);
-        int pmtDiscount =culPmtDiscount(car.getPowerType(),price);
-        int purchaseTax = culPurchaseTax(insurances,price,deposit,pmtDiscount,hasLicenseServer);
-        String orderTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String deliverTime = null;//交付时间没定
-    return new Order(carId,userId,orderTime,cusID,cusName,cusPhone,insurances,hasLicenseServer,payMethod,pmtDiscount,deposit,deliverTime,purchaseTax,address);
+        int pmtDiscount = culPmtDiscount(car.getPowerType(), price);
+        int purchaseTax = culPurchaseTax(order.getInsurances(), price, deposit, pmtDiscount, order.getHasLicenseServer());
+        return order.setPurchaseTax(purchaseTax).setCarId(carId).setDeposit(deposit).setPmtDiscount(pmtDiscount).setOrderTime(new Date()).setDeliveryTime(null);
     }
 
     /**
@@ -57,7 +55,7 @@ public class PurchaseCar {
         Car c = searchCar.selectCarByCarId(o.getCarId());
         double sum = 0;
         for (Insurance i : o.getInsurances()) {
-            sum += i.getPrice(); // 保险
+            sum += getInsurancePrice(i).getPrice(); // 保险
         }
         sum += c.getPrice(); // 车辆价格
         sum += o.getDeposit(); // 定金
@@ -67,9 +65,9 @@ public class PurchaseCar {
         return sum;
     }
 
-
     /**
      * 根据订单id搜索订单
+     *
      * @param id 订单id
      * @return 返回订单集合，根据订单id搜索订单时，集合中应只有一个元素
      */
@@ -80,26 +78,26 @@ public class PurchaseCar {
 
     private static int culDeposit(double price) {
         final double rate = 0.1;
-        return (int) (rate*price);
+        return (int) (rate * price);
     }
 
-    private static int culPmtDiscount(String type,double price){
+    private static int culPmtDiscount(String type, double price) {
         final double rate = 0.05;
-        if(type.equals("纯电动")){
-            return (int) (rate*price);
-        }else {
+        if (type.equals("纯电动")) {
+            return (int) (rate * price);
+        } else {
             return (int) price;
         }
     }
 
-    private static int culPurchaseTax(List<Insurance> insurances,double price,double deposit,double pmtDiscount,boolean hasLicenseServer){
+    private static int culPurchaseTax(List<Insurance> insurances, double price, double deposit, double pmtDiscount, boolean hasLicenseServer) {
         // 牌照价格
         final double licensePrice = 0.1;
         // 税额
         final double rate = 0.1;
         double sum = 0;
-        for (Insurance i : insurances) {
-            sum += i.getPrice(); // 保险
+        for (Insurance item : insurances) {
+            sum += getInsurancePrice(item).getPrice(); // 保险
         }
         sum += price; // 车辆价格
         sum += deposit; // 定价
@@ -107,4 +105,21 @@ public class PurchaseCar {
         if (hasLicenseServer) sum += licensePrice; //上牌价格默认0.1万元
         return (int) (sum * rate);
     }
+
+    /**
+     * 正常情况下是没有保险的金额的，需要从数据库中获取
+     * 为了减少数据库查询，这里尽量只查询一次
+     */
+    private static Insurance getInsurancePrice(Insurance insurance){
+        if(insuranceList==null){
+            insuranceList = manage.searchAllInsurance();
+        }
+        for(Insurance item:insuranceList){
+            if (item.getInsName().equals(insurance.getInsName())){
+                return insurance.setPrice(item.getPrice());
+            }
+        }
+        return insurance.setPrice(0.0);
+    }
+
 }

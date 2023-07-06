@@ -61,14 +61,10 @@ public class OrderDao {
         return orderDao.searchOrder(order);
     }
 
-    /**
-     * 根据orderId搜索保险信息
-     * @return 返回Insurance的list
-     */
-    public List<Insurance> searchInsByOrderId(int orderId){
+    public List<Insurance> searchAllInsurance(){
         SqlSession sqlSession = SqlConnection.getSession();
-        orderDao = sqlSession.getMapper(OrderMapper.class);
-        return orderDao.searchInsByOrderId(orderId);
+         orderDao =  sqlSession.getMapper(OrderMapper.class);
+         return orderDao.searchAllInsurance();
     }
 
     /**

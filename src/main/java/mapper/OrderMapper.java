@@ -15,7 +15,7 @@ public interface OrderMapper {
 
     List<Order> searchOrder(Order order);
 
-    List<Insurance> searchInsByOrderId(int orderId);
+    List<Insurance> searchAllInsurance();
 
     int updateOrder(Order order);
 
