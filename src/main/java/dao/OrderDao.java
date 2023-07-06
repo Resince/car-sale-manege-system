@@ -2,7 +2,7 @@ package dao;
 
 import entity.Insurance;
 import entity.Order;
-import impl.OrderMapper;
+import mapper.OrderMapper;
 import org.apache.ibatis.session.SqlSession;
 import utils.SqlConnection;
 import utils.SqlState;

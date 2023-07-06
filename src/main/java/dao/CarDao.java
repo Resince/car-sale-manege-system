@@ -1,7 +1,7 @@
 package dao;
 
 import entity.Car;
-import impl.CarMapper;
+import mapper.CarMapper;
 import org.apache.ibatis.session.SqlSession;
 import utils.SqlConnection;
 import utils.SqlState;

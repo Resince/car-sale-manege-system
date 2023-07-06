@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="impl.CarMapper">
+<mapper namespace="mapper.CarMapper">
 
     <!--    插入    -->
     <insert id="addCar" parameterType="entity.Car" keyProperty="carId" useGeneratedKeys="true">

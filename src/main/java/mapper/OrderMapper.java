@@ -1,4 +1,4 @@
-package impl;
+package mapper;
 
 import entity.Insurance;
 import entity.Order;

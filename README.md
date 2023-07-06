@@ -123,7 +123,7 @@ erDiagram
 
 主要分为四个层次
 
-+ impl
++ mapper
 + mapper
 + entity
 + service

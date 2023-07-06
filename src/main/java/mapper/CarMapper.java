@@ -1,4 +1,4 @@
-package impl;
+package mapper;
 
 import entity.Car;
 import org.apache.ibatis.annotations.Param;
