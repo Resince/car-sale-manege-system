@@ -3,10 +3,11 @@ package ui;
 import io.github.palexdev.materialfx.controls.MFXIconWrapper;
 import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
+import io.github.palexdev.materialfx.utils.ScrollUtils;
+import io.github.palexdev.materialfx.utils.ToggleButtonsUtil;
 import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -15,14 +16,15 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ui.controllers.ConfirmOrderController;
 import ui.controllers.MakeOrderController;
 
 public class CtrlApp implements Initializable {
@@ -45,38 +47,22 @@ public class CtrlApp implements Initializable {
     @FXML
     private Label title;
 
+
+    private final MakeOrderController makeOrderController;
+    private final ConfirmOrderController confirmOrderController;
+
     private final ToggleGroup toggleGroup;
 
     public CtrlApp(Stage stage) {
         this.stage = stage;
         this.toggleGroup = new ToggleGroup();
-    }
-
-    private ToggleButton createToggle(String icon, String text, double rotate) {
-        MFXIconWrapper wrapper = new MFXIconWrapper(icon, 24, 32);
-        MFXRectangleToggleNode toggleNode = new MFXRectangleToggleNode(text, wrapper);
-        toggleNode.setAlignment(Pos.CENTER_LEFT);
-        toggleNode.setMaxWidth(Double.MAX_VALUE);
-        toggleNode.setToggleGroup(toggleGroup);
-        if (rotate != 0) wrapper.getIcon().setRotate(rotate);
-        return toggleNode;
-    }
-
-    public static Parent loadView(String fxmlName, Callback<Class<?>, Object> controllerFactory){
-        FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlName));
-        if(controllerFactory!=null)
-            loader.setControllerFactory(controllerFactory);
-        try {
-            return loader.load();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
+        ToggleButtonsUtil.addAlwaysOneSelectedSupport(toggleGroup);
+        makeOrderController = new MakeOrderController(stage);
+        confirmOrderController = new ConfirmOrderController();
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources){
+    public void initialize(URL location, ResourceBundle resources) {
         closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> Platform.exit());
         minimizeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Stage) rootPane.getScene().getWindow()).setIconified(true));
         windowHeader.setOnMousePressed(event -> {
@@ -88,13 +74,28 @@ public class CtrlApp implements Initializable {
             stage.setY(event.getScreenY() + yOffset);
         });
 
-        Parent view_makeOrder = loadView("fxml/MakeOrder.fxml", c -> new MakeOrderController(stage));
-        ToggleButton toggle_makeOrder = createToggle("mfx-angle-right", "签订订单", 0);
-        toggle_makeOrder.setOnAction(event -> {
-            contentPane.setContent(view_makeOrder);
-            title.setText("订单信息");
+        addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", "签订订单");
+        addViewToMenu("fxml/ConfirmOrder.fxml", confirmOrderController, "fas-paste", "确认订单");
+    }
+
+    private void addViewToMenu(String fxmlRes, Object controller, String icon, String title) {
+        Parent view = ViewLoader.loadView(fxmlRes, c -> controller);
+        ToggleButton toggle = createToggle(icon, title);
+        toggle.setOnAction(event -> {
+            contentPane.setContent(view);
+            ScrollUtils.addSmoothScrolling(contentPane);
+            this.title.setText(title);
         });
-        navBar.getChildren().add(toggle_makeOrder);
+        navBar.getChildren().add(toggle);
+    }
+
+    private ToggleButton createToggle(String icon, String text) {
+        MFXIconWrapper wrapper = new MFXIconWrapper(new MFXFontIcon(icon, 24), 32);
+        MFXRectangleToggleNode toggleNode = new MFXRectangleToggleNode(text, wrapper);
+        toggleNode.setAlignment(Pos.CENTER_LEFT);
+        toggleNode.setMaxWidth(Double.MAX_VALUE);
+        toggleNode.setToggleGroup(toggleGroup);
+        return toggleNode;
     }
 }
 /*

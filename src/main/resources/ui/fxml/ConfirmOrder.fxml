@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.ConfirmOrderController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="90.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="230.0" />
@@ -34,89 +34,103 @@
     </rowConstraints>
     <children>
         <Label alignment="CENTER" text="品牌" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin></Label>
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
         <Label alignment="CENTER" text="型号" GridPane.rowIndex="2">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin></Label>
-      <Label text="车辆信息">
-         <GridPane.margin>
-            <Insets top="8.0" />
-         </GridPane.margin></Label>
-      <Label text="用户信息" GridPane.rowIndex="3">
-         <GridPane.margin>
-            <Insets top="8.0" />
-         </GridPane.margin></Label>
-      <Label text="姓名" GridPane.rowIndex="4">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin></Label>
-      <Label text="电话号码" GridPane.rowIndex="5">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </Label>
-      <Label text="身份证号" GridPane.rowIndex="6">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </Label>
-      <Label text="家庭住址" GridPane.rowIndex="7">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </Label>
-      <Label text="用户信息" GridPane.rowIndex="8">
-         <GridPane.margin>
-            <Insets top="8.0" />
-         </GridPane.margin></Label>
-      <Label text="选择保险" GridPane.rowIndex="9">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </Label>
-      <Label text="是否挂牌" GridPane.rowIndex="10">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </Label>
-      <Label text="费用核算" GridPane.rowIndex="11">
-         <GridPane.margin>
-            <Insets top="8.0" />
-         </GridPane.margin></Label>
-      <Label text="车款" GridPane.rowIndex="12">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin></Label>
-      <Label text="保险费" GridPane.rowIndex="13">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </Label>
-      <Label text="购置税" GridPane.rowIndex="14">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </Label>
-      <Label text="服务费" GridPane.rowIndex="15">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </Label>
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="12" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="13" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="14" />
-      <Label prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="车辆信息">
+            <GridPane.margin>
+                <Insets top="8.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="用户信息" GridPane.rowIndex="3">
+            <GridPane.margin>
+                <Insets top="8.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="姓名" GridPane.rowIndex="4">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="电话号码" GridPane.rowIndex="5">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="身份证号" GridPane.rowIndex="6">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="家庭住址" GridPane.rowIndex="7">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="用户信息" GridPane.rowIndex="8">
+            <GridPane.margin>
+                <Insets top="8.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="选择保险" GridPane.rowIndex="9">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="是否挂牌" GridPane.rowIndex="10">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="费用核算" GridPane.rowIndex="11">
+            <GridPane.margin>
+                <Insets top="8.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="车款" GridPane.rowIndex="12">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="保险费" GridPane.rowIndex="13">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="购置税" GridPane.rowIndex="14">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="服务费" GridPane.rowIndex="15">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Label text="总费用" GridPane.rowIndex="16">
+            <GridPane.margin>
+                <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+            </GridPane.margin>
+        </Label>
+        <Label fx:id="brand" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label fx:id="model" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label fx:id="name" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Label fx:id="tel" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <Label fx:id="sid" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+        <Label fx:id="addr" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <Label fx:id="insurance" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+        <Label fx:id="regCar" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+        <Label fx:id="carPrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+        <Label fx:id="insurancePrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+        <Label fx:id="taxPrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+        <Label fx:id="servicePrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+        <Label fx:id="totalPrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="16" />
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
