@@ -25,7 +25,8 @@ public class Order {
     private Integer purchaseTax;
     private String cusAddress;
 
-    private Order(Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax,String address) {
+    // 时间只需要用字符串来创建
+    public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax,String address) {
         this.carId = carId;
         this.userId = userId;
         this.cusId = cusId;
@@ -38,16 +39,6 @@ public class Order {
         this.deposit = deposit;
         this.purchaseTax = purchaseTax;
         this.cusAddress = address;
-    }
-
-    private Order(Integer orderId, Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax,String address) {
-        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax,address);
-        this.orderId = orderId;
-    }
-
-    // 时间只需要用字符串来创建
-    public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax,String address) {
-        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax,address);
         try {
             this.orderTime = orderTime == null ? null : new SimpleDateFormat("yyyy-MM-dd").parse(orderTime);
             this.deliveryTime = deliveryTime == null ? null : new SimpleDateFormat("yyyy-MM-dd").parse(deliveryTime);
@@ -58,7 +49,19 @@ public class Order {
 
     // 提供给xml文件使用
     public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, Date orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Date deliveryTime, Integer purchaseTax, String address) {
-        this(orderId, carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer.equals("true"), payMethod, pmtDiscount, deposit, purchaseTax,address);
+        this.carId = carId;
+        this.userId = userId;
+        this.cusId = cusId;
+        this.cusName = cusName;
+        this.cusPhone = cusPhone;
+        this.insurances = insurances;
+        this.hasLicenseServer = hasLicenseServer.equals("true");
+        this.payMethod = payMethod;
+        this.pmtDiscount = pmtDiscount;
+        this.deposit = deposit;
+        this.purchaseTax = purchaseTax;
+        this.cusAddress = address;
+        this.orderId = orderId;
         this.orderTime = orderTime;
         this.deliveryTime = deliveryTime;
     }
