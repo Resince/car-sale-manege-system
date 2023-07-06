@@ -176,4 +176,8 @@ public class CarManage {
         } else return manage.UpdateCar(c) == SqlState.Done;
     }
 
+    public static void main(String[] args) {
+        CarManage.addCarList("D:\\QQ文件\\test(1).xlsx");
+    }
+
 }

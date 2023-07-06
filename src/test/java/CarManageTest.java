@@ -10,10 +10,10 @@ public class CarManageTest {
         System.out.println(CarManage.addCar(100022, "ss", "ss", "aa", "ss"));
     }
 
-    @Test
-    public void testAddCarList() {
-        System.out.println(CarManage.addCarList(""));
-    }
+//    @Test
+//    public void testAddCarList() {
+//        System.out.println(CarManage.addCarList("D:\\QQ文件\\test(1).xlsx"));
+//    }
 
     @Test
     public void testDeleteCar() {

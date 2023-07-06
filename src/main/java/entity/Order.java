@@ -14,6 +14,7 @@ public class Order {
     private LocalDate orderTime;
     private String cusName;
     private String cusPhone;
+    private String address;
     private List<Insurance> insurances;
     private Boolean hasLicenseServer;
     private String payMethod;
@@ -22,12 +23,13 @@ public class Order {
     private LocalDate deliveryTime;
     private Integer purchaseTax;
 
-    private Order(Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
+    public Order(Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, String address, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
         this.carId = carId;
         this.userId = userId;
         this.cusId = cusId;
         this.cusName = cusName;
         this.cusPhone = cusPhone;
+        this.address = address;
         this.insurances = insurances;
         this.hasLicenseServer = hasLicenseServer;
         this.payMethod = payMethod;
@@ -36,21 +38,21 @@ public class Order {
         this.purchaseTax = purchaseTax;
     }
 
-    private Order(Integer orderId, Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
-        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
+    private Order(Integer orderId, Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, String address, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax) {
+        this(carId, userId, cusId, cusName, cusPhone, address, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
         this.orderId = orderId;
     }
 
     // 时间只需要用字符串来创建
-    public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax) {
-        this(carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
+    public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, String address, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax) {
+        this(carId, userId, cusId, cusName, cusPhone, address, insurances, hasLicenseServer, payMethod, pmtDiscount, deposit, purchaseTax);
         this.orderTime = orderTime == null ? null : LocalDate.parse(orderTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.deliveryTime = deliveryTime == null ? null : LocalDate.parse(deliveryTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     // 提供给xml文件使用
-    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, LocalDate orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax) {
-        this(orderId, carId, userId, cusId, cusName, cusPhone, insurances, hasLicenseServer.equals("true"), payMethod, pmtDiscount, deposit, purchaseTax);
+    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, LocalDate orderTime, String cusName, String cusPhone, String address, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, LocalDate deliveryTime, Integer purchaseTax) {
+        this(orderId, carId, userId, cusId, cusName, cusPhone, address, insurances, hasLicenseServer.equals("true"), payMethod, pmtDiscount, deposit, purchaseTax);
         this.orderTime = orderTime;
         this.deliveryTime = deliveryTime;
     }
@@ -182,6 +184,14 @@ public class Order {
     public Order setPurchaseTax(Integer purchaseTax) {
         this.purchaseTax = purchaseTax;
         return this;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override
