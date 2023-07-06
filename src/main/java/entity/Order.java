@@ -19,7 +19,7 @@ public class Order {
     private Integer deposit;
     private LocalDate deliveryTime;
     private Integer purchaseTax;
-    private String address;
+    private String cusAddress;
 
     private Order(Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax,String address) {
         this.carId = carId;
@@ -33,7 +33,7 @@ public class Order {
         this.pmtDiscount = pmtDiscount;
         this.deposit = deposit;
         this.purchaseTax = purchaseTax;
-        this.address = address;
+        this.cusAddress = address;
     }
 
     private Order(Integer orderId, Integer carId, Integer userId, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Integer purchaseTax,String address) {
@@ -58,12 +58,12 @@ public class Order {
     public Order() {
     }
 
-    public String getAddress() {
-        return address;
+    public String getCusAddress() {
+        return cusAddress;
     }
 
-    public Order setAddress(String address) {
-        this.address = address;
+    public Order setCusAddress(String cusAddress) {
+        this.cusAddress = cusAddress;
         return this;
     }
 
