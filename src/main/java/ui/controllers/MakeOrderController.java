@@ -1,5 +1,6 @@
 package ui.controllers;
 
+import entity.Car;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
@@ -9,6 +10,7 @@ import io.github.palexdev.materialfx.utils.ScrollUtils;
 import io.github.palexdev.materialfx.validation.Constraint;
 import io.github.palexdev.materialfx.validation.Severity;
 import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
@@ -18,10 +20,10 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ui.ViewLoader;
-
 import java.net.URL;
 import java.util.*;
 import java.util.List;
+import server.CarManage;
 
 /**
  * Created with IntelliJ IDEA.
@@ -92,6 +94,15 @@ public class MakeOrderController implements Initializable {
         dialog.setScrimPriority(ScrimPriority.WINDOW);
         dialog.setScrimOwner(true);
 
+        Map<String, Set<String>> bsMap = CarManage.getBSMap();
+        List<String> brandlist = bsMap.keySet().stream().toList();
+        combo_model.setItems(FXCollections.observableList(CarManage.getSeries().stream().toList()));
+        combo_brand.setItems(FXCollections.observableList(brandlist));
+        combo_brand.getSelectionModel().selectedItemProperty().addListener(
+                (ObservableValue<? extends String> ov ,String old_value,String new_value)->{
+                    combo_model.setItems(FXCollections.observableList(bsMap.get(new_value).stream().toList()));
+                }
+        );
         dialogContent.addActions(
                 Map.entry(new MFXButton("Confirm"), event -> {
                     //TODO

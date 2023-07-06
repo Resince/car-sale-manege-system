@@ -9,19 +9,26 @@ public class Car {
     private String powerType;
     private String brand;
     private String series;
+    private Integer number;
 
     public Car() {}
 
-    public Car(Double price, String type, String powerType, String brand, String series) {
+    public Car(String brand,String series){
+        this.brand = brand;
+        this.series = series;
+    }
+
+    public Car(Double price, String type, String powerType, String brand, String series,Integer number) {
         this.price = price;
         this.type = type;
         this.powerType = powerType;
         this.brand = brand;
         this.series = series;
+        this.number = number;
     }
 
-    public Car(int carId, Double price, String type, String powerType, String brand, String series) {
-        this(price,type,powerType,brand,series);
+    public Car(int carId, Double price, String type, String powerType, String brand, String series,Integer number) {
+        this(price,type,powerType,brand,series,number);
         this.carId = carId;
     }
 
@@ -76,6 +83,15 @@ public class Car {
 
     public Car setSeries(String series) {
         this.series = series;
+        return this;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public Car setNumber(Integer number) {
+        this.number = number;
         return this;
     }
 

@@ -1,4 +1,4 @@
-package impl;
+package mapper;
 
 import entity.Car;
 import org.apache.ibatis.annotations.Param;
@@ -15,6 +15,8 @@ public interface CarMapper {
     List<Car> searchCarByPrice(@Param("priceLeft") double priceLeft, @Param("priceRight") double priceRight);
 
     List<Car> selectCar(Car car);
+
+    List<Car> searchBrandSeries();
 
     int updateCar(Car car);
 }
