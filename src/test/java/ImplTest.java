@@ -5,18 +5,14 @@ import entity.Car;
 import entity.Insurance;
 import entity.Order;
 import entity.User;
-import org.junit.Assert;
 import org.junit.Test;
 import utils.SqlState;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
 
 public class ImplTest {
-    Car carAdd = new Car(10000.0, "小汽车", "电动", "大众", "A-4");
     Car carUpdate = new Car();
     CarDao carDao = new CarDao();
 
@@ -24,7 +20,7 @@ public class ImplTest {
     public void testAddCar() {
         System.out.println(LocalTime.now());
         for (int i = 0; i < 1000; i++) {
-            carDao.addCar(new Car(10000.0, "小汽车", "电动", "大众", "A-4"));
+            carDao.addCar(new Car(10000.0, "小汽车", "电动", "大众", "A-4",1));
         }
         System.out.println(LocalTime.now());
     }
@@ -47,7 +43,7 @@ public class ImplTest {
         System.out.println(LocalTime.now());
         List<Car> carList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            carList.add(new Car((double) i, "小汽车", "电动", "大众", "A-4"));
+            carList.add(new Car((double) i, "小汽车", "电动", "大众", "A-4",1));
         }
         System.out.println(carDao.addCar(carList));
         System.out.println(LocalTime.now());
@@ -79,7 +75,7 @@ public class ImplTest {
 
     OrderDao orderDao = new OrderDao();
     List<Insurance> insurances = new ArrayList<>();
-    Order order = new Order(2542, 17, "2023-01-21", 1233456678, "客户1", "123456789", "ss", insurances, true, "全额付款", 123, 234, "2024-01-01", 500);
+    Order order = new Order(2542, 17, "2023-01-21", 1233456678, "客户1", "123456789", insurances, true, "全额付款", 123, 234, "2024-01-01", 500,"dfasdf");
 
     @Test
     public void testOrderInsert() {

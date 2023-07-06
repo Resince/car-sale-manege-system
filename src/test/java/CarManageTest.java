@@ -1,13 +1,12 @@
-import entity.Car;
 import org.junit.Test;
 import server.CarManage;
 
 public class CarManageTest {
 
     @Test
-    public void testAddCar(){
-        System.out.println(CarManage.addCar(100000, "ss", "ss", "ss", "ss"));
-        System.out.println(CarManage.addCar(100022, "ss", "ss", "aa", "ss"));
+    public void testAddCar() {
+        System.out.println(CarManage.addCar(100000, "ss", "ss", "ss", "ss", 1));
+        System.out.println(CarManage.addCar(100022, "ss", "ss", "aa", "ss", 1));
     }
 
 //    @Test
@@ -26,6 +25,7 @@ public class CarManageTest {
         System.out.println(CarManage.searchCarByBrand("ss"));
 //        System.out.println(CarManage.searchCarByPrice(10000, 10003));
     }
+
     @Test
     public void testSearchCarByMultiple() {
         System.out.println(CarManage.searchCarByMultiple(CarManage.searchCarByBrand("ss"), CarManage.searchCarBySeries("ss")));
@@ -33,6 +33,11 @@ public class CarManageTest {
 
     @Test
     public void testUpdateCar() {
-        System.out.println(CarManage.updateCar(2836, null, null, null, null, "aa"));
+        System.out.println(CarManage.updateCar(2836, null, null, null, null, "aa", 1));
+    }
+
+    @Test
+    public void testSearchBSMap(){
+        System.out.println(CarManage.getBSMap());
     }
 }

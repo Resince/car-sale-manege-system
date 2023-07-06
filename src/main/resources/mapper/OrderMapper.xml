@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="impl.OrderMapper">
+<mapper namespace="mapper.OrderMapper">
     <!--  mapper -->
     <resultMap id="resultMapSearchOrder" type="entity.Order">
         <id property="orderId" column="oid"/>
@@ -19,6 +19,7 @@
         <result property="deposit" column="deposit"/>
         <result property="deliveryTime" column="deliveryTime"/>
         <result property="purchaseTax" column="purchaseTax"/>
+        <result property="address" column="address"/>
         <collection property="insurances" ofType="entity.Insurance" >
             <id column="ina" property="insName"/>
             <result property="price" column="price"/>
@@ -29,9 +30,9 @@
     <insert id="addOrder" parameterType="entity.Car" keyProperty="orderId" useGeneratedKeys="true">
         insert `order`
         (carId,userId,cusId,orderTime,cusName,cusPhone,
-        hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax)
+        hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax,address)
         values (#{carId},#{userId},#{cusId},#{orderTime},#{cusName},#{cusPhone},
-        #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax})
+        #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax},#{address})
     </insert>
 
     <insert id="addPurIns">
@@ -62,6 +63,7 @@
         deposit,
         deliveryTime,
         purchaseTax,
+        address,
         i.insName as ina,
         price
         from `order` left join purIns on `order`.orderId = purIns.orderId
@@ -80,6 +82,7 @@
             <if test="deposit!=null">and deposit = #{deposit}</if>
             <if test="deliveryTime!=null">and deliveryTime = #{deliveryTime}</if>
             <if test="purchaseTax!=null">and purchaseTax = #{purchaseTax}</if>
+            <if test="address!=null">and address = #{address}</if>
         </where>
     </select>
 
@@ -98,6 +101,7 @@
             <if test="deposit!=null">deposit = #{deposit},</if>
             <if test="deliveryTime!=null">deliveryTime = #{deliveryTime},</if>
             <if test="purchaseTax!=null">purchaseTax = #{purchaseTax},</if>
+            <if test="address!=null">address = #{address},</if>
         </set>
         where orderId = #{orderId}
     </update>

@@ -1,7 +1,7 @@
 package dao;
 
 import entity.User;
-import impl.UserMapper;
+import mapper.UserMapper;
 import org.apache.ibatis.session.SqlSession;
 import utils.AuthState;
 import utils.SqlConnection;

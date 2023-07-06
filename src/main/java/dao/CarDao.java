@@ -1,7 +1,7 @@
 package dao;
 
 import entity.Car;
-import impl.CarMapper;
+import mapper.CarMapper;
 import org.apache.ibatis.session.SqlSession;
 import utils.SqlConnection;
 import utils.SqlState;
@@ -93,6 +93,12 @@ public class CarDao {
         return (c == null) ? null : c.get(0);
     }
 
+    public List<Car> searchBrandSeries(){
+        SqlSession sqlSession = SqlConnection.getSession();
+        carDao = sqlSession.getMapper(CarMapper.class);
+        return carDao.searchBrandSeries();
+    }
+
     /**
      * 动态更新Car信息
      *
@@ -115,5 +121,4 @@ public class CarDao {
         sqlSession.commit();
         return SqlState.Done;
     }
-
 }
