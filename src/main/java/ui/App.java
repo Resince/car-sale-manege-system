@@ -25,12 +25,12 @@ public class App extends Application {
 
         FXMLLoader loader = new FXMLLoader(App.class.getResource("fxml/App.fxml"));
         loader.setControllerFactory(c -> new CtrlApp(stage));
-
         Scene scene = new Scene(loader.load());
         MFXThemeManager.addOn(scene, Themes.DEFAULT, Themes.LEGACY);
         scene.setFill(Color.TRANSPARENT);
+
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.setTitle("Hello!");
+        stage.setTitle("汽车销售管理系统");
         stage.setScene(scene);
         stage.show();
     }

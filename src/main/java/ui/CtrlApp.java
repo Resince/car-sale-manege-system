@@ -20,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ui.controllers.ConfirmOrderController;
+import ui.controllers.LoginController;
 import ui.controllers.MakeOrderController;
 
 import java.net.URL;
@@ -48,8 +49,10 @@ public class CtrlApp implements Initializable {
 
     private final MakeOrderController makeOrderController;
     private final ConfirmOrderController confirmOrderController;
+    private final LoginController loginController;
 
     private final ToggleGroup toggleGroup;
+    private ToggleButton homeToggle;
 
     public CtrlApp(Stage stage) {
         this.stage = stage;
@@ -57,6 +60,7 @@ public class CtrlApp implements Initializable {
         ToggleButtonsUtil.addAlwaysOneSelectedSupport(toggleGroup);
         makeOrderController = new MakeOrderController(stage);
         confirmOrderController = new ConfirmOrderController();
+        loginController = new LoginController(this::enter);
     }
 
     @Override
@@ -72,19 +76,44 @@ public class CtrlApp implements Initializable {
             stage.setY(event.getScreenY() + yOffset);
         });
 
-        addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", "签订订单");
+        /* SETUP menu BUT NOT SHOW*/
+        addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", "签订订单",true);
         addViewToMenu("fxml/ConfirmOrder.fxml", confirmOrderController, "fas-paste", "确认订单");
+
+
+        /* START login */
+        Parent view_login = ViewLoader.loadView("fxml/Login.fxml", c -> loginController);
+        contentPane.setContent(view_login);
+
+        /* WAITING loginController TO CALLBACK  enter */
+    }
+
+    public void enter() {
+        /* LOGIN SUCCEED */
+        contentPane.setContent(null);
+        navBar.getChildren().setAll(toggleGroup.getToggles().stream().map(t->(ToggleButton)t).toList());
+        homeToggle.setSelected(true);
+    }
+
+    private void addViewToMenu(String fxmlRes, Object controller, String icon, String title, boolean setHome) {
+        Parent view = ViewLoader.loadView(fxmlRes, c -> controller);
+        ToggleButton toggle = createToggle(icon, title);
+        toggle.setToggleGroup(toggleGroup);
+
+        toggle.selectedProperty().addListener((observableValue, oldVal, newVal) -> {
+            if(!oldVal && newVal){
+                contentPane.setContent(view);
+                ScrollUtils.addSmoothScrolling(contentPane);
+                this.title.setText(title);
+            }
+        });
+
+        if (setHome)
+            homeToggle=toggle;
     }
 
     private void addViewToMenu(String fxmlRes, Object controller, String icon, String title) {
-        Parent view = ViewLoader.loadView(fxmlRes, c -> controller);
-        ToggleButton toggle = createToggle(icon, title);
-        toggle.setOnAction(event -> {
-            contentPane.setContent(view);
-            ScrollUtils.addSmoothScrolling(contentPane);
-            this.title.setText(title);
-        });
-        navBar.getChildren().add(toggle);
+        addViewToMenu(fxmlRes, controller, icon, title, false);
     }
 
     private ToggleButton createToggle(String icon, String text) {
@@ -92,7 +121,6 @@ public class CtrlApp implements Initializable {
         MFXRectangleToggleNode toggleNode = new MFXRectangleToggleNode(text, wrapper);
         toggleNode.setAlignment(Pos.CENTER_LEFT);
         toggleNode.setMaxWidth(Double.MAX_VALUE);
-        toggleNode.setToggleGroup(toggleGroup);
         return toggleNode;
     }
 }
