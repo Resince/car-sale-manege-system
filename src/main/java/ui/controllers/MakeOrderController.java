@@ -10,7 +10,6 @@ import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
 import io.github.palexdev.materialfx.enums.ScrimPriority;
 import io.github.palexdev.materialfx.utils.ScrollUtils;
 import io.github.palexdev.materialfx.validation.Constraint;
-import io.github.palexdev.materialfx.validation.Severity;
 import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -77,6 +76,7 @@ public class MakeOrderController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setComboBoxItem();
         setConfirmDialog();
+        initConstrains();
         btn_confirm.setOnMouseClicked(c -> {
             updatePreOrder();
             dialog.showDialog();
@@ -85,11 +85,10 @@ public class MakeOrderController implements Initializable {
     }
 
 
-
     /**
      * 设置下拉菜单内容
      */
-    private void setComboBoxItem(){
+    private void setComboBoxItem() {
         Map<String, Set<String>> bsMap = CarManage.getBSMap();
         List<String> brandlist = bsMap.keySet().stream().toList();
         combo_model.setItems(FXCollections.observableList(CarManage.getSeries().stream().toList()));
@@ -107,11 +106,11 @@ public class MakeOrderController implements Initializable {
     /**
      * 设置确认菜单内容
      */
-    private void setConfirmDialog(){
+    private void setConfirmDialog() {
         MFXScrollPane scrollPane = new MFXScrollPane();
         scrollPane.setMaxSize(450, 380);
         confirmOrderController = new ConfirmOrderController();
-        Parent view_confirmOrder = AppUtil.loadView("fxml/ConfirmOrder.fxml", c->confirmOrderController);
+        Parent view_confirmOrder = AppUtil.loadView("fxml/ConfirmOrder.fxml", confirmOrderController);
         scrollPane.setContent(view_confirmOrder);
         ScrollUtils.addSmoothScrolling(scrollPane);
 
@@ -138,50 +137,43 @@ public class MakeOrderController implements Initializable {
     }
 
     private void updatePreOrder() {
-        if (checkValid()) {
-            insuranceList = new ArrayList<>();
-            list_insurance.getSelectionModel().getSelectedValues().forEach(item -> {
-                insuranceList.add(new Insurance(item));
-            });
+        insuranceList = new ArrayList<>();
+        list_insurance.getSelectionModel().getSelectedValues().forEach(item -> {
+            insuranceList.add(new Insurance(item));
+        });
 
-            order.setHasLicenseServer(combo_regCar.getSelectionModel().getSelectedItem().equals("是"))
-                    .setCusId(text_sid.getText())
-                    .setCusName(text_name.getText())
-                    .setCusPhone(text_tel.getText())
-                    .setCusAddress(text_addr.getText())
-                    .setInsurances(insuranceList);
+        order.setHasLicenseServer(combo_regCar.getSelectionModel().getSelectedItem().equals("是"))
+                .setCusId(text_sid.getText())
+                .setCusName(text_name.getText())
+                .setCusPhone(text_tel.getText())
+                .setCusAddress(text_addr.getText())
+                .setInsurances(insuranceList);
 
-            Car selectCar = PurchaseCar.getCarByBrandSeries(new Car()
-                    .setBrand(combo_brand.getSelectionModel().getSelectedItem())
-                    .setSeries(combo_model.getSelectionModel().getSelectedItem()));
-            order = PurchaseCar.genPreOrder(order, selectCar);
-            confirmOrderController.setContent(order,selectCar);
-        }
+        Car selectCar = PurchaseCar.getCarByBrandSeries(new Car()
+                .setBrand(combo_brand.getSelectionModel().getSelectedItem())
+                .setSeries(combo_model.getSelectionModel().getSelectedItem()));
+        order = PurchaseCar.genPreOrder(order, selectCar);
+        confirmOrderController.setContent(order, selectCar);
     }
 
     private void initConstrains() {
-        needValidate.add(text_name);
-        needValidate.add(text_addr);
-        needValidate.add(text_sid);
-        needValidate.add(text_tel);
-        for (MFXTextField textField : needValidate) {
-            setNotNullConstrain(textField);
+        needValidate.addAll(Arrays.asList(
+                text_name, text_addr, text_sid, text_tel,
+                combo_brand, combo_model, combo_regCar
+        ));
+        for (MFXTextField textField : needValidate)
+            AppUtil.addConstraint(textField, AppUtil.ConstraintType.NotNull);
+        AppUtil.addConstraint(text_name, AppUtil.ConstraintType.NoSpecialChar);
+        AppUtil.addConstraint(text_tel, AppUtil.ConstraintType.IsPhoneNum);
+        AppUtil.addConstraint(text_sid, AppUtil.ConstraintType.IsSID);
+        for (MFXTextField textField : needValidate)
             setListener(textField);
-        }
-    }
-
-    private void setNotNullConstrain(MFXTextField node) {
-        Constraint lengthConstraint = Constraint.Builder.build()
-                .setSeverity(Severity.ERROR)
-                .setMessage("Password must be at least 8 characters long")//TODO
-                .setCondition(node.textProperty().length().greaterThanOrEqualTo(8))
-                .get();
-        node.getValidator().constraint(lengthConstraint);
     }
 
     private void setListener(MFXTextField node) {
         node.getValidator().validProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
+                System.out.println("valid now");
                 node.pseudoClassStateChanged(INVALID_PSEUDO_CLASS, false);
             }
         });

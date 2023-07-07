@@ -106,10 +106,10 @@ public class PurchaseCar {
 //    /**
 //     * 服务费为订单总额的1%
 //     */
-//    public static Double getServerPrice(Order order, Car car) {
-//        final double rate = 0.01;
-//        return getSum(order, car) * rate;
-//    }
+    public static Double getServerPrice(Order order, Car car) {
+        final double rate = 0.01;
+        return getSum(order, car) * rate;
+    }
 
     /**
      * 根据订单id搜索订单

@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import ui.controllers.ConfirmOrderController;
 import ui.controllers.LoginController;
 import ui.controllers.MakeOrderController;
+import ui.controllers.PayOrderController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -48,7 +49,7 @@ public class AppController implements Initializable {
 
 
     private final MakeOrderController makeOrderController;
-    private final ConfirmOrderController confirmOrderController;
+    private final PayOrderController payOrderController;
     private final LoginController loginController;
 
     private final ToggleGroup toggleGroup;
@@ -59,7 +60,7 @@ public class AppController implements Initializable {
         this.toggleGroup = new ToggleGroup();
         ToggleButtonsUtil.addAlwaysOneSelectedSupport(toggleGroup);
         makeOrderController = new MakeOrderController(stage);
-        confirmOrderController = new ConfirmOrderController();
+        payOrderController = new PayOrderController();
         loginController = new LoginController(this::enter);
     }
 
@@ -77,12 +78,12 @@ public class AppController implements Initializable {
         });
 
         /* SETUP menu BUT NOT SHOW*/
-        addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", "签订订单",true);
-        addViewToMenu("fxml/ConfirmOrder.fxml", confirmOrderController, "fas-paste", "确认订单");
+        addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", "签订订单", true);
+        addViewToMenu("fxml/PayOrder.fxml", payOrderController, "fas-paste", "支付订单");
 
 
         /* START login */
-        Parent view_login = AppUtil.loadView("fxml/Login.fxml", c -> loginController);
+        Parent view_login = AppUtil.loadView("fxml/Login.fxml", loginController);
         contentPane.setContent(view_login);
 
         /* WAITING loginController TO CALLBACK  enter */
@@ -91,17 +92,17 @@ public class AppController implements Initializable {
     public void enter() {
         /* LOGIN SUCCEED */
         contentPane.setContent(null);
-        navBar.getChildren().setAll(toggleGroup.getToggles().stream().map(t->(ToggleButton)t).toList());
+        navBar.getChildren().setAll(toggleGroup.getToggles().stream().map(t -> (ToggleButton) t).toList());
         homeToggle.setSelected(true);
     }
 
     private void addViewToMenu(String fxmlRes, Object controller, String icon, String title, boolean setHome) {
-        Parent view = AppUtil.loadView(fxmlRes, c -> controller);
+        Parent view = AppUtil.loadView(fxmlRes, controller);
         ToggleButton toggle = createToggle(icon, title);
         toggle.setToggleGroup(toggleGroup);
 
         toggle.selectedProperty().addListener((observableValue, oldVal, newVal) -> {
-            if(!oldVal && newVal){
+            if (!oldVal && newVal) {
                 contentPane.setContent(view);
                 ScrollUtils.addSmoothScrolling(contentPane);
                 this.title.setText(title);
@@ -109,7 +110,7 @@ public class AppController implements Initializable {
         });
 
         if (setHome)
-            homeToggle=toggle;
+            homeToggle = toggle;
     }
 
     private void addViewToMenu(String fxmlRes, Object controller, String icon, String title) {
