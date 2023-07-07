@@ -55,7 +55,9 @@ public class UserAccess {
         int passwdH = strIsValid(passwd);
         if (passwdH == 0 || strIsValid(String.valueOf(userId)) == 0)
             return RegState.InvalidCharacter;
-        if (userDao.authenticate(userId, null) != AuthState.InvalidUsername)
+        if (!phoneNumberIsValid(phoneNumber))
+            return RegState.InvalidPhoneNumber;
+        if (userDao.authenticate(phoneNumber, null) != AuthState.InvalidUsername)
             return RegState.UsernameExists;
         if (passwd.length() < 6)
             return RegState.ShortPassword;
@@ -63,8 +65,7 @@ public class UserAccess {
             return RegState.LongPassword;
         if (passwdH != 2)
             return RegState.SimplePassword;
-        if (!phoneNumberIsValid(phoneNumber))
-            return RegState.InvalidPhoneNumber;
+
         User user = new User(String.valueOf(userId), passwd, name, phoneNumber);
         userDao.addUser(user);
         return RegState.Done;
@@ -73,8 +74,8 @@ public class UserAccess {
     /**
      * 可以用来判断用户名是否合理，以及用户名和密码是否正确
      */
-    public static AuthState authenticate(int userId, String passwd) {
-        return userDao.authenticate(userId, passwd);
+    public static AuthState authenticate(String phoneNumber, String passwd) {
+        return userDao.authenticate(phoneNumber, passwd);
     }
 
 }

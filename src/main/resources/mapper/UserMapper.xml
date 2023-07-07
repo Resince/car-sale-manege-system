@@ -27,8 +27,8 @@
 
     <!--  根据名字  -->
     <select id="authenticate" resultType="String">
-        select userId from user
-        where userId = #{userId}
+        select type from user
+        where phoneNumber = #{phoneNumber}
         <if test="password != null">and password = #{password}</if>
     </select>
 

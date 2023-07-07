@@ -56,15 +56,22 @@ public class UserDao {
      *
      * @return AuthState
      */
-    public AuthState authenticate(int inputUserId, String inputPasswd) {
+    public AuthState authenticate(String inputPhoneNumber, String inputPasswd) {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
-        if (userDao.authenticate(inputUserId, null) == null) {
+        if (userDao.authenticate(inputPhoneNumber, null) == null) {
             return AuthState.InvalidUsername;
-        } else if (inputPasswd != null && userDao.authenticate(inputUserId, inputPasswd) == null) {
+        }
+        String res = userDao.authenticate(inputPhoneNumber, inputPasswd);
+        if (inputPasswd != null && res == null) {
             return AuthState.InvalidPassword;
-        } else {
-            return AuthState.Done;
+        }
+        if (res.equals("Admin")) {
+            return AuthState.DoneAdmin;
+        } else if (res.equals("CarManager")) {
+            return AuthState.DoneCarManager;
+        }else{
+            return AuthState.DoneSalesman;
         }
     }
 }

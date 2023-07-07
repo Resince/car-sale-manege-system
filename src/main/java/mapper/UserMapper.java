@@ -12,6 +12,6 @@ public interface UserMapper {
 
     int updateUser(User user);
 
-    String authenticate(@Param("userId") int inputUserId,@Param("password") String inputPasswd);
+    String authenticate(@Param("phoneNumber") String inputPhoneNumber,@Param("password") String inputPasswd);
 
 }

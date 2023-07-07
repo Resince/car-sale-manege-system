@@ -56,17 +56,17 @@ public class ConfirmOrderController implements Initializable {
     public void setContent(Order order, Car car) {
         addr.setText(order.getCusAddress());
         brand.setText(car.getBrand());
-        carPrice.setText(car.getPrice().toString());
+        carPrice.setText((car.getPrice()*10000)+" 元");
         insurance.setText(formatInsuranceList(order.getInsurances()));
-        insurancePrice.setText(PurchaseCar.getInsuranceListPrice(order.getInsurances()).toString());
+        insurancePrice.setText(PurchaseCar.getInsuranceListPrice(order.getInsurances()).toString()+" 元");
         model.setText(car.getSeries());
         name.setText(order.getCusName());
         regCar.setText(order.getHasLicenseServer() ? "是" : "否");
-        servicePrice.setText(PurchaseCar.getServerPrice(order, car).toString());
+        servicePrice.setText(PurchaseCar.getServerPrice(order, car)+" 元");
         sid.setText(order.getCusId());
-        taxPrice.setText(order.getPurchaseTax().toString());
+        taxPrice.setText(order.getPurchaseTax().toString()+" 元");
         tel.setText(order.getCusPhone());
-        totalPrice.setText(PurchaseCar.getSum(order, car).toString());
+        totalPrice.setText(PurchaseCar.getSum(order, car)+" 元");
     }
 
     /**

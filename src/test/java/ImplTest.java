@@ -6,7 +6,6 @@ import entity.Insurance;
 import entity.Order;
 import entity.User;
 import org.junit.Test;
-import utils.SqlState;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -65,12 +64,12 @@ public class ImplTest {
 
     @Test
     public void testUserDao() {
-        SqlState sqlState = userDao.addUser(userAdd);
-        System.out.println(userAdd.getUserId());
-        System.out.println(userDao.searchUser(new User().setName("yang")));
-        System.out.println(userDao.updateUser(new User(6, "9874456", "yang", "lkjgjkgj", "llll")));
-        System.out.println(userDao.authenticate(userAdd.getUserId(), null));
-        System.out.println(userDao.authenticate(userAdd.getUserId(), null));
+//        SqlState sqlState = userDao.addUser(userAdd);
+//        System.out.println(userAdd.getUserId());
+//        System.out.println(userDao.searchUser(new User().setName("yang")));
+//        System.out.println(userDao.updateUser(new User(6, "9874456", "yang", "lkjgjkgj", "llll")));
+        System.out.println(userDao.authenticate("0000","0000"));
+//        System.out.println(userDao.authenticate(userAdd.getPhoneNumber(), null));
     }
 
     OrderDao orderDao = new OrderDao();
