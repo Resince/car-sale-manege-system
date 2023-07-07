@@ -32,15 +32,15 @@ public class OrderListController implements Initializable {
     @FXML
     private GridPane priPage;
 
-    private final PayOrderDetailController payOrderDetailController;
+    private final PreOrderDetailController preOrderDetailController;
 
     public OrderListController() {
-        payOrderDetailController = new PayOrderDetailController(this::back);
+        preOrderDetailController = new PreOrderDetailController(this::back);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Parent secPage = AppUtil.loadView("fxml/PayOrderDetail.fxml", payOrderDetailController);
+        Parent secPage = AppUtil.loadView("fxml/PreOrderDetail.fxml", preOrderDetailController);
 
         MFXButton btn = new MFXButton();
         btn.setText("Test Button");

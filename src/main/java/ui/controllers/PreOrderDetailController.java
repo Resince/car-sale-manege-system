@@ -12,13 +12,12 @@ import io.github.palexdev.mfxresources.fonts.MFXIconWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.layout.StackPane;
 import ui.AppUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PayOrderDetailController implements Initializable {
+public class PreOrderDetailController implements Initializable {
     @FXML
     private MFXIconWrapper btn_back;
     @FXML
@@ -27,7 +26,7 @@ public class PayOrderDetailController implements Initializable {
     private final ConfirmOrderController confirmOrderController;
     private final Runnable back;
 
-    public PayOrderDetailController(Runnable back){
+    public PreOrderDetailController(Runnable back){
         this.back=back;
         confirmOrderController=new ConfirmOrderController();
     }
