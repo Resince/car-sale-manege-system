@@ -22,7 +22,7 @@ create table `order` (
     orderId int AUTO_INCREMENT,
     carId int,
     userId int,
-    cusID int NOT NULL ,
+    cusID varchar(30) NOT NULL ,
     orderTime date NOT NULL ,
     cusName varchar(30) NOT NULL ,
     cusPhone varchar(30) NOT NULL ,
