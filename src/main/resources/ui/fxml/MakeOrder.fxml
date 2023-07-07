@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridPane_content" prefHeight="800.0" prefWidth="700.0" stylesheets="@../css/MakeOrder.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MakeOrderController">
+<GridPane fx:id="gridPane_content" prefHeight="800.0" prefWidth="700.0" stylesheets="@../css/Widgets.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MakeOrderController">
     <columnConstraints>
         <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" />
         <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" />
