@@ -26,7 +26,7 @@ import ui.controllers.MakeOrderController;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CtrlApp implements Initializable {
+public class AppController implements Initializable {
 
     private final Stage stage;
     private double xOffset;
@@ -54,7 +54,7 @@ public class CtrlApp implements Initializable {
     private final ToggleGroup toggleGroup;
     private ToggleButton homeToggle;
 
-    public CtrlApp(Stage stage) {
+    public AppController(Stage stage) {
         this.stage = stage;
         this.toggleGroup = new ToggleGroup();
         ToggleButtonsUtil.addAlwaysOneSelectedSupport(toggleGroup);
@@ -82,7 +82,7 @@ public class CtrlApp implements Initializable {
 
 
         /* START login */
-        Parent view_login = ViewLoader.loadView("fxml/Login.fxml", c -> loginController);
+        Parent view_login = AppUtil.loadView("fxml/Login.fxml", c -> loginController);
         contentPane.setContent(view_login);
 
         /* WAITING loginController TO CALLBACK  enter */
@@ -96,7 +96,7 @@ public class CtrlApp implements Initializable {
     }
 
     private void addViewToMenu(String fxmlRes, Object controller, String icon, String title, boolean setHome) {
-        Parent view = ViewLoader.loadView(fxmlRes, c -> controller);
+        Parent view = AppUtil.loadView(fxmlRes, c -> controller);
         ToggleButton toggle = createToggle(icon, title);
         toggle.setToggleGroup(toggleGroup);
 

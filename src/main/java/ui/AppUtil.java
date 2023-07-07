@@ -10,7 +10,7 @@ import javafx.util.Callback;
  * date： 2023/7/6
  * description：
  */
-public class ViewLoader {
+public class AppUtil {
     public static Parent loadView(String fxmlName, Callback<Class<?>, Object> controllerFactory){
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlName));
         if(controllerFactory!=null)

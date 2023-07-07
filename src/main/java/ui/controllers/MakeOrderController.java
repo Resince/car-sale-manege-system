@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 import server.CarManage;
 import server.PurchaseCar;
 import ui.Model;
-import ui.ViewLoader;
+import ui.AppUtil;
 
 import java.net.URL;
 import java.util.*;
@@ -111,7 +111,7 @@ public class MakeOrderController implements Initializable {
         MFXScrollPane scrollPane = new MFXScrollPane();
         scrollPane.setMaxSize(450, 380);
         confirmOrderController = new ConfirmOrderController();
-        Parent view_confirmOrder = ViewLoader.loadView("fxml/ConfirmOrder.fxml", c->confirmOrderController);
+        Parent view_confirmOrder = AppUtil.loadView("fxml/ConfirmOrder.fxml", c->confirmOrderController);
         scrollPane.setContent(view_confirmOrder);
         ScrollUtils.addSmoothScrolling(scrollPane);
 

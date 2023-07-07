@@ -24,7 +24,7 @@ public class App extends Application {
         CSSFX.start();
 
         FXMLLoader loader = new FXMLLoader(App.class.getResource("fxml/App.fxml"));
-        loader.setControllerFactory(c -> new CtrlApp(stage));
+        loader.setControllerFactory(c -> new AppController(stage));
         Scene scene = new Scene(loader.load());
         MFXThemeManager.addOn(scene, Themes.DEFAULT, Themes.LEGACY);
         scene.setFill(Color.TRANSPARENT);
