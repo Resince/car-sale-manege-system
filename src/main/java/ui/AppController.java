@@ -19,10 +19,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ui.controllers.ConfirmOrderController;
 import ui.controllers.LoginController;
 import ui.controllers.MakeOrderController;
-import ui.controllers.PayOrderController;
+import ui.controllers.OrderListController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -49,7 +48,7 @@ public class AppController implements Initializable {
 
 
     private final MakeOrderController makeOrderController;
-    private final PayOrderController payOrderController;
+    private final OrderListController payOrderController;
     private final LoginController loginController;
 
     private final ToggleGroup toggleGroup;
@@ -60,7 +59,7 @@ public class AppController implements Initializable {
         this.toggleGroup = new ToggleGroup();
         ToggleButtonsUtil.addAlwaysOneSelectedSupport(toggleGroup);
         makeOrderController = new MakeOrderController(stage);
-        payOrderController = new PayOrderController();
+        payOrderController = new OrderListController();
         loginController = new LoginController(this::enter);
     }
 
@@ -79,7 +78,7 @@ public class AppController implements Initializable {
 
         /* SETUP menu BUT NOT SHOW*/
         addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", "签订订单", true);
-        addViewToMenu("fxml/PayOrder.fxml", payOrderController, "fas-paste", "支付订单");
+        addViewToMenu("fxml/OrderList.fxml", payOrderController, "fas-paste", "支付订单");
 
 
         /* START login */

@@ -78,9 +78,11 @@ public class MakeOrderController implements Initializable {
         setConfirmDialog();
         initConstrains();
         btn_confirm.setOnMouseClicked(c -> {
-            updatePreOrder();
-            dialog.showDialog();
-            initConstrains();
+            if(checkValid()){
+                updatePreOrder();
+                dialog.showDialog();
+                initConstrains();
+            }
         });
     }
 

@@ -8,7 +8,6 @@ package ui.controllers;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXListView;
-import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +23,7 @@ import javafx.scene.layout.GridPane;
 
 import javafx.scene.layout.AnchorPane;
 
-public class PayOrderController implements Initializable {
+public class OrderListController implements Initializable {
     @FXML
     private MFXListView<MFXButton> list_orders;
     @FXML
@@ -35,7 +34,7 @@ public class PayOrderController implements Initializable {
 
     private final PayOrderDetailController payOrderDetailController;
 
-    public PayOrderController() {
+    public OrderListController() {
         payOrderDetailController = new PayOrderDetailController(this::back);
     }
 
@@ -49,7 +48,6 @@ public class PayOrderController implements Initializable {
             System.out.println("clicked");
             root.getChildren().setAll(secPage);
         });
-
         List<MFXButton> list_btn = Arrays.asList(btn);
         list_orders.setItems(FXCollections.observableList(list_btn));
     }

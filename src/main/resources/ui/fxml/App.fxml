@@ -21,7 +21,10 @@
                </padding></VBox>
               </children>
           </VBox>
-      <MFXScrollPane fx:id="contentPane" layoutX="240.0" layoutY="50.0" prefHeight="490.0" prefWidth="720.0" style="-fx-background-radius: 0 20 20 0;" />
+      <MFXScrollPane fx:id="contentPane" layoutX="240.0" layoutY="50.0" prefHeight="490.0" prefWidth="720.0" style="-fx-background-radius: 0 20 20 0;">
+         <padding>
+            <Insets left="5.0" />
+         </padding></MFXScrollPane>
         <HBox fx:id="windowHeader" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="960.0" spacing="10.0" style="-fx-background-radius: 0 20 0 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
             <Label fx:id="title" alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="377.0" text="标题">

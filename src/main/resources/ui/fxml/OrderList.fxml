@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 
-<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PayOrderController">
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.OrderListController">
    <children>
       <GridPane fx:id="priPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="700.0">
         <columnConstraints>

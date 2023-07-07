@@ -38,12 +38,12 @@
                 <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
             </GridPane.margin>
         </MFXTextField>
-        <MFXTextField fx:id="text_tel" floatMode="BORDER" floatingText="电话号码" prefWidth="200.0" styleClass="validated-field" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <MFXTextField fx:id="text_tel" floatMode="BORDER" floatingText="电话号码" prefWidth="200.0" styleClass="validated-field" textLimit="11" GridPane.columnIndex="1" GridPane.rowIndex="4">
             <GridPane.margin>
                 <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
             </GridPane.margin>
         </MFXTextField>
-        <MFXTextField fx:id="text_sid" floatMode="BORDER" floatingText="身份证号" prefWidth="200.0" styleClass="validated-field" GridPane.rowIndex="5">
+        <MFXTextField fx:id="text_sid" floatMode="BORDER" floatingText="身份证号" prefWidth="200.0" styleClass="validated-field" textLimit="18" GridPane.rowIndex="5">
             <GridPane.margin>
                 <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
             </GridPane.margin>
