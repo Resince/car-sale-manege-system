@@ -4,12 +4,18 @@ import dao.OrderDao;
 import entity.Car;
 import entity.Insurance;
 import entity.Order;
+import utils.ExcelReader;
+import utils.SqlState;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class PurchaseCar {
     private static final OrderDao manage = new OrderDao();
+
+    private static final Logger logger = Logger.getLogger(ExcelReader.class.getName()); // 日志打印类
+
 
     private static List<Insurance> insuranceList;
 
@@ -22,6 +28,8 @@ public class PurchaseCar {
      * 汽车购置税为订单总额的10%
      * 店内优惠制度为：购买纯动力汽车打九五折
      * 上牌价格当前默认1000元
+     *
+     * @param order 传入已添加用户信息和管理员信息的order订单
      */
     public static Order genPreOrder(Order order, Car car) {
         int carId = car.getCarId();
@@ -33,10 +41,14 @@ public class PurchaseCar {
     }
 
     /**
-     * 将订单添加到数据库
+     * 将订单修改为已支付状态
      */
-    public static void addConfirmedOrder(Order order) {
-        //todo
+    public static boolean confirmOrder(Order order) {
+        if (manage.updateOrder(order.setIsPay(String.valueOf(true))) == SqlState.SqlError) {
+            logger.warning("数据库更新失败");
+            return false;
+        }
+        else return manage.updateOrder(order.setIsPay(String.valueOf(true))) == SqlState.Done;
     }
 
 
@@ -45,9 +57,8 @@ public class PurchaseCar {
      * @param order 缺少
      */
     public static void addPreOrder(Order order){
-        // todo
+        manage.addOrder(order);
     }
-
 
 
     /**
@@ -79,7 +90,7 @@ public class PurchaseCar {
 
 
     /**
-     * 获取订单总金额
+     * 获取订单总金额（不包含服务费）
      */
     public static Double getSum(Order order, Car car) {
         double sum = 0;
@@ -92,10 +103,13 @@ public class PurchaseCar {
         return sum;
     }
 
-    public static Double getServerPrice(Order order, Car car) {
-        final double rate = 0.01;
-        return getSum(order, car) * rate;
-    }
+//    /**
+//     * 服务费为订单总额的1%
+//     */
+//    public static Double getServerPrice(Order order, Car car) {
+//        final double rate = 0.01;
+//        return getSum(order, car) * rate;
+//    }
 
     /**
      * 根据订单id搜索订单
@@ -105,11 +119,18 @@ public class PurchaseCar {
         return manage.searchOrder(o.setOrderId(id));
     }
 
+    /**
+     * 定价为车辆价格的10%
+     */
     private static int culDeposit(double price) {
         final double rate = 0.1;
         return (int) (rate * price);
     }
 
+    /**
+     * 折扣
+     * 纯电动打九五折
+     */
     private static int culPmtDiscount(String type, double price) {
         final double rate = 0.05;
         if (type.equals("纯电动")) {
@@ -119,6 +140,10 @@ public class PurchaseCar {
         }
     }
 
+    /**
+     * 税额
+     * 税额为计税额的10%
+     */
     private static int culPurchaseTax(List<Insurance> insurances, double price, double deposit, double pmtDiscount, boolean hasLicenseServer) {
         // 牌照价格
         final double licensePrice = 0.1;
@@ -129,7 +154,8 @@ public class PurchaseCar {
         sum += price; // 车辆价格
         sum += deposit; // 定价
         sum -= pmtDiscount;  // 优惠价格
-        if (hasLicenseServer) sum += licensePrice; //上牌价格默认0.1万元
+        if (hasLicenseServer) sum += licensePrice; //上牌价格默认0.
+
         return (int) (sum * rate);
     }
 
