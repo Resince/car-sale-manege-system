@@ -58,6 +58,8 @@ public class MakeOrderController implements Initializable {
     private final List<String> insuranceOpts;
     private final List<String> regCarOpts;
 
+    private final ConfirmOrderController confirmOrderController;
+
     private final List<MFXTextField> needValidate;
     private String name, tel, sid, addr;
 
@@ -66,6 +68,7 @@ public class MakeOrderController implements Initializable {
         insuranceOpts = Arrays.asList("交强险", "第三者责任险", "车损险", "附加险");
         regCarOpts = Arrays.asList("是", "否");
         needValidate = new ArrayList<>();
+        confirmOrderController=new ConfirmOrderController();
     }
 
     @Override
@@ -75,7 +78,7 @@ public class MakeOrderController implements Initializable {
 
         MFXScrollPane scrollPane = new MFXScrollPane();
         scrollPane.setMaxSize(450, 380);
-        Parent view_confirmOrder = ViewLoader.loadView("fxml/ConfirmOrder.fxml", null);
+        Parent view_confirmOrder = ViewLoader.loadView("fxml/ConfirmOrder.fxml", c->confirmOrderController);
         scrollPane.setContent(view_confirmOrder);
         ScrollUtils.addSmoothScrolling(scrollPane);
 
