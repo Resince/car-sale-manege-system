@@ -30,9 +30,9 @@
     <insert id="addOrder" parameterType="entity.Car" keyProperty="orderId" useGeneratedKeys="true">
         insert `order`
         (carId,userId,cusId,orderTime,cusName,cusPhone,
-        hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax,address)
+        hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax,cusAddress)
         values (#{carId},#{userId},#{cusId},#{orderTime},#{cusName},#{cusPhone},
-        #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax},#{address})
+        #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax},#{cusAddress})
     </insert>
 
     <insert id="addPurIns">
@@ -63,7 +63,7 @@
         deposit,
         deliveryTime,
         purchaseTax,
-        address,
+        cusAddress,
         i.insName as ina,
         price
         from `order` left join purIns on `order`.orderId = purIns.orderId
@@ -82,8 +82,12 @@
             <if test="deposit!=null">and deposit = #{deposit}</if>
             <if test="deliveryTime!=null">and deliveryTime = #{deliveryTime}</if>
             <if test="purchaseTax!=null">and purchaseTax = #{purchaseTax}</if>
-            <if test="address!=null">and address = #{address}</if>
+            <if test="cusAddress!=null">and cusAddress = #{cusAddress}</if>
         </where>
+    </select>
+
+    <select id="searchAllInsurance" resultType="entity.Insurance">
+        select * from Insurances
     </select>
 
     <!--  更新  -->
@@ -101,7 +105,7 @@
             <if test="deposit!=null">deposit = #{deposit},</if>
             <if test="deliveryTime!=null">deliveryTime = #{deliveryTime},</if>
             <if test="purchaseTax!=null">purchaseTax = #{purchaseTax},</if>
-            <if test="address!=null">address = #{address},</if>
+            <if test="cusAddress!=null">cusAddress = #{cusAddress},</if>
         </set>
         where orderId = #{orderId}
     </update>

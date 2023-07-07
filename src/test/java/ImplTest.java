@@ -6,6 +6,7 @@ import entity.Insurance;
 import entity.Order;
 import entity.User;
 import org.junit.Test;
+import server.PurchaseCar;
 import utils.SqlState;
 
 import java.time.LocalTime;
@@ -75,7 +76,7 @@ public class ImplTest {
 
     OrderDao orderDao = new OrderDao();
     List<Insurance> insurances = new ArrayList<>();
-    Order order = new Order(2542, 17, "2023-01-21", 1233456678, "客户1", "123456789", insurances, true, "全额付款", 123, 234, "2024-01-01", 500,"dfasdf");
+    Order order = new Order(2849, 17, "2023-01-21", 1233456678, "客户1", "123456789", insurances, true, "全额付款", 123, 234, "2024-01-01", 500,"dfasdf");
 
     @Test
     public void testOrderInsert() {
@@ -106,13 +107,15 @@ public class ImplTest {
     }
 
     @Test
-    public void testSearchInsByOrderId(){
-        System.out.println(orderDao.searchInsByOrderId(1));
-    }
-
-    @Test
     public void testSearchCar(){
         System.out.println(carDao.searchCarByPrice(2, 8));
     }
 
+    @Test
+    public void testGetInsurancePrice(){
+        Insurance insurance = new Insurance("车损险");
+//        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
+//        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
+//        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
+    }
 }

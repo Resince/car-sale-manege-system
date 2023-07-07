@@ -1,5 +1,7 @@
 package ui.controllers;
 
+import entity.Insurance;
+import entity.Order;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
@@ -18,11 +20,12 @@ import javafx.scene.Parent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import server.CarManage;
+import server.PurchaseCar;
 import ui.ViewLoader;
+
 import java.net.URL;
 import java.util.*;
-import java.util.List;
-import server.CarManage;
 
 /**
  * Created with IntelliJ IDEA.
@@ -61,7 +64,10 @@ public class MakeOrderController implements Initializable {
     private final ConfirmOrderController confirmOrderController;
 
     private final List<MFXTextField> needValidate;
-    private String name, tel, sid, addr;
+    private String name, tel, sid, addr,series,brand;
+    private List<Insurance> insuranceList;
+    private boolean hasLicenseServer;
+    private Order order;
 
     public MakeOrderController(Stage stage) {
         this.stage = stage;
@@ -73,6 +79,7 @@ public class MakeOrderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        order = new Order();
         list_insurance.setItems(FXCollections.observableList(insuranceOpts));
         combo_regCar.setItems(FXCollections.observableList(regCarOpts));
 
@@ -105,20 +112,34 @@ public class MakeOrderController implements Initializable {
                     combo_model.setItems(FXCollections.observableList(bsMap.get(new_value).stream().toList()));
                 }
         );
+
         dialogContent.addActions(
                 Map.entry(new MFXButton("Confirm"), event -> {
-                    //TODO
+
                 }),
                 Map.entry(new MFXButton("Cancel"), event -> dialog.close())
         );
 
         btn_confirm.setOnMouseClicked(c -> {
             if (checkValid()) {
+                insuranceList = new ArrayList<>();
                 name = text_name.getText();
                 sid = text_sid.getText();
                 tel = text_tel.getText();
                 addr = text_addr.getText();
-                System.out.println(name + addr + tel + sid);
+                brand =  combo_model.getSelectionModel().getSelectedItem();
+                series  = combo_brand.getSelectionModel().getSelectedItem();
+                list_insurance.getSelectionModel().getSelectedValues().forEach(item->{
+                    insuranceList.add(new Insurance(item));
+                });
+                hasLicenseServer = combo_regCar.getSelectionModel().getSelectedItem().equals("是");
+                order.setHasLicenseServer(hasLicenseServer)
+                        .setCusId(Integer.valueOf(sid))
+                        .setCusName(name)
+                        .setCusPhone(tel)
+                        .setCusAddress(addr)
+                        .setInsurances(insuranceList);
+                System.out.println(PurchaseCar.addPreOrder(order, brand, series));
                 dialog.showDialog();
             }
         });

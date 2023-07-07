@@ -8,6 +8,7 @@ import io.github.palexdev.materialfx.utils.ToggleButtonsUtil;
 import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -17,14 +18,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.fxml.Initializable;
 import javafx.stage.Stage;
+import ui.controllers.ConfirmOrderController;
+import ui.controllers.MakeOrderController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import ui.controllers.ConfirmOrderController;
-import ui.controllers.MakeOrderController;
 
 public class CtrlApp implements Initializable {
 

@@ -11,7 +11,7 @@ public class CarManageTest {
 
     @Test
     public void testAddCarList() {
-        System.out.println(CarManage.addCarList(""));
+        System.out.println(CarManage.addCarList("C:\\Users\\Resince\\Desktop\\test(1).xlsx"));
     }
 
     @Test

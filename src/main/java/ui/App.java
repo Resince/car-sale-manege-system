@@ -1,14 +1,14 @@
 package ui;
 
+import fr.brouillard.oss.cssfx.CSSFX;
+import io.github.palexdev.materialfx.css.themes.MFXThemeManager;
+import io.github.palexdev.materialfx.css.themes.Themes;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import fr.brouillard.oss.cssfx.CSSFX;
-import io.github.palexdev.materialfx.css.themes.MFXThemeManager;
-import io.github.palexdev.materialfx.css.themes.Themes;
 /**
  * Created with IntelliJ IDEA.
  * author： Shuowei Hou

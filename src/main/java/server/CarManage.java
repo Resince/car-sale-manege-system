@@ -76,10 +76,14 @@ public class CarManage {
     }
 
     /**
+     * 返回第一辆brand&series的Car
+     */
+    public static Car searchCarByBrandSeries(String brand,String series){
+        return manage.searchCar(new Car().setSeries(series).setBrand(brand)).get(0);
+    }
+
+    /**
      * 根据车辆品牌进行搜索
-     *
-     * @param brand 车辆品牌
-     * @return 返回车辆集合
      */
     public static List<Car> searchCarByBrand(String brand) {
         Car c = new Car();
