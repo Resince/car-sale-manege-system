@@ -24,8 +24,7 @@ public class PurchaseCar {
      * 店内优惠制度为：购买纯动力汽车打九五折
      * 上牌价格当前默认1000元
      */
-    public static Order addPreOrder(Order order, String brand, String series) {
-        Car car = CarManage.searchCarByBrandSeries(brand, series);
+    public static Order addPreOrder(Order order, Car car) {
         int carId = car.getCarId();
         double price = car.getPrice();
         int deposit = culDeposit(price);
@@ -35,28 +34,40 @@ public class PurchaseCar {
     }
 
     /**
+     * 将订单添加到数据库
+     */
+    public static void addConfirmedOrder(Order order){
+        //todo
+    }
+
+
+
+    public static Car getCarByBrandSeries(Car car){
+        return CarManage.searchCarByBrandSeries(car.getBrand(), car.getSeries());
+    }
+    /**
      * 获取订单总金额
      */
-    public static double getSum(Order o) {
-        CarDao searchCar = new CarDao();
-        Car c = searchCar.selectCarByCarId(o.getCarId());
+    public static Double getSum(Order order,Car car) {
         double sum = 0;
-        for (Insurance i : o.getInsurances()) {
+        for (Insurance i : order.getInsurances()) {
             sum += getInsurancePrice(i).getPrice(); // 保险
         }
-        sum += c.getPrice(); // 车辆价格
-        sum += o.getDeposit(); // 定金
-        sum += o.getPurchaseTax(); // 税额
-        sum -= o.getPmtDiscount(); // 折扣
-        if (o.getHasLicenseServer()) sum += 0.1; // 上牌
+        sum += car.getPrice(); // 车辆价格
+        sum += order.getDeposit(); // 定金
+        sum += order.getPurchaseTax(); // 税额
+        sum -= order.getPmtDiscount(); // 折扣
+        if (order.getHasLicenseServer()) sum += 0.1; // 上牌
         return sum;
+    }
+
+    public static Double getServerPrice(Order order,Car car){
+        final double rate=0.01;
+        return getSum(order,car)*rate;
     }
 
     /**
      * 根据订单id搜索订单
-     *
-     * @param id 订单id
-     * @return 返回订单集合，根据订单id搜索订单时，集合中应只有一个元素
      */
     public static List<Order> searchOrder(int id) {
         Order o = new Order();

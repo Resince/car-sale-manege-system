@@ -6,11 +6,18 @@
  */
 package ui.controllers;
 
+import entity.Car;
+import entity.Insurance;
+import entity.Order;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import org.apache.poi.util.LittleEndian;
+import server.PurchaseCar;
+import ui.Model;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ConfirmOrderController implements Initializable {
@@ -46,20 +53,31 @@ public class ConfirmOrderController implements Initializable {
 
     }
 
-    public void setContent(String[] contents) {
-        addr.setText(contents[0]);
-        addr.setText(contents[1]);
-        brand.setText(contents[2]);
-        carPrice.setText(contents[3]);
-        insurance.setText(contents[4]);
-        insurancePrice.setText(contents[5]);
-        model.setText(contents[6]);
-        name.setText(contents[7]);
-        regCar.setText(contents[8]);
-        servicePrice.setText(contents[9]);
-        sid.setText(contents[10]);
-        taxPrice.setText(contents[11]);
-        tel.setText(contents[12]);
-        totalPrice.setText(contents[13]);
+    public  void loadNewData(){
+        Order preOrder = Model.getPreOrder();
+        Car car = Model.getCar();
+        setContent(preOrder,car);
+    }
+
+    public void setContent(Order order,Car car) {
+        addr.setText(order.getCusAddress());
+        brand.setText(car.getBrand());
+        carPrice.setText(car.getPrice().toString());
+        insurance.setText(car.getPrice().toString());
+        insurancePrice.setText(formatInsuranceList(order.getInsurances()));
+        model.setText(car.getSeries());
+        name.setText(order.getCusName());
+        regCar.setText(order.getHasLicenseServer() ?"是":"否");
+        servicePrice.setText(PurchaseCar.getServerPrice(order,car).toString());
+        sid.setText(order.getCarId().toString());
+        taxPrice.setText(order.getPurchaseTax().toString());
+        tel.setText(order.getCusPhone());
+        totalPrice.setText(PurchaseCar.getSum(order,car).toString());
+    }
+
+    private String formatInsuranceList(List<Insurance> insurances){
+        StringBuilder sj = new StringBuilder();
+        insurances.forEach(item->sj.append(item.toString()).append("\n"));
+        return sj.toString();
     }
 }

@@ -1,5 +1,6 @@
 package ui.controllers;
 
+import entity.Car;
 import entity.Insurance;
 import entity.Order;
 import io.github.palexdev.materialfx.controls.*;
@@ -22,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import server.CarManage;
 import server.PurchaseCar;
+import ui.Model;
 import ui.ViewLoader;
 
 import java.net.URL;
@@ -60,31 +62,55 @@ public class MakeOrderController implements Initializable {
     private final Stage stage;
     private final List<String> insuranceOpts;
     private final List<String> regCarOpts;
-
-    private final ConfirmOrderController confirmOrderController;
-
     private final List<MFXTextField> needValidate;
-    private String name, tel, sid, addr,series,brand;
     private List<Insurance> insuranceList;
-    private boolean hasLicenseServer;
-    private Order order;
+    ConfirmOrderController confirmOrderController;
 
     public MakeOrderController(Stage stage) {
         this.stage = stage;
         insuranceOpts = Arrays.asList("交强险", "第三者责任险", "车损险", "附加险");
         regCarOpts = Arrays.asList("是", "否");
         needValidate = new ArrayList<>();
-        confirmOrderController=new ConfirmOrderController();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        order = new Order();
+        setComboBoxItem();
+        setConfirmDialog();
+        btn_confirm.setOnMouseClicked(c -> {
+            submitPreOrder();
+            dialog.showDialog();
+            updateDialogContain();
+            initConstrains();
+        });
+    }
+
+
+
+    /**
+     * 设置下拉菜单内容
+     */
+    private void setComboBoxItem(){
+        Map<String, Set<String>> bsMap = CarManage.getBSMap();
+        List<String> brandlist = bsMap.keySet().stream().toList();
+        combo_model.setItems(FXCollections.observableList(CarManage.getSeries().stream().toList()));
+        combo_brand.setItems(FXCollections.observableList(brandlist));
+        combo_brand.getSelectionModel().selectedItemProperty().addListener(
+                (ObservableValue<? extends String> ov, String old_value, String new_value) -> {
+                    combo_model.setItems(FXCollections.observableList(bsMap.get(new_value).stream().toList()));
+                }
+        );
         list_insurance.setItems(FXCollections.observableList(insuranceOpts));
         combo_regCar.setItems(FXCollections.observableList(regCarOpts));
+    }
 
+    /**
+     * 设置确认菜单内容
+     */
+    private void setConfirmDialog(){
         MFXScrollPane scrollPane = new MFXScrollPane();
         scrollPane.setMaxSize(450, 380);
+        confirmOrderController = new ConfirmOrderController();
         Parent view_confirmOrder = ViewLoader.loadView("fxml/ConfirmOrder.fxml", c->confirmOrderController);
         scrollPane.setContent(view_confirmOrder);
         ScrollUtils.addSmoothScrolling(scrollPane);
@@ -103,48 +129,41 @@ public class MakeOrderController implements Initializable {
         dialog.setScrimPriority(ScrimPriority.WINDOW);
         dialog.setScrimOwner(true);
 
-        Map<String, Set<String>> bsMap = CarManage.getBSMap();
-        List<String> brandlist = bsMap.keySet().stream().toList();
-        combo_model.setItems(FXCollections.observableList(CarManage.getSeries().stream().toList()));
-        combo_brand.setItems(FXCollections.observableList(brandlist));
-        combo_brand.getSelectionModel().selectedItemProperty().addListener(
-                (ObservableValue<? extends String> ov ,String old_value,String new_value)->{
-                    combo_model.setItems(FXCollections.observableList(bsMap.get(new_value).stream().toList()));
-                }
-        );
-
         dialogContent.addActions(
                 Map.entry(new MFXButton("Confirm"), event -> {
-
+                    //todo
+                    // 将数据添加到数据库
                 }),
                 Map.entry(new MFXButton("Cancel"), event -> dialog.close())
         );
+    }
 
-        btn_confirm.setOnMouseClicked(c -> {
-            if (checkValid()) {
-                insuranceList = new ArrayList<>();
-                name = text_name.getText();
-                sid = text_sid.getText();
-                tel = text_tel.getText();
-                addr = text_addr.getText();
-                brand =  combo_model.getSelectionModel().getSelectedItem();
-                series  = combo_brand.getSelectionModel().getSelectedItem();
-                list_insurance.getSelectionModel().getSelectedValues().forEach(item->{
-                    insuranceList.add(new Insurance(item));
-                });
-                hasLicenseServer = combo_regCar.getSelectionModel().getSelectedItem().equals("是");
-                order.setHasLicenseServer(hasLicenseServer)
-                        .setCusId(Integer.valueOf(sid))
-                        .setCusName(name)
-                        .setCusPhone(tel)
-                        .setCusAddress(addr)
-                        .setInsurances(insuranceList);
-                System.out.println(PurchaseCar.addPreOrder(order, brand, series));
-                dialog.showDialog();
-            }
-        });
+    private void updateDialogContain() {
+        confirmOrderController.loadNewData();
+    }
 
-        initConstrains();
+    private void submitPreOrder() {
+        if (checkValid()) {
+            Order order = new Order();
+            insuranceList = new ArrayList<>();
+            list_insurance.getSelectionModel().getSelectedValues().forEach(item -> {
+                insuranceList.add(new Insurance(item));
+            });
+
+            order.setHasLicenseServer(combo_regCar.getSelectionModel().getSelectedItem().equals("是"))
+                    .setCusId(text_sid.getText())
+                    .setCusName(text_name.getText())
+                    .setCusPhone(text_tel.getText())
+                    .setCusAddress(text_addr.getText())
+                    .setInsurances(insuranceList);
+
+            Car selectCar = PurchaseCar.getCarByBrandSeries(new Car().setBrand(combo_model.getSelectionModel()
+                    .getSelectedItem()).setSeries(combo_brand.getSelectionModel().getSelectedItem()));
+            Order order1 = PurchaseCar.addPreOrder(order, selectCar);
+
+            Model.setPreOrder(order1);
+            Model.setCar(selectCar);
+        }
     }
 
     private void initConstrains() {

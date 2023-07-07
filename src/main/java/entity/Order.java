@@ -9,7 +9,7 @@ public class Order {
     private Integer orderId;
     private Integer carId;
     private Integer userId;
-    private Integer cusId;
+    private String cusId;
     private Date orderTime;
     private String cusName;
     private String cusPhone;
@@ -23,7 +23,7 @@ public class Order {
     private String cusAddress;
 
     // 时间只需要用字符串来创建
-    public Order(Integer carId, Integer userId, String orderTime, Integer cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax,String address) {
+    public Order(Integer carId, Integer userId, String orderTime, String cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax,String address) {
         this.carId = carId;
         this.userId = userId;
         this.cusId = cusId;
@@ -45,7 +45,7 @@ public class Order {
     }
 
     // 提供给xml文件使用
-    public Order(Integer orderId, Integer carId, Integer userId, Integer cusId, Date orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Date deliveryTime, Integer purchaseTax, String address) {
+    public Order(Integer orderId, Integer carId, Integer userId, String cusId, Date orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Date deliveryTime, Integer purchaseTax, String address) {
         this.carId = carId;
         this.userId = userId;
         this.cusId = cusId;
@@ -93,11 +93,11 @@ public class Order {
         return this;
     }
 
-    public Integer getCusId() {
+    public String getCusId() {
         return cusId;
     }
 
-    public Order setCusId(Integer cusId) {
+    public Order setCusId(String cusId) {
         this.cusId = cusId;
         return this;
     }
