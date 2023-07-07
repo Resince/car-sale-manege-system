@@ -104,6 +104,7 @@ public class Car {
                 ", powerType='" + powerType + '\'' +
                 ", brand='" + brand + '\'' +
                 ", series='" + series + '\'' +
+                ", number = '" + number + '\'' +
                 '}';
     }
 

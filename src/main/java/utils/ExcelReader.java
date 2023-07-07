@@ -1,5 +1,6 @@
 package utils;
 
+import dao.CarDao;
 import entity.Car;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -125,7 +126,7 @@ public class ExcelReader {
                 }
 
                 Car resultData = convertRowToData(row);
-                System.out.println(resultData);
+
                 if (null == resultData) {
                     logger.warning("第" + row.getRowNum() + "行数据不合法，已忽略！");
                     continue;
@@ -222,7 +223,18 @@ public class ExcelReader {
         String series = convertCellValueToString(cell);
         resultData.setSeries(series);
 
-        return resultData.setNumber(5);
+        // 获取number
+        cell = row.getCell(cellNum++);
+        String number = convertCellValueToString(cell);
+        if (null == price || "".equals(price)) {
+            // 价格为空
+            resultData.setNumber(0);
+        } else {
+            resultData.setNumber(Integer.parseInt(number));
+        }
+
+        return resultData;
     }
+
 
 }
