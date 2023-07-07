@@ -125,7 +125,7 @@ public class ExcelReader {
                 }
 
                 Car resultData = convertRowToData(row);
-
+                System.out.println(resultData);
                 if (null == resultData) {
                     logger.warning("第" + row.getRowNum() + "行数据不合法，已忽略！");
                     continue;
@@ -222,7 +222,7 @@ public class ExcelReader {
         String series = convertCellValueToString(cell);
         resultData.setSeries(series);
 
-        return resultData;
+        return resultData.setNumber(5);
     }
 
 }

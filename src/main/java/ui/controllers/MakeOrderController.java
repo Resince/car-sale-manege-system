@@ -23,7 +23,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import server.CarManage;
 import server.PurchaseCar;
-import ui.Model;
 import ui.AppUtil;
 
 import java.net.URL;
@@ -64,6 +63,7 @@ public class MakeOrderController implements Initializable {
     private final List<String> regCarOpts;
     private final List<MFXTextField> needValidate;
     private List<Insurance> insuranceList;
+    Order order = new Order();
     ConfirmOrderController confirmOrderController;
 
     public MakeOrderController(Stage stage) {
@@ -78,9 +78,8 @@ public class MakeOrderController implements Initializable {
         setComboBoxItem();
         setConfirmDialog();
         btn_confirm.setOnMouseClicked(c -> {
-            submitPreOrder();
+            updatePreOrder();
             dialog.showDialog();
-            updateDialogContain();
             initConstrains();
         });
     }
@@ -97,6 +96,7 @@ public class MakeOrderController implements Initializable {
         combo_brand.setItems(FXCollections.observableList(brandlist));
         combo_brand.getSelectionModel().selectedItemProperty().addListener(
                 (ObservableValue<? extends String> ov, String old_value, String new_value) -> {
+                    combo_model.clearSelection();
                     combo_model.setItems(FXCollections.observableList(bsMap.get(new_value).stream().toList()));
                 }
         );
@@ -131,20 +131,14 @@ public class MakeOrderController implements Initializable {
 
         dialogContent.addActions(
                 Map.entry(new MFXButton("Confirm"), event -> {
-                    //todo
-                    // 将数据添加到数据库
+                    PurchaseCar.addPreOrder(order.setIsPay("false"));
                 }),
                 Map.entry(new MFXButton("Cancel"), event -> dialog.close())
         );
     }
 
-    private void updateDialogContain() {
-        confirmOrderController.loadNewData();
-    }
-
-    private void submitPreOrder() {
+    private void updatePreOrder() {
         if (checkValid()) {
-            Order order = new Order();
             insuranceList = new ArrayList<>();
             list_insurance.getSelectionModel().getSelectedValues().forEach(item -> {
                 insuranceList.add(new Insurance(item));
@@ -157,12 +151,11 @@ public class MakeOrderController implements Initializable {
                     .setCusAddress(text_addr.getText())
                     .setInsurances(insuranceList);
 
-            Car selectCar = PurchaseCar.getCarByBrandSeries(new Car().setBrand(combo_model.getSelectionModel()
-                    .getSelectedItem()).setSeries(combo_brand.getSelectionModel().getSelectedItem()));
-            Order order1 = PurchaseCar.addPreOrder(order, selectCar);
-
-            Model.setPreOrder(order1);
-            Model.setCar(selectCar);
+            Car selectCar = PurchaseCar.getCarByBrandSeries(new Car()
+                    .setBrand(combo_brand.getSelectionModel().getSelectedItem())
+                    .setSeries(combo_model.getSelectionModel().getSelectedItem()));
+            order = PurchaseCar.genPreOrder(order, selectCar);
+            confirmOrderController.setContent(order,selectCar);
         }
     }
 

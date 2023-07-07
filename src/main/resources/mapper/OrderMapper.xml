@@ -20,6 +20,7 @@
         <result property="deliveryTime" column="deliveryTime"/>
         <result property="purchaseTax" column="purchaseTax"/>
         <result property="address" column="address"/>
+        <result property="isPay" column="isPay"/>
         <collection property="insurances" ofType="entity.Insurance" >
             <id column="ina" property="insName"/>
             <result property="price" column="price"/>
@@ -30,9 +31,9 @@
     <insert id="addOrder" parameterType="entity.Car" keyProperty="orderId" useGeneratedKeys="true">
         insert `order`
         (carId,userId,cusId,orderTime,cusName,cusPhone,
-        hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax,cusAddress)
+        hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax,cusAddress,isPay)
         values (#{carId},#{userId},#{cusId},#{orderTime},#{cusName},#{cusPhone},
-        #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax},#{cusAddress})
+        #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax},#{cusAddress},#{isPay})
     </insert>
 
     <insert id="addPurIns">
@@ -65,7 +66,8 @@
         purchaseTax,
         cusAddress,
         i.insName as ina,
-        price
+        price,
+        isPay
         from `order` left join purIns on `order`.orderId = purIns.orderId
         left join Insurances i on purIns.insName = i.insName
         <where>
@@ -83,6 +85,7 @@
             <if test="deliveryTime!=null">and deliveryTime = #{deliveryTime}</if>
             <if test="purchaseTax!=null">and purchaseTax = #{purchaseTax}</if>
             <if test="cusAddress!=null">and cusAddress = #{cusAddress}</if>
+            <if test="isPay!= null">and isPay = #{isPay}</if>
         </where>
     </select>
 
@@ -106,6 +109,7 @@
             <if test="deliveryTime!=null">deliveryTime = #{deliveryTime},</if>
             <if test="purchaseTax!=null">purchaseTax = #{purchaseTax},</if>
             <if test="cusAddress!=null">cusAddress = #{cusAddress},</if>
+            <if test="isPay!=null">isPay= #{isPay},</if>
         </set>
         where orderId = #{orderId}
     </update>

@@ -7,6 +7,7 @@ import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import io.github.palexdev.mfxresources.fonts.MFXIconWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import server.UserAccess;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,7 +26,7 @@ public class LoginController implements Initializable {
     @FXML
     private MFXPasswordField text_passwd;
     @FXML
-    private MFXTextField text_username;
+    private MFXTextField text_phone;
 
     Runnable enter;
 
@@ -37,8 +38,15 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         node_icon.setIcon(new MFXFontIcon("fas-user", 80));
         btn_login.setOnMouseClicked(event -> {
-            // TODO: check login
+            checkValid();
             enter.run();
         });
     }
+
+    private void checkValid(){
+        UserAccess.phoneNumberIsValid(text_phone.getText());
+        int phone = Integer.parseInt(text_phone.getText());
+        UserAccess.authenticate(phone,text_passwd.getText());
+    }
+
 }

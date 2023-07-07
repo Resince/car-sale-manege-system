@@ -6,7 +6,6 @@ import entity.Insurance;
 import entity.Order;
 import entity.User;
 import org.junit.Test;
-import server.PurchaseCar;
 import utils.SqlState;
 
 import java.time.LocalTime;
@@ -76,7 +75,7 @@ public class ImplTest {
 
     OrderDao orderDao = new OrderDao();
     List<Insurance> insurances = new ArrayList<>();
-    Order order = new Order(2849, 17, "2023-01-21", "1233456678", "客户1", "123456789", insurances, true, "全额付款", 123, 234, "2024-01-01", 500,"dfasdf");
+    Order order = new Order(2849, 17, "2023-01-21", "1233456678", "客户1", "123456789", insurances, true, "全额付款", 123, 234, "2024-01-01", 500,"dfasdf","true");
 
     @Test
     public void testOrderInsert() {

@@ -21,9 +21,10 @@ public class Order {
     private Date deliveryTime;
     private Integer purchaseTax;
     private String cusAddress;
+    private String isPay;
 
     // 时间只需要用字符串来创建
-    public Order(Integer carId, Integer userId, String orderTime, String cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax,String address) {
+    public Order(Integer carId, Integer userId, String orderTime, String cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax,String address,String isPay) {
         this.carId = carId;
         this.userId = userId;
         this.cusId = cusId;
@@ -36,6 +37,7 @@ public class Order {
         this.deposit = deposit;
         this.purchaseTax = purchaseTax;
         this.cusAddress = address;
+        this.isPay = isPay;
         try {
             this.orderTime = orderTime == null ? null : new SimpleDateFormat("yyyy-MM-dd").parse(orderTime);
             this.deliveryTime = deliveryTime == null ? null : new SimpleDateFormat("yyyy-MM-dd").parse(deliveryTime);
@@ -45,7 +47,7 @@ public class Order {
     }
 
     // 提供给xml文件使用
-    public Order(Integer orderId, Integer carId, Integer userId, String cusId, Date orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Date deliveryTime, Integer purchaseTax, String address) {
+    public Order(Integer orderId, Integer carId, Integer userId, String cusId, Date orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Date deliveryTime, Integer purchaseTax, String address,String isPay) {
         this.carId = carId;
         this.userId = userId;
         this.cusId = cusId;
@@ -61,9 +63,19 @@ public class Order {
         this.orderId = orderId;
         this.orderTime = orderTime;
         this.deliveryTime = deliveryTime;
+        this.isPay = isPay;
     }
 
     public Order() {
+    }
+
+    public String getIsPay() {
+        return isPay;
+    }
+
+    public Order setIsPay(String isPay) {
+        this.isPay = isPay;
+        return this;
     }
 
     public Integer getOrderId() {

@@ -12,9 +12,8 @@ import entity.Order;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import org.apache.poi.util.LittleEndian;
+import javafx.scene.layout.RowConstraints;
 import server.PurchaseCar;
-import ui.Model;
 
 import java.net.URL;
 import java.util.List;
@@ -47,37 +46,45 @@ public class ConfirmOrderController implements Initializable {
     private Label tel;
     @FXML
     private Label totalPrice;
+    @FXML
+    private RowConstraints grid9;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
     }
 
-    public  void loadNewData(){
-        Order preOrder = Model.getPreOrder();
-        Car car = Model.getCar();
-        setContent(preOrder,car);
-    }
-
-    public void setContent(Order order,Car car) {
+    public void setContent(Order order, Car car) {
         addr.setText(order.getCusAddress());
         brand.setText(car.getBrand());
         carPrice.setText(car.getPrice().toString());
-        insurance.setText(car.getPrice().toString());
-        insurancePrice.setText(formatInsuranceList(order.getInsurances()));
+        insurance.setText(formatInsuranceList(order.getInsurances()));
+        insurancePrice.setText(PurchaseCar.getInsuranceListPrice(order.getInsurances()).toString());
         model.setText(car.getSeries());
         name.setText(order.getCusName());
-        regCar.setText(order.getHasLicenseServer() ?"是":"否");
-        servicePrice.setText(PurchaseCar.getServerPrice(order,car).toString());
-        sid.setText(order.getCarId().toString());
+        regCar.setText(order.getHasLicenseServer() ? "是" : "否");
+        servicePrice.setText(PurchaseCar.getServerPrice(order, car).toString());
+        sid.setText(order.getCusId());
         taxPrice.setText(order.getPurchaseTax().toString());
         tel.setText(order.getCusPhone());
-        totalPrice.setText(PurchaseCar.getSum(order,car).toString());
+        totalPrice.setText(PurchaseCar.getSum(order, car).toString());
     }
 
-    private String formatInsuranceList(List<Insurance> insurances){
+    /**
+     * 修正边框高度，以便容纳保险名单
+     */
+    private String formatInsuranceList(List<Insurance> insurances) {
         StringBuilder sj = new StringBuilder();
-        insurances.forEach(item->sj.append(item.toString()).append("\n"));
+        for (int i = 0; i < insurances.size(); i++) {
+            sj.append(insurances.get(i).getInsName());
+            if(i%2==1){
+                sj.append("\n");
+            } else {
+                sj.append(" ");
+            }
+        }
+        insurance.setWrapText(true);
+        grid9.setMaxHeight(25 * insurances.size());
         return sj.toString();
     }
+
 }
