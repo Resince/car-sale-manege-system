@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import server.CarManage;
 import server.PurchaseCar;
 import ui.controllers.*;
 
@@ -28,7 +29,6 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
 public class AppController implements Initializable {
     @FXML
@@ -156,15 +156,8 @@ public class AppController implements Initializable {
 
     private void showCarManagePage() {
         btn_back.setVisible(false);
-
-        //TODO:查询车辆列表
-        carManageController.setCars(Arrays.asList(
-                new Car(1234, 12.2, "A", "油", "奥迪", "6", 4),
-                new Car(2234, 16.2, "x", "电", "奔驰", "2", 42),
-                new Car(3234, 14.2, "T", "混", "奔奔", "2", 0),
-                new Car(4234, 222.2, "C", "增", "雪弗莱", "5", 1)
-        ));
-
+        List<Car> carList = CarManage.searchAllCarList();
+        carManageController.setCars(carList);
         setSceneContent(carManagePage, "车辆管理");
     }
 

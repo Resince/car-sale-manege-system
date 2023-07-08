@@ -80,6 +80,12 @@ public class CarDao {
         return carDao.searchCarByPrice(priceLeft, priceRight);
     }
 
+    public List<Car> searchAllCarList(){
+        SqlSession sqlSession = SqlConnection.getSession();
+        carDao = sqlSession.getMapper(CarMapper.class);
+        return carDao.selectCar(new Car());
+    }
+
     /**
      * 根据carID搜索车辆
      *

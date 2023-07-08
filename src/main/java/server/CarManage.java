@@ -26,8 +26,7 @@ public class CarManage {
     /**
      * 添加单个车辆信息
      */
-    public static boolean addCar(double price, String type, String powerType, String brand, String series, int number) {
-        Car car = new Car(price, type, powerType, brand, series, number);
+    public static boolean addCar(Car car) {
         return manage.addCar(car).getCarId() != null;
     }
 
@@ -65,6 +64,10 @@ public class CarManage {
             logger.warning("数据库删除失败");
             return false;
         } else return manage.deleteCarById(carID) == SqlState.Done;
+    }
+
+    public static List<Car> searchAllCarList(){
+        return manage.searchAllCarList();
     }
 
     /**

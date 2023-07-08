@@ -3,14 +3,13 @@ package ui.controllers;
 import entity.Car;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import server.CarManage;
 import ui.AppUtil;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -43,8 +42,9 @@ public class CarDetailController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btn_confirm.setOnMouseClicked(event -> {
-            if(AppUtil.checkValid(needValidate)){
-
+            if(!AppUtil.checkValid(needValidate)){
+                addCar();
+                // TODO 看看这对不对
             }
         });
         initConstrains();
@@ -58,6 +58,17 @@ public class CarDetailController implements Initializable {
             AppUtil.addConstraint(textField, AppUtil.ConstraintType.NotNull);
             AppUtil.setValidatorListener(textField);
         }
+    }
+
+    private void addCar(){
+        Car car = new Car()
+                .setBrand(text_brand.getText())
+                .setSeries(text_series.getText())
+                .setPowerType(text_powerType.getText())
+                .setPrice(Double.valueOf(text_price.getText()))
+                .setNumber(Integer.valueOf(text_count.getText()))
+                .setType(text_level.getText());
+        CarManage.addCar(car);
     }
 
     public void setCar(Car car) {

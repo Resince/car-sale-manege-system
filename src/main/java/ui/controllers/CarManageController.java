@@ -7,7 +7,6 @@
 package ui.controllers;
 
 import entity.Car;
-import entity.Order;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXListView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
@@ -25,7 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Pair;
+import server.CarManage;
 
 import java.io.File;
 import java.net.URL;
@@ -55,7 +54,7 @@ public class CarManageController implements Initializable {
         btn_batchImport.setOnMouseClicked(event -> {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
-                //TODO: batch import with file
+                CarManage.addCarList(file.getAbsolutePath());
             }
         });
 
