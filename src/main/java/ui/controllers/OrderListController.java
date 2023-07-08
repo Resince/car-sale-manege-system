@@ -6,12 +6,16 @@
  */
 package ui.controllers;
 
+import entity.Car;
 import entity.Order;
 import io.github.palexdev.materialfx.controls.MFXContextMenu;
 import io.github.palexdev.materialfx.controls.MFXContextMenuItem;
 import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import io.github.palexdev.materialfx.filter.DoubleFilter;
+import io.github.palexdev.materialfx.filter.IntegerFilter;
+import io.github.palexdev.materialfx.filter.StringFilter;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +24,7 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class OrderListController implements Initializable {
     @FXML
@@ -32,27 +37,33 @@ public class OrderListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        MFXTableColumn<Order> column_orderId = new MFXTableColumn<>("订单ID", true, Comparator.comparing(Order::getOrderId));
-        MFXTableColumn<Order> column_cusName = new MFXTableColumn<>("客户姓名", true, Comparator.comparing(Order::getCusName));
-        MFXTableColumn<Order> column_carBrand = new MFXTableColumn<>("车辆品牌", true, Comparator.comparing(order -> order.getCar().getBrand()));
-        MFXTableColumn<Order> column_carSeries = new MFXTableColumn<>("车辆系列",true,Comparator.comparing(order -> order.getCar().getSeries()));
-        MFXTableColumn<Order> column_carPrice = new MFXTableColumn<>("车辆价格",true,Comparator.comparing(order -> order.getCar().getPrice()));
-        MFXTableColumn<Order> column_userName = new MFXTableColumn<>("销售姓名", true, Comparator.comparing(Order::getUserId));
+        HashMap<String, Function<Order, ? extends Comparable>> metaColumn = new HashMap<>();
+        metaColumn.put("订单ID",Order::getOrderId);
+        metaColumn.put("客户姓名",Order::getCusName);
+        metaColumn.put("车辆品牌",order -> order.getCar().getBrand());
+        metaColumn.put("车辆系列",order -> order.getCar().getSeries());
+        metaColumn.put("车辆价格",order -> order.getCar().getPrice());
+        metaColumn.put("销售工号",Order::getUserId);
 
-
-
-
-        column_orderId.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getOrderId));
-        column_cusName.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getCusName));
-        column_carBrand.setRowCellFactory(order -> new MFXTableRowCell<>(order1 -> order1.getCar().getBrand()));
-        column_carSeries.setRowCellFactory(order -> new MFXTableRowCell<>(order1 -> order1.getCar().getSeries()));
-        column_carPrice.setRowCellFactory(order -> new MFXTableRowCell<>(order1 -> order1.getCar().getPrice()));
-        column_userName.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getUserId));
-
-        List<MFXTableColumn<Order>> columns = Arrays.asList(column_orderId, column_cusName, column_carBrand,column_carSeries,column_carPrice,column_userName);
+        final double cWidth=580.0/metaColumn.size();
+        List<MFXTableColumn<Order>> columns = new ArrayList<>();
+        for (String k : metaColumn.keySet()) {
+            MFXTableColumn<Order> column = new MFXTableColumn<>(k, false, Comparator.comparing(metaColumn.get(k)));
+            column.setRowCellFactory(order -> new MFXTableRowCell<>(metaColumn.get(k)));
+            column.setPrefWidth(cWidth);
+            column.setMaxWidth(cWidth);
+            column.setMinWidth(cWidth);
+            columns.add(column);
+        }
         table_orderList.getTableColumns().setAll(FXCollections.observableList(columns));
 
-        table_orderList.autosizeColumnsOnInitialization();
+        table_orderList.getFilters().add(new IntegerFilter<>("序号", Order::getOrderId));
+        table_orderList.getFilters().add(new StringFilter<>("客户姓名", Order::getCusName));
+        table_orderList.getFilters().add(new StringFilter<>("车辆品牌", order -> order.getCar().getBrand()));
+        table_orderList.getFilters().add(new StringFilter<>("车辆系列", order -> order.getCar().getSeries()));
+        table_orderList.getFilters().add(new DoubleFilter<>("车辆价格", order -> order.getCar().getPrice()));
+        table_orderList.getFilters().add(new IntegerFilter<>("销售工号", Order::getUserId));
+
         table_orderList.getSelectionModel().selectionProperty().addListener((observableValue, integerOrderObservableMap, t1) -> {
             if (!t1.isEmpty()) {
                 if (t1.size() == 1)
@@ -60,8 +71,6 @@ public class OrderListController implements Initializable {
                 table_orderList.getSelectionModel().clearSelection();
             }
         });
-
-
     }
 
     /**
