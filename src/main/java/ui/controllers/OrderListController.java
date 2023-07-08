@@ -36,10 +36,11 @@ public class OrderListController implements Initializable {
         column_orderId.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getOrderId));
         MFXTableColumn<Order> column_cusName = new MFXTableColumn<>("车主", true, Comparator.comparing(Order::getCusName));
         column_cusName.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getCusName));
-        MFXTableColumn<Order> column_carId = new MFXTableColumn<>("车主", true, Comparator.comparing(Order::getCarId));
-        column_carId.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getCarId));
+//        MFXTableColumn<Order> column_carId = new MFXTableColumn<>("车主", true, Comparator.comparing(Order::getCar));
+//        column_carId.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getCarId));
 
-        List<MFXTableColumn<Order>> columns = Arrays.asList(column_orderId, column_cusName, column_carId);
+//        List<MFXTableColumn<Order>> columns = Arrays.asList(column_orderId, column_cusName, column_carId);
+        List<MFXTableColumn<Order>> columns = Arrays.asList(column_orderId, column_cusName);
         table_orderList.getTableColumns().setAll(FXCollections.observableList(columns));
 
         table_orderList.autosizeColumnsOnInitialization();
