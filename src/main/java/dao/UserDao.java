@@ -1,6 +1,8 @@
 package dao;
 
+import entity.Car;
 import entity.User;
+import mapper.CarMapper;
 import mapper.UserMapper;
 import org.apache.ibatis.session.SqlSession;
 import utils.AuthState;
@@ -27,6 +29,17 @@ public class UserDao {
     }
 
     /**
+     * 根据userId删除用户
+     */
+    public SqlState deleteUserById(int userId) {
+        SqlSession sqlSession = SqlConnection.getSession();
+        userDao = sqlSession.getMapper(UserMapper.class);
+        int ans = userDao.deleteUserById(userId);
+        sqlSession.commit();
+        return SqlState.Done;
+    }
+
+    /**
      * 按照非空字段进行搜索
      *
      * @param user 非空字段被认为是搜索对象
@@ -36,6 +49,12 @@ public class UserDao {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
         return userDao.searchUser(user);
+    }
+
+    public List<User> searchAllCarList(){
+        SqlSession sqlSession = SqlConnection.getSession();
+        userDao = sqlSession.getMapper(UserMapper.class);
+        return userDao.searchUser(new User());
     }
 
     /**
