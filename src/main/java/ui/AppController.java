@@ -1,5 +1,6 @@
 package ui;
 
+import entity.Car;
 import entity.Order;
 import io.github.palexdev.materialfx.controls.MFXIconWrapper;
 import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode;
@@ -26,11 +27,9 @@ import ui.controllers.*;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class AppController implements Initializable {
-    private final Stage stage;
-    private double xOffset;
-    private double yOffset;
     @FXML
     private MFXFontIcon btn_back;
     @FXML
@@ -48,23 +47,30 @@ public class AppController implements Initializable {
     @FXML
     private Label title;
 
-
-    private final MakeOrderController makeOrderController;
-    private OrderListController preOrderListController;
-    private final PreOrderDetailController preOrderDetailController;
-    private OrderListController allOrderListController;
-    private final AllOrderDetailController allOrderDetailController;
-
-    private final LoginController loginController;
-
+    private final Stage stage;
+    private double xOffset;
+    private double yOffset;
     private final ToggleGroup toggleGroup;
     private ToggleButton homeToggle;
 
+    /* Controllers */
+    private final MakeOrderController makeOrderController;
+    private final OrderListController preOrderListController;
+    private final PreOrderDetailController preOrderDetailController;
+    private final OrderListController allOrderListController;
+    private final AllOrderDetailController allOrderDetailController;
+    private final LoginController loginController;
+    private final CarManageController carManageController;
+    private final CarDetailController carDetailController;
+
+
+    /* pages */
     private Parent preOrderDetailPage;
     private Parent allOrderDetailPage;
-
     private Parent preOrderListPage;
     private Parent allOrderListPage;
+    private Parent carManagePage;
+    private Parent carDetailPage;
 
     public AppController(Stage stage) {
         this.stage = stage;
@@ -76,6 +82,8 @@ public class AppController implements Initializable {
         allOrderDetailController = new AllOrderDetailController();
         preOrderListController = new OrderListController();
         allOrderListController = new OrderListController();
+        carManageController = new CarManageController(stage);
+        carDetailController = new CarDetailController();
     }
 
     @Override
@@ -95,8 +103,9 @@ public class AppController implements Initializable {
         addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", "签订订单", null, true);
         preOrderListPage = addViewToMenu("fxml/OrderList.fxml", preOrderListController, "fas-paste", "支付订单", this::showPreOrderListPage);
         allOrderListPage = addViewToMenu("fxml/OrderList.fxml", allOrderListController, "fas-paste", "查看订单", this::showAllOrderListPage);
+        carManagePage = addViewToMenu("fxml/CarManage.fxml", carManageController, "fas-paste", "车辆管理", this::showCarManagePage);
 
-        initOrderDetailPages();
+        initDetailPages();
 
         /* START login */
         Parent view_login = AppUtil.loadView("fxml/Login.fxml", loginController);
@@ -105,7 +114,7 @@ public class AppController implements Initializable {
         /* WAITING loginController TO CALLBACK  enter */
     }
 
-    private void initOrderDetailPages() {
+    private void initDetailPages() {
         preOrderDetailPage = AppUtil.loadView("fxml/PreOrderDetail.fxml", preOrderDetailController);
         preOrderListController.setAction(order -> {
             preOrderDetailController.setOrder(order);
@@ -123,6 +132,39 @@ public class AppController implements Initializable {
             btn_back.setOnMouseClicked(event -> showAllOrderListPage());
         });
         allOrderListController.setSubtitle("选择需要查看的订单");
+
+        carDetailPage = AppUtil.loadView("fxml/CarDetail.fxml", carDetailController);
+        carManageController.setAddCarAction(() -> {
+            carDetailController.addCarModeOn();
+            setSceneContent(carDetailPage, "添加车辆");
+            btn_back.setVisible(true);
+            btn_back.setOnMouseClicked(event -> showCarManagePage());
+        });
+        carManageController.setClickCarAction(car -> {
+            carDetailController.modifyCarModeOn();
+            carDetailController.setCar(car);
+            setSceneContent(carDetailPage, "修改车辆信息");
+            btn_back.setVisible(true);
+            btn_back.setOnMouseClicked(event -> showCarManagePage());
+        });
+    }
+
+    private void showMakeOrderPage() {
+
+    }
+
+    private void showCarManagePage() {
+        btn_back.setVisible(false);
+
+        //TODO:查询车辆列表
+        carManageController.setCars(Arrays.asList(
+                new Car(1234, 12.2, "A", "油", "奥迪", "6", 4),
+                new Car(2234, 16.2, "x", "电", "奔驰", "2", 42),
+                new Car(3234, 14.2, "T", "混", "奔奔", "2", 0),
+                new Car(4234, 222.2, "C", "增", "雪弗莱", "5", 1)
+        ));
+
+        setSceneContent(carManagePage, "车辆管理");
     }
 
     /**
