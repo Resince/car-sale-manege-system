@@ -6,53 +6,72 @@
  */
 package ui.controllers;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXListView;
+import entity.Order;
+import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
+import io.github.palexdev.materialfx.controls.MFXTableColumn;
+import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import ui.AppUtil;
+import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import javafx.scene.layout.GridPane;
-
-import javafx.scene.layout.AnchorPane;
+import java.util.function.Consumer;
 
 public class OrderListController implements Initializable {
     @FXML
-    private MFXListView<MFXButton> list_orders;
+    private MFXPaginatedTableView<Order> table_orderList;
     @FXML
-    private AnchorPane root;
+    private Label subtitle;
 
-    @FXML
-    private GridPane priPage;
-
-    private final PreOrderDetailController preOrderDetailController;
-
-    public OrderListController() {
-        preOrderDetailController = new PreOrderDetailController(this::back);
-    }
+    Consumer<Order> action;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Parent secPage = AppUtil.loadView("fxml/PreOrderDetail.fxml", preOrderDetailController);
+        MFXTableColumn<Order> column_orderId = new MFXTableColumn<>("车主", true, Comparator.comparing(Order::getOrderId));
+        column_orderId.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getOrderId));
+        MFXTableColumn<Order> column_cusName = new MFXTableColumn<>("车主", true, Comparator.comparing(Order::getCusName));
+        column_cusName.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getCusName));
+        MFXTableColumn<Order> column_carId = new MFXTableColumn<>("车主", true, Comparator.comparing(Order::getCarId));
+        column_carId.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getCarId));
 
-        MFXButton btn = new MFXButton();
-        btn.setText("Test Button");
-        btn.setOnMouseClicked(event -> {
-            System.out.println("clicked");
-            root.getChildren().setAll(secPage);
+        List<MFXTableColumn<Order>> columns = Arrays.asList(column_orderId, column_cusName, column_carId);
+        table_orderList.getTableColumns().setAll(FXCollections.observableList(columns));
+
+        table_orderList.autosizeColumnsOnInitialization();
+
+        table_orderList.getSelectionModel().selectionProperty().addListener((observableValue, integerOrderObservableMap, t1) -> {
+            if (!t1.isEmpty()) {
+                if (t1.size() == 1)
+                    action.accept(t1.values().stream().toList().get(0));
+                table_orderList.getSelectionModel().clearSelection();
+            }
         });
-        List<MFXButton> list_btn = Arrays.asList(btn);
-        list_orders.setItems(FXCollections.observableList(list_btn));
     }
 
-    public void back() {
-        root.getChildren().setAll(priPage);
+    /**
+     * 设置订单列表
+     *
+     * @param orderList 订单列表
+     */
+    public void setOrders(List<Order> orderList) {
+        table_orderList.setItems(FXCollections.observableList(orderList));
+    }
+
+    /**
+     * 设置点击动作
+     *
+     * @param action 点击订单条目之后的反应
+     */
+    public void setAction(Consumer<Order> action) {
+        this.action = action;
+    }
+
+    public void setSubtitle(String text) {
+        subtitle.setText(text);
     }
 }

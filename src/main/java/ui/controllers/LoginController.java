@@ -41,18 +41,20 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                if (!text_phone.isFocused()) {
-                    text_phone.requestFocus();
-                }
+        Platform.runLater(() -> {
+            if (!text_phone.isFocused()) {
+                text_phone.requestFocus();
             }
         });
         text_phone.setPromptText("请输入电话号码：");
         text_passwd.setPromptText("请输入密码：");
         node_icon.setIcon(new MFXFontIcon("fas-user", 80));
 
+        /* DEBUG ONLY */
+        //TODO:REMOVE
+        node_icon.setOnMouseClicked(event -> {
+            enter.run();
+        });
 
         text_phone.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override

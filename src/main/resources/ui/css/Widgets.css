@@ -8,3 +8,8 @@
     -mfx-color: -mfx-red;
 }
 
+.detail-field {
+    -fx-border-width: 2;
+    -fx-border-color: #d6d6d6;
+    -fx-border-radius: 10;
+}

@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXListView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.OrderListController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.OrderListController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="394.0" minWidth="10.0" prefWidth="361.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="359.0" minWidth="10.0" prefWidth="359.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="90.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="320.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+  </rowConstraints>
    <children>
-      <GridPane fx:id="priPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="700.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="394.0" minWidth="10.0" prefWidth="361.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="359.0" minWidth="10.0" prefWidth="359.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="159.0" minHeight="0.0" prefHeight="86.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="327.0" minHeight="10.0" prefHeight="309.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="71.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <MFXListView fx:id="list_orders" prefHeight="293.0" prefWidth="439.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
+      <MFXPaginatedTableView fx:id="table_orderList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="580.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </MFXPaginatedTableView>
+      <Label fx:id="subtitle" text="选择要查看的订单" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="60.0" />
+         </GridPane.margin>
+      </Label>
    </children>
-</AnchorPane>
+</GridPane>
