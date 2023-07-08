@@ -34,7 +34,6 @@ import java.util.*;
  * description：
  */
 public class MakeOrderController implements Initializable {
-    final PseudoClass INVALID_PSEUDO_CLASS = PseudoClass.getPseudoClass("invalid");
     @FXML
     private GridPane gridPane_content;
     @FXML
@@ -78,7 +77,7 @@ public class MakeOrderController implements Initializable {
         setConfirmDialog();
         initConstrains();
         btn_confirm.setOnMouseClicked(c -> {
-            if(checkValid()){
+            if(AppUtil.checkValid(needValidate)){
                 updatePreOrder();
                 dialog.showDialog();
                 initConstrains();
@@ -170,35 +169,7 @@ public class MakeOrderController implements Initializable {
         AppUtil.addConstraint(text_tel, AppUtil.ConstraintType.IsPhoneNum);
         AppUtil.addConstraint(text_sid, AppUtil.ConstraintType.IsSID);
         for (MFXTextField textField : needValidate)
-            setListener(textField);
-    }
-
-    private void setListener(MFXTextField node) {
-        node.getValidator().validProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                System.out.println("valid now");
-                node.pseudoClassStateChanged(INVALID_PSEUDO_CLASS, false);
-            }
-        });
-        node.delegateFocusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (oldValue && !newValue) {    //focus lost
-                List<Constraint> constraints = node.validate();
-                if (!constraints.isEmpty()) {
-                    node.pseudoClassStateChanged(INVALID_PSEUDO_CLASS, true);
-                }
-            }
-        });
-    }
-
-    private boolean checkValid() {
-        boolean res = true;
-        for (MFXTextField node : needValidate) {
-            if (!node.validate().isEmpty()) {
-                node.pseudoClassStateChanged(INVALID_PSEUDO_CLASS, true);
-                res = false;
-            }
-        }
-        return res;
+            AppUtil.setValidatorListener(textField);
     }
 }
 

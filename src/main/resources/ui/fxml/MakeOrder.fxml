@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridPane_content" prefHeight="800.0" prefWidth="700.0" stylesheets="@../css/Widgets.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MakeOrderController">
+<GridPane fx:id="gridPane_content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" stylesheets="@../css/Widgets.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MakeOrderController">
     <columnConstraints>
         <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" />
         <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" />
@@ -29,8 +29,7 @@
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="420.0" minHeight="10.0" prefHeight="132.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="420.0" minHeight="10.0" prefHeight="88.0" vgrow="SOMETIMES" />
+        <RowConstraints vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
         <MFXTextField fx:id="text_name" floatMode="BORDER" floatingText="姓名" prefWidth="200.0" styleClass="validated-field" GridPane.rowIndex="4">
@@ -95,7 +94,7 @@
                 <Insets bottom="25.0" left="25.0" right="30.0" top="30.0" />
             </GridPane.margin>
         </MFXCheckListView>
-      <MFXButton fx:id="btn_confirm" buttonType="RAISED" depthLevel="LEVEL1" prefHeight="45.0" prefWidth="105.0" text="Confirm" translateX="100.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+      <MFXButton fx:id="btn_confirm" buttonType="RAISED" depthLevel="LEVEL1" prefHeight="45.0" prefWidth="105.0" text="确定" translateX="100.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
     </children>
     <padding>
         <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />

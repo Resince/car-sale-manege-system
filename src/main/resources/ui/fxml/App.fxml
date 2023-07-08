@@ -21,13 +21,13 @@
                </padding></VBox>
               </children>
           </VBox>
-      <MFXScrollPane fx:id="contentPane" layoutX="240.0" layoutY="50.0" prefHeight="490.0" prefWidth="720.0" style="-fx-background-radius: 0 20 20 0;">
+      <MFXScrollPane fx:id="contentPane" layoutX="240.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="720.0" style="-fx-background-radius: 0 20 20 0;">
          <padding>
             <Insets left="5.0" right="5.0" />
          </padding></MFXScrollPane>
         <HBox fx:id="windowHeader" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="960.0" spacing="10.0" style="-fx-background-radius: 0 20 0 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-            <MFXFontIcon fx:id="btn_back" description="fas-angle-left" size="38.0" translateX="10.0" wrappingWidth="38.75">
+            <MFXFontIcon fx:id="btn_back" description="fas-angle-left" size="38.0" visible="false" wrappingWidth="38.75">
                <HBox.margin>
                   <Insets top="10.0" />
                </HBox.margin></MFXFontIcon>
