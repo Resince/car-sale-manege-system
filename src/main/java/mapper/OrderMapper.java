@@ -17,6 +17,8 @@ public interface OrderMapper {
 
     List<Insurance> searchAllInsurance();
 
+    void deleteOrder(@Param("orderId") int orderId);
+
     int updateOrder(Order order);
 
     int deletePurIns(int orderId);

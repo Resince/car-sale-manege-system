@@ -90,4 +90,15 @@ public class OrderDao {
         return SqlState.Done;
     }
 
+    public SqlState deleteOrder(Order order){
+        SqlSession sqlSession = SqlConnection.getSession();
+        orderDao = sqlSession.getMapper(OrderMapper.class);
+        if(order.getInsurances()!=null){
+            orderDao.deletePurIns(order.getOrderId());
+        }
+        orderDao.deleteOrder(order.getOrderId());
+        sqlSession.commit();
+        return SqlState.Done;
+    }
+
 }

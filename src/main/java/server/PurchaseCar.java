@@ -1,6 +1,7 @@
 package server;
 
 import dao.OrderDao;
+import entity.Car;
 import entity.Insurance;
 import entity.Order;
 import utils.ExcelReader;
@@ -12,23 +13,11 @@ import java.util.logging.Logger;
 
 public class PurchaseCar {
     private static final OrderDao manage = new OrderDao();
-
     private static final Logger logger = Logger.getLogger(ExcelReader.class.getName()); // 日志打印类
-
-
     private static List<Insurance> insuranceList;
 
     /**
      * 添加预写入的订单信息
-     * 例：
-     * System.out.println(addOrder(...));
-     * <p>
-     * 定价为车辆价格的10%
-     * 汽车购置税为订单总额的10%
-     * 店内优惠制度为：购买纯动力汽车打九五折
-     * 上牌价格当前默认1000元
-     *
-     * @param order 传入已添加用户信息和管理员信息的order订单
      */
     public static Order genPreOrder(Order order) {
         double price = order.getCar().getPrice();
@@ -48,16 +37,12 @@ public class PurchaseCar {
         } else return manage.updateOrder(order.setIsPay(String.valueOf(true))) == SqlState.Done;
     }
 
-
     /**
      * 添加未支付订单到数据库
-     *
-     * @param order 缺少
      */
     public static void addUnpaidOrder(Order order) {
         manage.addOrder(order);
     }
-
 
     /**
      * 正常情况下是没有保险的金额的，需要从数据库中获取
@@ -78,7 +63,6 @@ public class PurchaseCar {
         }
         return sum;
     }
-
 
     /**
      * 获取订单总金额（不包含服务费）
@@ -102,16 +86,19 @@ public class PurchaseCar {
         return getSum(order) * rate;
     }
 
-
     /**
      * 查询所有的未支付订单
      */
     public static List<Order> getUnpaidOrderList() {
-        return manage.searchOrder(new Order().setIsPay("false"));
+        return manage.searchOrder(new Order().setIsPay("false").setCar(new Car()));
     }
 
-    public static List<Order> getPaidOrderList(){
-        return manage.searchOrder(new Order().setIsPay("true"));
+    public static List<Order> getPaidOrderList() {
+        return manage.searchOrder(new Order().setIsPay("true").setCar(new Car()));
+    }
+
+    public static List<Order> getAllOrderList() {
+        return manage.searchOrder(new Order().setCar(new Car()));
     }
 
     /**
@@ -120,6 +107,10 @@ public class PurchaseCar {
     public static List<Order> searchOrder(int id) {
         Order o = new Order();
         return manage.searchOrder(o.setOrderId(id));
+    }
+
+    public static void deleteOrder(Order order){
+        manage.deleteOrder(order);
     }
 
     /**

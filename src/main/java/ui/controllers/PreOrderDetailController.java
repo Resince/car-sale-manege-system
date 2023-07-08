@@ -35,7 +35,7 @@ public class PreOrderDetailController implements Initializable {
     }
 
     public void setOrder(Order order){
-//        confirmOrderController.setContent(order,null);//TODO:Car信息合并入Order
+        confirmOrderController.setContent(order);
     }
 
 }

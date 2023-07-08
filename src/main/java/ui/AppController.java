@@ -20,10 +20,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import server.PurchaseCar;
 import ui.controllers.*;
 
 import java.net.URL;
-import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AppController implements Initializable {
@@ -130,18 +131,16 @@ public class AppController implements Initializable {
      */
     private void showPreOrderListPage() {
         btn_back.setVisible(false);
-
-        //TODO:获取待支付订单列表
-        preOrderListController.setOrders(Arrays.asList(new Order(), new Order(), new Order(), new Order(), new Order()));
+        List<Order> orderList = PurchaseCar.getUnpaidOrderList();
+        preOrderListController.setOrders(orderList);
 
         setSceneContent(preOrderListPage, "支付订单");
     }
 
     private void showAllOrderListPage() {
         btn_back.setVisible(false);
-
-        //TODO:获取全部订单列表
-        allOrderListController.setOrders(Arrays.asList(new Order(), new Order(), new Order(), new Order(), new Order()));
+        List<Order> orderList = PurchaseCar.getAllOrderList();
+        allOrderListController.setOrders(orderList);
 
         setSceneContent(allOrderListPage, "所有订单");
     }

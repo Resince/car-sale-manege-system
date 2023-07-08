@@ -120,5 +120,11 @@
         delete from purIns
         where orderId = #{orderId}
     </delete>
+
+    <delete id="deleteOrder" parameterType="int">
+        delete from `order`
+        where orderId = #{orderId}
+    </delete>
+
     
 </mapper>

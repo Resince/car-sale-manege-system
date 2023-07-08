@@ -3,6 +3,7 @@ import entity.Car;
 import entity.Insurance;
 import entity.Order;
 import org.junit.Test;
+import server.PurchaseCar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,4 +31,10 @@ public class OrderTest {
     public void testUpdateOrder() {
         orderDao.updateOrder(order.setCar(new Car().setCarId(2864)).setOrderId(15));
     }
+
+    @Test
+    public void testGetAllOrderList(){
+        PurchaseCar.getAllOrderList().forEach(System.out::println);
+    }
+
 }

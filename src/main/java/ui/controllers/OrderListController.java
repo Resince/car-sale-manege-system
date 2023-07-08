@@ -16,10 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class OrderListController implements Initializable {
@@ -29,21 +26,31 @@ public class OrderListController implements Initializable {
     private Label subtitle;
 
     Consumer<Order> action;
+    List<MFXTableColumn<Order>> columns = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        MFXTableColumn<Order> column_orderId = new MFXTableColumn<>("车主", true, Comparator.comparing(Order::getOrderId));
-        column_orderId.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getOrderId));
-        MFXTableColumn<Order> column_cusName = new MFXTableColumn<>("车主", true, Comparator.comparing(Order::getCusName));
-        column_cusName.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getCusName));
-        MFXTableColumn<Order> column_carId = new MFXTableColumn<>("车主", true, Comparator.comparing(Order::getCarId));
-        column_carId.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getCarId));
+        MFXTableColumn<Order> column_orderId = new MFXTableColumn<>("订单ID", true, Comparator.comparing(Order::getOrderId));
+        MFXTableColumn<Order> column_cusName = new MFXTableColumn<>("客户姓名", true, Comparator.comparing(Order::getCusName));
+        MFXTableColumn<Order> column_carBrand = new MFXTableColumn<>("车辆品牌", true, Comparator.comparing(order -> order.getCar().getBrand()));
+        MFXTableColumn<Order> column_carSeries = new MFXTableColumn<>("车辆系列",true,Comparator.comparing(order -> order.getCar().getSeries()));
+        MFXTableColumn<Order> column_carPrice = new MFXTableColumn<>("车辆价格",true,Comparator.comparing(order -> order.getCar().getPrice()));
+        MFXTableColumn<Order> column_userName = new MFXTableColumn<>("销售姓名", true, Comparator.comparing(Order::getUserId));
 
-        List<MFXTableColumn<Order>> columns = Arrays.asList(column_orderId, column_cusName, column_carId);
+
+
+
+        column_orderId.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getOrderId));
+        column_cusName.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getCusName));
+        column_carBrand.setRowCellFactory(order -> new MFXTableRowCell<>(order1 -> order1.getCar().getBrand()));
+        column_carSeries.setRowCellFactory(order -> new MFXTableRowCell<>(order1 -> order1.getCar().getSeries()));
+        column_carPrice.setRowCellFactory(order -> new MFXTableRowCell<>(order1 -> order1.getCar().getPrice()));
+        column_userName.setRowCellFactory(order -> new MFXTableRowCell<>(Order::getUserId));
+
+        List<MFXTableColumn<Order>> columns = Arrays.asList(column_orderId, column_cusName, column_carBrand,column_carSeries,column_carPrice,column_userName);
         table_orderList.getTableColumns().setAll(FXCollections.observableList(columns));
 
         table_orderList.autosizeColumnsOnInitialization();
-
         table_orderList.getSelectionModel().selectionProperty().addListener((observableValue, integerOrderObservableMap, t1) -> {
             if (!t1.isEmpty()) {
                 if (t1.size() == 1)
@@ -74,4 +81,5 @@ public class OrderListController implements Initializable {
     public void setSubtitle(String text) {
         subtitle.setText(text);
     }
+
 }

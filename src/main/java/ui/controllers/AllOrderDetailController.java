@@ -13,6 +13,7 @@ import io.github.palexdev.materialfx.utils.ScrollUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import server.PurchaseCar;
 import ui.AppUtil;
 
 import java.net.URL;
@@ -36,14 +37,16 @@ public class AllOrderDetailController implements Initializable {
         Parent orderDetail = AppUtil.loadView("fxml/ConfirmOrder.fxml", confirmOrderController);
         pane_orderDetail.setContent(orderDetail);
         ScrollUtils.addSmoothScrolling(pane_orderDetail);
-
         btn_deleteOrder.setOnMouseClicked(event -> {
-            //TODO:delete order
+            if (order != null) {
+                // todo 删除后返回
+                PurchaseCar.deleteOrder(order);
+            }
         });
     }
 
     public void setOrder(Order order) {
         this.order = order;
-//        confirmOrderController.setContent(order,null);//TODO:Car信息合并入Order
+        confirmOrderController.setContent(order);
     }
 }

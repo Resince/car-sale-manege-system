@@ -20,7 +20,7 @@ public class CarDao {
     public Car addCar(Car car) {
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
-        int ans = carDao.addCar(car);
+        carDao.addCar(car);
         sqlSession.commit();
         return car;
     }
@@ -93,7 +93,7 @@ public class CarDao {
         return (c == null) ? null : c.get(0);
     }
 
-    public List<Car> searchBrandSeries(){
+    public List<Car> searchBrandSeries() {
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
         return carDao.searchBrandSeries();
