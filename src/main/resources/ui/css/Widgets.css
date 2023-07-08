@@ -1,0 +1,15 @@
+@import '../fonts/Fonts.css';
+@import 'Common.css';
+@import 'MFXColors.css';
+
+.validated-field:invalid {
+    -fx-border-color: -mfx-red;
+    -fx-text-fill: -mfx-red;
+    -mfx-color: -mfx-red;
+}
+
+.detail-field {
+    -fx-border-width: 2;
+    -fx-border-color: #d6d6d6;
+    -fx-border-radius: 10;
+}

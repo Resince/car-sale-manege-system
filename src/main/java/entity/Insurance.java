@@ -35,9 +35,6 @@ public class Insurance {
 
     @Override
     public String toString() {
-        return "Insurance{" +
-                "insName='" + insName + '\'' +
-                ", price=" + price +
-                '}';
+        return "{ insName= " + insName + ", price=" + price + "}";
     }
 }

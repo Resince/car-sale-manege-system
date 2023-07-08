@@ -3,11 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="impl.OrderMapper">
+<mapper namespace="mapper.OrderMapper">
     <!--  mapper -->
     <resultMap id="resultMapSearchOrder" type="entity.Order">
         <id property="orderId" column="oid"/>
-        <result property="carId" column="carId"/>
         <result property="userId" column="userId"/>
         <result property="cusId" column="cusId"/>
         <result property="orderTime" column="orderTime"/>
@@ -19,7 +18,9 @@
         <result property="deposit" column="deposit"/>
         <result property="deliveryTime" column="deliveryTime"/>
         <result property="purchaseTax" column="purchaseTax"/>
-        <result property="cusAddress" column="cusAddress"/>
+        <result property="address" column="address"/>
+        <result property="isPay" column="isPay"/>
+        <association property="car" column="carId" javaType="entity.Car" select="mapper.CarMapper.selectCarByCarId"/>
         <collection property="insurances" ofType="entity.Insurance" >
             <id column="ina" property="insName"/>
             <result property="price" column="price"/>
@@ -30,9 +31,9 @@
     <insert id="addOrder" parameterType="entity.Car" keyProperty="orderId" useGeneratedKeys="true">
         insert `order`
         (carId,userId,cusId,orderTime,cusName,cusPhone,
-        hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax,cusAddress)
-        values (#{carId},#{userId},#{cusId},#{orderTime},#{cusName},#{cusPhone},
-        #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax},#{cusAddress})
+        hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax,cusAddress,isPay)
+        values (#{car.carId},#{userId},#{cusId},#{orderTime},#{cusName},#{cusPhone},
+        #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax},#{cusAddress},#{isPay})
     </insert>
 
     <insert id="addPurIns">
@@ -65,12 +66,13 @@
         purchaseTax,
         cusAddress,
         i.insName as ina,
-        price
+        price,
+        isPay
         from `order` left join purIns on `order`.orderId = purIns.orderId
         left join Insurances i on purIns.insName = i.insName
         <where>
             <if test="orderId!=null">and `order`.orderId = #{orderId}</if>
-            <if test="carId!=null">and carId = #{carId}</if>
+            <if test="car.carId!=null">and carId = #{car.carId}</if>
             <if test="userId!=null">and userId = #{userId}</if>
             <if test="cusId!=null">and cusId = #{cusId}</if>
             <if test="orderTime!=null">and orderTime = #{orderTime}</if>
@@ -82,14 +84,20 @@
             <if test="deposit!=null">and deposit = #{deposit}</if>
             <if test="deliveryTime!=null">and deliveryTime = #{deliveryTime}</if>
             <if test="purchaseTax!=null">and purchaseTax = #{purchaseTax}</if>
-            <if test="cusAddress!=nul">and cusAddress = #{cusAddress}</if>
+            <if test="cusAddress!=null">and cusAddress = #{cusAddress}</if>
+            <if test="isPay!= null">and isPay = #{isPay}</if>
         </where>
+    </select>
+
+    <select id="searchAllInsurance" resultType="entity.Insurance">
+        select * from Insurances
     </select>
 
     <!--  更新  -->
     <update id="updateOrder">
         update `order`
         <set>
+            <if test="car.carId !=null">carId = #{car.carId},</if>
             <if test="userId!=null">userId = #{userId},</if>
             <if test="cusId!=null">cusId = #{cusId},</if>
             <if test="orderTime!=null">orderTime = #{orderTime},</if>
@@ -101,7 +109,8 @@
             <if test="deposit!=null">deposit = #{deposit},</if>
             <if test="deliveryTime!=null">deliveryTime = #{deliveryTime},</if>
             <if test="purchaseTax!=null">purchaseTax = #{purchaseTax},</if>
-            <if test="cusAddress!=nul">cusAddress = #{cusAddress},</if>
+            <if test="cusAddress!=null">cusAddress = #{cusAddress},</if>
+            <if test="isPay!=null">isPay= #{isPay},</if>
         </set>
         where orderId = #{orderId}
     </update>
@@ -111,5 +120,11 @@
         delete from purIns
         where orderId = #{orderId}
     </delete>
+
+    <delete id="deleteOrder" parameterType="int">
+        delete from `order`
+        where orderId = #{orderId}
+    </delete>
+
     
 </mapper>

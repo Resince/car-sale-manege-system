@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="700.0" stylesheets="@../css/Widgets.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PreOrderDetailController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="118.0" minWidth="10.0" prefWidth="85.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.0" minWidth="10.0" prefWidth="256.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="432.0" minWidth="10.0" prefWidth="348.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="70.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="69.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <MFXScrollPane fx:id="pane_orderDetail" prefHeight="295.0" prefWidth="360.0" styleClass="detail-field" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowSpan="4" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+         <GridPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </GridPane.margin>
+      </MFXScrollPane>
+   </children>
+</GridPane>

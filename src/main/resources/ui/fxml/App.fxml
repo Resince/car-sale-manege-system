@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.mfxresources.fonts.MFXFontIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" styleClass="root-pane" stylesheets="@../css/App.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AppController">
+    <children>
+          <VBox prefHeight="540.0" prefWidth="240.0" style="-fx-background-color: #e6fffa; -fx-background-radius: 20 0 0 20;">
+              <children>
+                  <Pane prefHeight="135.0" prefWidth="240.0" style="-fx-background-color: #00b894; -fx-background-radius: 20 0 0 0;" />
+                  <VBox fx:id="navBar" prefHeight="405.0" prefWidth="240.0" spacing="5.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding></VBox>
+              </children>
+          </VBox>
+      <MFXScrollPane fx:id="contentPane" layoutX="240.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="720.0" style="-fx-background-radius: 0 20 20 0;">
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding></MFXScrollPane>
+        <HBox fx:id="windowHeader" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="960.0" spacing="10.0" style="-fx-background-radius: 0 20 0 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+            <MFXFontIcon fx:id="btn_back" description="fas-angle-left" size="38.0" visible="false" wrappingWidth="38.75">
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin></MFXFontIcon>
+            <Label fx:id="title" alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="315.0" text="标题">
+               <HBox.margin>
+                  <Insets right="260.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="Microsoft YaHei Bold" size="30.0" />
+               </font>
+            </Label>
+                <MFXFontIcon fx:id="minimizeIcon" description="fas-circle" size="20.0" styleClass="minimize-icon" />
+            <MFXFontIcon fx:id="closeIcon" description="fas-circle" size="20.0" styleClass="close-icon" />
+            </children>
+            <padding>
+                <Insets right="22.0" />
+            </padding>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+        </HBox>
+    </children>
+</AnchorPane>

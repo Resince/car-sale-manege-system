@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="impl.UserMapper">
+<mapper namespace="mapper.UserMapper">
 
     <!--  插入  -->
     <insert id="addUser" parameterType="entity.User" useGeneratedKeys="true" keyProperty="userId">
@@ -27,8 +27,8 @@
 
     <!--  根据名字  -->
     <select id="authenticate" resultType="String">
-        select userId from user
-        where userId = #{userId}
+        select type from user
+        where phoneNumber = #{phoneNumber}
         <if test="password != null">and password = #{password}</if>
     </select>
 

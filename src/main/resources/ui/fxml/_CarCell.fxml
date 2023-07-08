@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="80.0" text="序号" />
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="80.0" text="品牌" />
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="80.0" text="型号" />
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="80.0" text="级别" />
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="80.0" text="能源" />
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="80.0" text="价格" />
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="80.0" text="库存量" />
+   </children>
+   <padding>
+      <Insets left="10.0" right="10.0" />
+   </padding>
+</HBox>

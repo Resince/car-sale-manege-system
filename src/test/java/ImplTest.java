@@ -5,18 +5,13 @@ import entity.Car;
 import entity.Insurance;
 import entity.Order;
 import entity.User;
-import org.junit.Assert;
 import org.junit.Test;
-import utils.SqlState;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
 
 public class ImplTest {
-    Car carAdd = new Car(10000.0, "小汽车", "电动", "大众", "A-4");
     Car carUpdate = new Car();
     CarDao carDao = new CarDao();
 
@@ -24,7 +19,7 @@ public class ImplTest {
     public void testAddCar() {
         System.out.println(LocalTime.now());
         for (int i = 0; i < 1000; i++) {
-            carDao.addCar(new Car(10000.0, "小汽车", "电动", "大众", "A-4"));
+            carDao.addCar(new Car(10000.0, "小汽车", "电动", "大众", "A-4",1));
         }
         System.out.println(LocalTime.now());
     }
@@ -47,7 +42,7 @@ public class ImplTest {
         System.out.println(LocalTime.now());
         List<Car> carList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            carList.add(new Car((double) i, "小汽车", "电动", "大众", "A-4"));
+            carList.add(new Car((double) i, "小汽车", "电动", "大众", "A-4",1));
         }
         System.out.println(carDao.addCar(carList));
         System.out.println(LocalTime.now());
@@ -69,17 +64,17 @@ public class ImplTest {
 
     @Test
     public void testUserDao() {
-        SqlState sqlState = userDao.addUser(userAdd);
-        System.out.println(userAdd.getUserId());
-        System.out.println(userDao.searchUser(new User().setName("yang")));
-        System.out.println(userDao.updateUser(new User(6, "9874456", "yang", "lkjgjkgj", "llll")));
-        System.out.println(userDao.authenticate(userAdd.getUserId(), null));
-        System.out.println(userDao.authenticate(userAdd.getUserId(), null));
+//        SqlState sqlState = userDao.addUser(userAdd);
+//        System.out.println(userAdd.getUserId());
+//        System.out.println(userDao.searchUser(new User().setName("yang")));
+//        System.out.println(userDao.updateUser(new User(6, "9874456", "yang", "lkjgjkgj", "llll")));
+        System.out.println(userDao.authenticate("0000","0000"));
+//        System.out.println(userDao.authenticate(userAdd.getPhoneNumber(), null));
     }
 
     OrderDao orderDao = new OrderDao();
     List<Insurance> insurances = new ArrayList<>();
-    Order order = new Order(2849, 17, "2023-01-21", 1233456678, "客户1", "123456789", insurances, true, "全额付款", 123, 234, "2024-01-01", 500,"beijing");
+    Order order = new Order();
 
     @Test
     public void testOrderInsert() {
@@ -103,15 +98,10 @@ public class ImplTest {
     @Test
     public void testSearchOrder(){
         insurances.add(new Insurance("A-Ins"));
-        List<Order> list = orderDao.searchOrder(new Order().setCusId(17).setInsurances(insurances));
+        List<Order> list = orderDao.searchOrder(new Order().setCusId("17").setInsurances(insurances));
         for(Order item:list){
             System.out.println(item);
         }
-    }
-
-    @Test
-    public void testSearchInsByOrderId(){
-        System.out.println(orderDao.searchInsByOrderId(1));
     }
 
     @Test
@@ -119,4 +109,11 @@ public class ImplTest {
         System.out.println(carDao.searchCarByPrice(2, 8));
     }
 
+    @Test
+    public void testGetInsurancePrice(){
+        Insurance insurance = new Insurance("车损险");
+//        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
+//        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
+//        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
+    }
 }
