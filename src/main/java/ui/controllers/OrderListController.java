@@ -6,10 +6,7 @@
  */
 package ui.controllers;
 
-import entity.Car;
 import entity.Order;
-import io.github.palexdev.materialfx.controls.MFXContextMenu;
-import io.github.palexdev.materialfx.controls.MFXContextMenuItem;
 import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
@@ -33,7 +30,6 @@ public class OrderListController implements Initializable {
     private Label subtitle;
 
     Consumer<Order> action;
-    List<MFXTableColumn<Order>> columns = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -43,7 +39,7 @@ public class OrderListController implements Initializable {
         metaColumn.put("车辆品牌",order -> order.getCar().getBrand());
         metaColumn.put("车辆系列",order -> order.getCar().getSeries());
         metaColumn.put("车辆价格",order -> order.getCar().getPrice());
-        metaColumn.put("销售工号",Order::getUserId);
+        metaColumn.put("销售工号",order -> order.getUser().getUserId());
 
         final double cWidth=580.0/metaColumn.size();
         List<MFXTableColumn<Order>> columns = new ArrayList<>();
@@ -62,7 +58,7 @@ public class OrderListController implements Initializable {
         table_orderList.getFilters().add(new StringFilter<>("车辆品牌", order -> order.getCar().getBrand()));
         table_orderList.getFilters().add(new StringFilter<>("车辆系列", order -> order.getCar().getSeries()));
         table_orderList.getFilters().add(new DoubleFilter<>("车辆价格", order -> order.getCar().getPrice()));
-        table_orderList.getFilters().add(new IntegerFilter<>("销售工号", Order::getUserId));
+        table_orderList.getFilters().add(new IntegerFilter<>("销售工号", order -> order.getUser().getUserId()));
 
         table_orderList.getSelectionModel().selectionProperty().addListener((observableValue, integerOrderObservableMap, t1) -> {
             if (!t1.isEmpty()) {

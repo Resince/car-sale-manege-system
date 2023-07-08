@@ -2,6 +2,7 @@ import dao.OrderDao;
 import entity.Car;
 import entity.Insurance;
 import entity.Order;
+import entity.User;
 import org.junit.Test;
 import server.PurchaseCar;
 
@@ -12,7 +13,7 @@ public class OrderTest {
     OrderDao orderDao = new OrderDao();
     List<Insurance> insuranceList = new ArrayList<>();
     Car car = new Car().setCarId(2863);
-    Order order = new Order(6,car,"2023-11-11","12345","haha","12434114",insuranceList,true,"全额",500,300,"2033-11-11",300,"大连理工大学","false");
+    Order order = new Order(new User().setUserId(6),car,"2023-11-11","12345","haha","12434114",insuranceList,true,"全额",500,300,"2033-11-11",300,"大连理工大学","false");
 
     @Test
     public void testAddOrder() {
@@ -23,13 +24,13 @@ public class OrderTest {
 
     @Test
     public void testSearchOrder() {
-        System.out.println(orderDao.searchOrder(new Order().setCar(new Car().setCarId(2863)).setCusPhone("12434114")));
+        System.out.println(orderDao.searchOrder(new Order().setUser(new User().setUserId(20)).setCar(new Car())));
     }
 
 
     @Test
     public void testUpdateOrder() {
-        orderDao.updateOrder(order.setCar(new Car().setCarId(2864)).setOrderId(15));
+        orderDao.updateOrder(order.setUser(new User().setUserId(6)).setOrderId(19));
     }
 
     @Test

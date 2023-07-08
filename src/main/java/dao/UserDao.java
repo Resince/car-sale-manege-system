@@ -16,16 +16,12 @@ public class UserDao {
 
     /**
      * 添加user
-     *
-     * @return 返回user, 其中有自增的主键
      */
-    public SqlState addUser(User user) {
+    public void addUser(User user) {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
-        int ans = userDao.addUser(user);
         System.out.println(user.getUserId());
         sqlSession.commit();
-        return SqlState.Done;
     }
 
     /**

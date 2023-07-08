@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Order {
     private Integer orderId;
-    private Integer userId;
+    private User user;
     private String cusId;
     private Date orderTime;
     private String cusName;
@@ -24,8 +24,8 @@ public class Order {
     private Car car;
 
     // 时间只需要用字符串来创建
-    public Order(Integer userId,Car car, String orderTime, String cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax, String address, String isPay) {
-        this.userId = userId;
+    public Order(User user,Car car, String orderTime, String cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax, String address, String isPay) {
+        this.user = user;
         this.car=car;
         this.cusId = cusId;
         this.cusName = cusName;
@@ -47,8 +47,8 @@ public class Order {
     }
 
     // 提供给xml文件使用
-    public Order(Integer orderId,Car car, Integer userId, String cusId, Date orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Date deliveryTime, Integer purchaseTax, String address, String isPay) {
-        this.userId = userId;
+    public Order(Integer orderId,Car car, User user, String cusId, Date orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Date deliveryTime, Integer purchaseTax, String address, String isPay) {
+        this.user = user;
         this.car = car;
         this.cusId = cusId;
         this.cusName = cusName;
@@ -96,12 +96,12 @@ public class Order {
         return this;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public Order setUserId(Integer userId) {
-        this.userId = userId;
+    public Order setUser(User user) {
+        this.user = user;
         return this;
     }
 
@@ -217,7 +217,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "orderId=" + orderId +
-                ", userId=" + userId +
+                ", user=" + user +
                 ", cusId='" + cusId + '\'' +
                 ", orderTime=" + orderTime +
                 ", cusName='" + cusName + '\'' +

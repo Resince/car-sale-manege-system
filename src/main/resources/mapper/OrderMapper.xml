@@ -7,7 +7,6 @@
     <!--  mapper -->
     <resultMap id="resultMapSearchOrder" type="entity.Order">
         <id property="orderId" column="oid"/>
-        <result property="userId" column="userId"/>
         <result property="cusId" column="cusId"/>
         <result property="orderTime" column="orderTime"/>
         <result property="cusName" column="cusName"/>
@@ -20,6 +19,7 @@
         <result property="purchaseTax" column="purchaseTax"/>
         <result property="address" column="address"/>
         <result property="isPay" column="isPay"/>
+        <association property="user" column="userId" javaType="entity.User" select="mapper.UserMapper.searchUserById"/>
         <association property="car" column="carId" javaType="entity.Car" select="mapper.CarMapper.selectCarByCarId"/>
         <collection property="insurances" ofType="entity.Insurance" >
             <id column="ina" property="insName"/>
@@ -32,7 +32,7 @@
         insert `order`
         (carId,userId,cusId,orderTime,cusName,cusPhone,
         hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax,cusAddress,isPay)
-        values (#{car.carId},#{userId},#{cusId},#{orderTime},#{cusName},#{cusPhone},
+        values (#{car.carId},#{user.userId},#{cusId},#{orderTime},#{cusName},#{cusPhone},
         #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax},#{cusAddress},#{isPay})
     </insert>
 
@@ -73,7 +73,7 @@
         <where>
             <if test="orderId!=null">and `order`.orderId = #{orderId}</if>
             <if test="car.carId!=null">and carId = #{car.carId}</if>
-            <if test="userId!=null">and userId = #{userId}</if>
+            <if test="user.userId!=null">and userId = #{user.userId}</if>
             <if test="cusId!=null">and cusId = #{cusId}</if>
             <if test="orderTime!=null">and orderTime = #{orderTime}</if>
             <if test="cusName!=null">and cusName = #{cusName}</if>
@@ -98,7 +98,7 @@
         update `order`
         <set>
             <if test="car.carId !=null">carId = #{car.carId},</if>
-            <if test="userId!=null">userId = #{userId},</if>
+            <if test="user.userId!=null">userId = #{user.userId},</if>
             <if test="cusId!=null">cusId = #{cusId},</if>
             <if test="orderTime!=null">orderTime = #{orderTime},</if>
             <if test="cusName!=null">cusName = #{cusName},</if>

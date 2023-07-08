@@ -1,3 +1,4 @@
+import entity.Car;
 import org.junit.Test;
 import server.CarManage;
 
@@ -5,7 +6,7 @@ public class CarManageTest {
 
     @Test
     public void testAddCar() {
-        System.out.println(CarManage.addCar(100000, "ss", "ss", "ss", "ss", 1));
+        System.out.println(CarManage.addCar(new Car()));
     }
 
     @Test

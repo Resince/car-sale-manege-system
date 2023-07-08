@@ -90,7 +90,7 @@ public class OrderDao {
         return SqlState.Done;
     }
 
-    public SqlState deleteOrder(Order order){
+    public void deleteOrder(Order order){
         SqlSession sqlSession = SqlConnection.getSession();
         orderDao = sqlSession.getMapper(OrderMapper.class);
         if(order.getInsurances()!=null){
@@ -98,7 +98,6 @@ public class OrderDao {
         }
         orderDao.deleteOrder(order.getOrderId());
         sqlSession.commit();
-        return SqlState.Done;
     }
 
 }

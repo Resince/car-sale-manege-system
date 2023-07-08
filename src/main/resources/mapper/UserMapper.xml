@@ -25,6 +25,11 @@
         </where>
     </select>
 
+    <select id="searchUserById" parameterType="int" resultType="entity.User">
+        select * from user
+        where userId = #{userId}
+    </select>
+
     <!--  根据名字  -->
     <select id="authenticate" resultType="String">
         select type from user
