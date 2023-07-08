@@ -7,7 +7,6 @@
     <!--  mapper -->
     <resultMap id="resultMapSearchOrder" type="entity.Order">
         <id property="orderId" column="oid"/>
-        <result property="carId" column="carId"/>
         <result property="userId" column="userId"/>
         <result property="cusId" column="cusId"/>
         <result property="orderTime" column="orderTime"/>
@@ -21,6 +20,7 @@
         <result property="purchaseTax" column="purchaseTax"/>
         <result property="address" column="address"/>
         <result property="isPay" column="isPay"/>
+        <association property="car" column="carId" javaType="entity.Car" select="mapper.CarMapper.selectCarByCarId"/>
         <collection property="insurances" ofType="entity.Insurance" >
             <id column="ina" property="insName"/>
             <result property="price" column="price"/>
@@ -32,7 +32,7 @@
         insert `order`
         (carId,userId,cusId,orderTime,cusName,cusPhone,
         hasLicenseServer,payMethod,pmtDiscount,deposit,deliveryTime,purchaseTax,cusAddress,isPay)
-        values (#{carId},#{userId},#{cusId},#{orderTime},#{cusName},#{cusPhone},
+        values (#{car.carId},#{userId},#{cusId},#{orderTime},#{cusName},#{cusPhone},
         #{hasLicenseServer},#{payMethod},#{pmtDiscount}, #{deposit},#{deliveryTime},#{purchaseTax},#{cusAddress},#{isPay})
     </insert>
 
@@ -72,7 +72,7 @@
         left join Insurances i on purIns.insName = i.insName
         <where>
             <if test="orderId!=null">and `order`.orderId = #{orderId}</if>
-            <if test="carId!=null">and carId = #{carId}</if>
+            <if test="car.carId!=null">and carId = #{car.carId}</if>
             <if test="userId!=null">and userId = #{userId}</if>
             <if test="cusId!=null">and cusId = #{cusId}</if>
             <if test="orderTime!=null">and orderTime = #{orderTime}</if>
@@ -97,6 +97,7 @@
     <update id="updateOrder">
         update `order`
         <set>
+            <if test="car.carId !=null">carId = #{car.carId},</if>
             <if test="userId!=null">userId = #{userId},</if>
             <if test="cusId!=null">cusId = #{cusId},</if>
             <if test="orderTime!=null">orderTime = #{orderTime},</if>

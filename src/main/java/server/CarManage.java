@@ -31,6 +31,10 @@ public class CarManage {
         return manage.addCar(car).getCarId() != null;
     }
 
+    public static Car getCarByBrandSeries(Car car) {
+        return CarManage.searchCarByBrandSeries(car.getBrand(), car.getSeries());
+    }
+
     /**
      * 批量添加车辆信息
      *

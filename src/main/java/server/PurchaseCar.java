@@ -1,7 +1,6 @@
 package server;
 
 import dao.OrderDao;
-import entity.Car;
 import entity.Insurance;
 import entity.Order;
 import utils.ExcelReader;
@@ -31,32 +30,31 @@ public class PurchaseCar {
      *
      * @param order 传入已添加用户信息和管理员信息的order订单
      */
-    public static Order genPreOrder(Order order, Car car) {
-        int carId = car.getCarId();
-        double price = car.getPrice();
+    public static Order genPreOrder(Order order) {
+        double price = order.getCar().getPrice();
         int deposit = culDeposit(price);
-        int pmtDiscount = culPmtDiscount(car.getPowerType(), price);
+        int pmtDiscount = culPmtDiscount(order.getCar().getPowerType(), price);
         int purchaseTax = culPurchaseTax(order.getInsurances(), price, deposit, pmtDiscount, order.getHasLicenseServer());
-        return order.setPurchaseTax(purchaseTax).setCarId(carId).setDeposit(deposit).setPmtDiscount(pmtDiscount).setOrderTime(new Date()).setDeliveryTime(null);
+        return order.setPurchaseTax(purchaseTax).setDeposit(deposit).setPmtDiscount(pmtDiscount).setOrderTime(new Date()).setDeliveryTime(null);
     }
 
     /**
      * 将订单修改为已支付状态
      */
-    public static boolean confirmOrder(Order order) {
+    public static boolean addPaidOrder(Order order) {
         if (manage.updateOrder(order.setIsPay(String.valueOf(true))) == SqlState.SqlError) {
             logger.warning("数据库更新失败");
             return false;
-        }
-        else return manage.updateOrder(order.setIsPay(String.valueOf(true))) == SqlState.Done;
+        } else return manage.updateOrder(order.setIsPay(String.valueOf(true))) == SqlState.Done;
     }
 
 
     /**
-     * 添加前置订单到数据库
+     * 添加未支付订单到数据库
+     *
      * @param order 缺少
      */
-    public static void addPreOrder(Order order){
+    public static void addUnpaidOrder(Order order) {
         manage.addOrder(order);
     }
 
@@ -82,19 +80,12 @@ public class PurchaseCar {
     }
 
 
-
-    public static Car getCarByBrandSeries(Car car) {
-        return CarManage.searchCarByBrandSeries(car.getBrand(), car.getSeries());
-    }
-
-
-
     /**
      * 获取订单总金额（不包含服务费）
      */
-    public static Double getSum(Order order, Car car) {
+    public static Double getSum(Order order) {
         double sum = 0;
-        sum += car.getPrice(); // 车辆价格
+        sum += order.getCar().getPrice(); // 车辆价格
         sum += order.getDeposit(); // 定金
         sum += getInsuranceListPrice(order.getInsurances()); // 保险
         sum += order.getPurchaseTax(); // 税额
@@ -103,12 +94,24 @@ public class PurchaseCar {
         return sum;
     }
 
-//    /**
-//     * 服务费为订单总额的1%
-//     */
-    public static Double getServerPrice(Order order, Car car) {
+    /**
+     * 服务费为订单总额的1%
+     */
+    public static Double getServerPrice(Order order) {
         final double rate = 0.01;
-        return getSum(order, car) * rate;
+        return getSum(order) * rate;
+    }
+
+
+    /**
+     * 查询所有的未支付订单
+     */
+    public static List<Order> getUnpaidOrderList() {
+        return manage.searchOrder(new Order().setIsPay("false"));
+    }
+
+    public static List<Order> getPaidOrderList(){
+        return manage.searchOrder(new Order().setIsPay("true"));
     }
 
     /**

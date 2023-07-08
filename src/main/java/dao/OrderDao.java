@@ -16,7 +16,7 @@ public class OrderDao {
      * 添加订单
      *
      * @param order 其中的orderId应该为空，该字段无论有无，系统都是自动添加
-     * @return 返回添加完的order,在其中有自动添加上的orderId
+     * @return 返回添加完的order, 在其中有自动添加上的orderId
      */
     public Order addOrder(Order order) {
         SqlSession sqlSession = SqlConnection.getSession();
@@ -31,8 +31,9 @@ public class OrderDao {
     }
 
     /**
-     *  添加保险信息
-     * @param name 保险的名字
+     * 添加保险信息
+     *
+     * @param name  保险的名字
      * @param price 保险的价格
      * @return 返回SqlState
      */
@@ -52,6 +53,7 @@ public class OrderDao {
      * insurances.add(new Insurance("A-Ins"));<br>
      * searchOrder(new Order().setCusId(17).setInsurances(insurances));<br>
      * 这样无法找到同时拥有 A-Ins 和 cusId=17的order
+     *
      * @param order 其中的非空字段作为搜索的对象
      * @return 返回Order的集合
      */
@@ -61,15 +63,16 @@ public class OrderDao {
         return orderDao.searchOrder(order);
     }
 
-    public List<Insurance> searchAllInsurance(){
+    public List<Insurance> searchAllInsurance() {
         SqlSession sqlSession = SqlConnection.getSession();
-         orderDao =  sqlSession.getMapper(OrderMapper.class);
-         return orderDao.searchAllInsurance();
+        orderDao = sqlSession.getMapper(OrderMapper.class);
+        return orderDao.searchAllInsurance();
     }
 
     /**
      * 更新order其中的值<br>
      * 如果字段没有设置，那就说明不更新
+     *
      * @param order 其中orderId不应该为空
      * @return 更新的行数
      */

@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Order {
     private Integer orderId;
-    private Integer carId;
     private Integer userId;
     private String cusId;
     private Date orderTime;
@@ -22,11 +21,12 @@ public class Order {
     private Integer purchaseTax;
     private String cusAddress;
     private String isPay;
+    private Car car;
 
     // 时间只需要用字符串来创建
-    public Order(Integer carId, Integer userId, String orderTime, String cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax,String address,String isPay) {
-        this.carId = carId;
+    public Order(Integer userId,Car car, String orderTime, String cusId, String cusName, String cusPhone, List<Insurance> insurances, Boolean hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, String deliveryTime, Integer purchaseTax, String address, String isPay) {
         this.userId = userId;
+        this.car=car;
         this.cusId = cusId;
         this.cusName = cusName;
         this.cusPhone = cusPhone;
@@ -47,9 +47,9 @@ public class Order {
     }
 
     // 提供给xml文件使用
-    public Order(Integer orderId, Integer carId, Integer userId, String cusId, Date orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Date deliveryTime, Integer purchaseTax, String address,String isPay) {
-        this.carId = carId;
+    public Order(Integer orderId,Car car, Integer userId, String cusId, Date orderTime, String cusName, String cusPhone, List<Insurance> insurances, String hasLicenseServer, String payMethod, Integer pmtDiscount, Integer deposit, Date deliveryTime, Integer purchaseTax, String address, String isPay) {
         this.userId = userId;
+        this.car = car;
         this.cusId = cusId;
         this.cusName = cusName;
         this.cusPhone = cusPhone;
@@ -69,6 +69,15 @@ public class Order {
     public Order() {
     }
 
+    public Car getCar() {
+        return car;
+    }
+
+    public Order setCar(Car car) {
+        this.car = car;
+        return this;
+    }
+
     public String getIsPay() {
         return isPay;
     }
@@ -84,15 +93,6 @@ public class Order {
 
     public Order setOrderId(Integer orderId) {
         this.orderId = orderId;
-        return this;
-    }
-
-    public Integer getCarId() {
-        return carId;
-    }
-
-    public Order setCarId(Integer carId) {
-        this.carId = carId;
         return this;
     }
 
@@ -217,9 +217,8 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "orderId=" + orderId +
-                ", carId=" + carId +
                 ", userId=" + userId +
-                ", cusId=" + cusId +
+                ", cusId='" + cusId + '\'' +
                 ", orderTime=" + orderTime +
                 ", cusName='" + cusName + '\'' +
                 ", cusPhone='" + cusPhone + '\'' +
@@ -231,6 +230,8 @@ public class Order {
                 ", deliveryTime=" + deliveryTime +
                 ", purchaseTax=" + purchaseTax +
                 ", cusAddress='" + cusAddress + '\'' +
+                ", isPay='" + isPay + '\'' +
+                ", car=" + car +
                 '}';
     }
 }

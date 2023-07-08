@@ -105,14 +105,6 @@ public class CarDao {
      * @param car 参数 carId 为必须填写的字段,其他的字段都可以为空
      * @return 返回 SqlState
      * 有两种car参数实例创建方法
-     * <br>
-     * 1. 使用new Car(1, null ,null,"电动","大众","A-2")
-     * 不需要的字段设为null即可
-     * <br>
-     * 2. 使用set方法 Car car = new Car() car.setCarId(1)
-     * 不需要更新的内容就不设置,默认为空
-     * <br>
-     * 推荐使用方法2
      */
     public SqlState UpdateCar(Car car) {
         SqlSession sqlSession = SqlConnection.getSession();

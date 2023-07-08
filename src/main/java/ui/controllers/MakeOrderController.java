@@ -132,7 +132,8 @@ public class MakeOrderController implements Initializable {
 
         dialogContent.addActions(
                 Map.entry(new MFXButton("Confirm"), event -> {
-                    PurchaseCar.addPreOrder(order.setIsPay("false"));
+                    PurchaseCar.addUnpaidOrder(order.setIsPay("false"));
+                    dialog.close();
                 }),
                 Map.entry(new MFXButton("Cancel"), event -> dialog.close())
         );
@@ -151,11 +152,11 @@ public class MakeOrderController implements Initializable {
                 .setCusAddress(text_addr.getText())
                 .setInsurances(insuranceList);
 
-        Car selectCar = PurchaseCar.getCarByBrandSeries(new Car()
+        Car selectCar = CarManage.getCarByBrandSeries(new Car()
                 .setBrand(combo_brand.getSelectionModel().getSelectedItem())
                 .setSeries(combo_model.getSelectionModel().getSelectedItem()));
-        order = PurchaseCar.genPreOrder(order, selectCar);
-        confirmOrderController.setContent(order, selectCar);
+        order = PurchaseCar.genPreOrder(order.setCar(selectCar));
+        confirmOrderController.setContent(order.setCar(selectCar));
     }
 
     private void initConstrains() {

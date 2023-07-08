@@ -6,7 +6,6 @@
  */
 package ui.controllers;
 
-import entity.Car;
 import entity.Insurance;
 import entity.Order;
 import javafx.fxml.FXML;
@@ -53,20 +52,20 @@ public class ConfirmOrderController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-    public void setContent(Order order, Car car) {
+    public void setContent(Order order) {
         addr.setText(order.getCusAddress());
-        brand.setText(car.getBrand());
-        carPrice.setText((car.getPrice()*10000)+" 元");
+        brand.setText(order.getCar().getBrand());
+        carPrice.setText((order.getCar().getPrice()*10000)+" 元");
         insurance.setText(formatInsuranceList(order.getInsurances()));
         insurancePrice.setText(PurchaseCar.getInsuranceListPrice(order.getInsurances()).toString()+" 元");
-        model.setText(car.getSeries());
+        model.setText(order.getCar().getSeries());
         name.setText(order.getCusName());
         regCar.setText(order.getHasLicenseServer() ? "是" : "否");
-        servicePrice.setText(PurchaseCar.getServerPrice(order, car)+" 元");
+        servicePrice.setText(PurchaseCar.getServerPrice(order)+" 元");
         sid.setText(order.getCusId());
         taxPrice.setText(order.getPurchaseTax().toString()+" 元");
         tel.setText(order.getCusPhone());
-        totalPrice.setText(PurchaseCar.getSum(order, car)+" 元");
+        totalPrice.setText(PurchaseCar.getSum(order)+" 元");
     }
 
     /**
