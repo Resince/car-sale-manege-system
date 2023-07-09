@@ -63,6 +63,8 @@ public class AppController implements Initializable {
     private final LoginController loginController;
     private final CarManageController carManageController;
     private final CarDetailController carDetailController;
+    private final UserManageController userManageController;
+    private final UserDetailController userDetailController;
 
 
     /* pages */
@@ -72,6 +74,9 @@ public class AppController implements Initializable {
     private Parent allOrderListPage;
     private Parent carManagePage;
     private Parent carDetailPage;
+    private Parent userManagePage;
+    private Parent userDetailPage;
+
 
     public AppController(Stage stage) {
         this.stage = stage;
@@ -85,6 +90,8 @@ public class AppController implements Initializable {
         allOrderListController = new OrderListController();
         carManageController = new CarManageController(stage);
         carDetailController = new CarDetailController();
+        userManageController=new UserManageController();
+        userDetailController=new UserDetailController();
     }
 
     @Override
@@ -105,6 +112,7 @@ public class AppController implements Initializable {
         preOrderListPage = addViewToMenu("fxml/OrderList.fxml", preOrderListController, "fas-paste", "支付订单", this::showPreOrderListPage);
         allOrderListPage = addViewToMenu("fxml/OrderList.fxml", allOrderListController, "fas-paste", "查看订单", this::showAllOrderListPage);
         carManagePage = addViewToMenu("fxml/CarManage.fxml", carManageController, "fas-paste", "车辆管理", this::showCarManagePage);
+        userManagePage=addViewToMenu("fxml/UserManage.fxml",userManageController,"fas-user","用户管理",this::showUserMangePage);
 
         initDetailPages();
 
@@ -156,6 +164,17 @@ public class AppController implements Initializable {
             btn_back.setOnMouseClicked(event -> showCarManagePage());
         });
         carDetailController.setCloseAction(this::showCarManagePage);
+
+        userDetailPage=AppUtil.loadView("fxml/UserDetail.fxml",userDetailController);
+        //TODO
+    }
+
+    private void showUserMangePage(){
+        btn_back.setVisible(false);
+
+        //TODO
+
+        setSceneContent(userManagePage, "用户管理");
     }
 
     private void showMakeOrderPage() {

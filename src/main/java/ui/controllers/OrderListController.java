@@ -42,7 +42,7 @@ public class OrderListController implements Initializable {
         metaColumn.add(Pair.of("车辆价格",order -> order.getCar().getPrice()));
         metaColumn.add(Pair.of("销售工号",order -> order.getUser().getUserId()));
 
-        final double cWidth=580.0/metaColumn.size();
+        final double cWidth=570.0/metaColumn.size();
         List<MFXTableColumn<Order>> columns = new ArrayList<>();
         for (Pair<String, Function<Order, ? extends Comparable>> p : metaColumn) {
             MFXTableColumn<Order> column = new MFXTableColumn<>(p.getLeft(), false, Comparator.comparing(p.getRight()));
