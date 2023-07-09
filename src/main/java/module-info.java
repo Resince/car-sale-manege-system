@@ -14,6 +14,7 @@ module ui {
     requires MaterialFX;
     requires ibatis.core;
     requires org.apache.commons.collections4;
+    requires org.apache.commons.lang3;
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;
     opens ui to javafx.fxml;

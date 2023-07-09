@@ -25,12 +25,12 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import server.CarManage;
-
 import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class CarManageController implements Initializable {
     @FXML
@@ -58,19 +58,19 @@ public class CarManageController implements Initializable {
             }
         });
 
-        HashMap<String, Function<Car, ? extends Comparable>> metaColumn = new HashMap<>();
-        metaColumn.put("序号", Car::getCarId);
-        metaColumn.put("品牌", Car::getBrand);
-        metaColumn.put("系列", Car::getSeries);
-        metaColumn.put("级别", Car::getType);
-        metaColumn.put("能源", Car::getPowerType);
-        metaColumn.put("价格", Car::getPrice);
-        metaColumn.put("库存量", Car::getNumber);
+        List<Pair<String, Function<Car, ? extends Comparable>>> metaColumn=new ArrayList<>();
+        metaColumn.add(Pair.of("序号", Car::getCarId));
+        metaColumn.add(Pair.of("品牌", Car::getBrand));
+        metaColumn.add(Pair.of("系列", Car::getSeries));
+        metaColumn.add(Pair.of("级别", Car::getType));
+        metaColumn.add(Pair.of("能源", Car::getPowerType));
+        metaColumn.add(Pair.of("价格", Car::getPrice));
+        metaColumn.add(Pair.of("库存量", Car::getNumber));
 
         List<MFXTableColumn<Car>> columns = new ArrayList<>();
-        for (String k : metaColumn.keySet()) {
-            MFXTableColumn<Car> column = new MFXTableColumn<>(k, false, Comparator.comparing(metaColumn.get(k)));
-            column.setRowCellFactory(car -> new MFXTableRowCell<>(metaColumn.get(k)));
+        for (Pair<String, Function<Car, ? extends Comparable>> p : metaColumn) {
+            MFXTableColumn<Car> column = new MFXTableColumn<>(p.getLeft(), false, Comparator.comparing(p.getRight()));
+            column.setRowCellFactory(car -> new MFXTableRowCell<>(p.getRight()));
             column.setPrefWidth(80);
             column.setMaxWidth(80);
             column.setMinWidth(80);

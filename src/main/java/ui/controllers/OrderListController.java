@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.net.URL;
 import java.util.*;
@@ -33,19 +34,19 @@ public class OrderListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        HashMap<String, Function<Order, ? extends Comparable>> metaColumn = new HashMap<>();
-        metaColumn.put("订单ID",Order::getOrderId);
-        metaColumn.put("客户姓名",Order::getCusName);
-        metaColumn.put("车辆品牌",order -> order.getCar().getBrand());
-        metaColumn.put("车辆系列",order -> order.getCar().getSeries());
-        metaColumn.put("车辆价格",order -> order.getCar().getPrice());
-        metaColumn.put("销售工号",order -> order.getUser().getUserId());
+        List<Pair<String, Function<Order, ? extends Comparable>>> metaColumn=new ArrayList<>();
+        metaColumn.add(Pair.of("订单ID",Order::getOrderId));
+        metaColumn.add(Pair.of("客户姓名",Order::getCusName));
+        metaColumn.add(Pair.of("车辆品牌",order -> order.getCar().getBrand()));
+        metaColumn.add(Pair.of("车辆系列",order -> order.getCar().getSeries()));
+        metaColumn.add(Pair.of("车辆价格",order -> order.getCar().getPrice()));
+        metaColumn.add(Pair.of("销售工号",order -> order.getUser().getUserId()));
 
         final double cWidth=580.0/metaColumn.size();
         List<MFXTableColumn<Order>> columns = new ArrayList<>();
-        for (String k : metaColumn.keySet()) {
-            MFXTableColumn<Order> column = new MFXTableColumn<>(k, false, Comparator.comparing(metaColumn.get(k)));
-            column.setRowCellFactory(order -> new MFXTableRowCell<>(metaColumn.get(k)));
+        for (Pair<String, Function<Order, ? extends Comparable>> p : metaColumn) {
+            MFXTableColumn<Order> column = new MFXTableColumn<>(p.getLeft(), false, Comparator.comparing(p.getRight()));
+            column.setRowCellFactory(order -> new MFXTableRowCell<>(p.getRight()));
             column.setPrefWidth(cWidth);
             column.setMaxWidth(cWidth);
             column.setMinWidth(cWidth);
