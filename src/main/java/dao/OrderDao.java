@@ -5,7 +5,6 @@ import entity.Order;
 import mapper.OrderMapper;
 import org.apache.ibatis.session.SqlSession;
 import utils.SqlConnection;
-import utils.SqlState;
 
 import java.util.List;
 
@@ -27,6 +26,7 @@ public class OrderDao {
             orderDao.addPurIns(item.getInsName(), order.getOrderId());
         }
         sqlSession.commit();
+        sqlSession.close();
         return order;
     }
 
@@ -35,14 +35,14 @@ public class OrderDao {
      *
      * @param name  保险的名字
      * @param price 保险的价格
-     * @return 返回SqlState
      */
-    public SqlState addIns(String name, double price) {
+    public int addIns(String name, double price) {
         SqlSession sqlSession = SqlConnection.getSession();
         orderDao = sqlSession.getMapper(OrderMapper.class);
         int n = orderDao.addIns(name, price);
         sqlSession.commit();
-        return SqlState.Done;
+        sqlSession.close();
+        return n;
     }
 
     /**
@@ -60,13 +60,17 @@ public class OrderDao {
     public List<Order> searchOrder(Order order) {
         SqlSession sqlSession = SqlConnection.getSession();
         orderDao = sqlSession.getMapper(OrderMapper.class);
-        return orderDao.searchOrder(order);
+        List<Order> orderList = orderDao.searchOrder(order);
+        sqlSession.close();
+        return orderList;
     }
 
     public List<Insurance> searchAllInsurance() {
         SqlSession sqlSession = SqlConnection.getSession();
         orderDao = sqlSession.getMapper(OrderMapper.class);
-        return orderDao.searchAllInsurance();
+        List<Insurance> insurances = orderDao.searchAllInsurance();
+        sqlSession.close();
+        return insurances;
     }
 
     /**
@@ -76,10 +80,10 @@ public class OrderDao {
      * @param order 其中orderId不应该为空
      * @return 更新的行数
      */
-    public SqlState updateOrder(Order order) {
+    public int updateOrder(Order order) {
         SqlSession sqlSession = SqlConnection.getSession();
         orderDao = sqlSession.getMapper(OrderMapper.class);
-        orderDao.updateOrder(order);
+        int ans = orderDao.updateOrder(order);
         if (order.getInsurances() != null) {
             orderDao.deletePurIns(order.getOrderId());
             for (Insurance item : order.getInsurances()) {
@@ -87,17 +91,20 @@ public class OrderDao {
             }
         }
         sqlSession.commit();
-        return SqlState.Done;
+        sqlSession.close();
+        return ans;
     }
 
-    public void deleteOrder(Order order){
+    public int deleteOrder(Order order) {
         SqlSession sqlSession = SqlConnection.getSession();
         orderDao = sqlSession.getMapper(OrderMapper.class);
-        if(order.getInsurances()!=null){
+        if (order.getInsurances() != null) {
             orderDao.deletePurIns(order.getOrderId());
         }
-        orderDao.deleteOrder(order.getOrderId());
+        int ans = orderDao.deleteOrder(order.getOrderId());
         sqlSession.commit();
+        sqlSession.close();
+        return ans;
     }
 
 }

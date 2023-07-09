@@ -5,7 +5,6 @@ import dao.CarDao;
 import entity.Car;
 import org.apache.commons.collections4.CollectionUtils;
 import utils.ExcelReader;
-import utils.SqlState;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -46,10 +45,10 @@ public class CarManage {
             logger.warning("文件读取数据为空！");
             return false;
         } else {
-            if (manage.addCar(add) == SqlState.SqlError) {
+            if (manage.addCar(add) <=0) {
                 logger.warning("数据库添加失败");
                 return false;
-            } else return manage.addCar(add) == SqlState.Done;
+            } else return manage.addCar(add) >0;
         }
     }
 
@@ -60,10 +59,10 @@ public class CarManage {
      * @return SqlState
      */
     public static boolean deleteCar(int carID) {
-        if (manage.deleteCarById(carID) == SqlState.SqlError) {
+        if (manage.deleteCarById(carID) <=0) {
             logger.warning("数据库删除失败");
             return false;
-        } else return manage.deleteCarById(carID) == SqlState.Done;
+        } else return manage.deleteCarById(carID) >0;
     }
 
     public static List<Car> searchAllCarList(){
@@ -156,10 +155,10 @@ public class CarManage {
      * @return 更新车辆信息
      */
     public static boolean updateCar(Car car) {
-        if (manage.UpdateCar(car) == SqlState.SqlError) {
+        if (manage.UpdateCar(car) <=0) {
             logger.warning("数据库更新失败!");
             return false;
-        } else return manage.UpdateCar(car) == SqlState.Done;
+        } else return manage.UpdateCar(car) >0;
     }
 
     public static Map<String, Set<String>> getBSMap() {

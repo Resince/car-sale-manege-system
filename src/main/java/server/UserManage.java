@@ -4,9 +4,8 @@ package server;
 import dao.UserDao;
 import entity.User;
 import utils.ExcelReader;
-import utils.SqlState;
 
-import java.util.*;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class UserManage {
@@ -29,10 +28,10 @@ public class UserManage {
      * 根据用户id删除用户
      */
     public static boolean deleteUserById(int userId) {
-        if (manage.deleteUserById(userId) == SqlState.SqlError) {
+        if (manage.deleteUserById(userId) <=0) {
             logger.warning("数据库添加失败");
             return false;
-        } else return manage.deleteUserById(userId) == SqlState.Done;
+        } else return manage.deleteUserById(userId) >0;
     }
 
 
@@ -51,10 +50,10 @@ public class UserManage {
      * @return 返回是否更新成功
      */
     public static boolean updateUser(User user) {
-        if (manage.updateUser(user) == SqlState.SqlError) {
+        if (manage.updateUser(user) <=0) {
             logger.warning("数据库更新失败!");
             return false;
-        } else return manage.updateUser(user) == SqlState.Done;
+        } else return manage.updateUser(user) >0;
     }
 
 
