@@ -88,10 +88,10 @@ public class UserDao {
             sqlSession.close();
             return AuthState.InvalidPassword;
         }
-        if (res.equals("Admin")) {
+        if (res.equals("admin")) {
             sqlSession.close();
             return AuthState.DoneAdmin;
-        } else if (res.equals("CarManager")) {
+        } else if (res.equals("manager")) {
             sqlSession.close();
             return AuthState.DoneCarManager;
         }else{
