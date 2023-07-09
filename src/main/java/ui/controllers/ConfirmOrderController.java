@@ -15,6 +15,7 @@ import javafx.scene.layout.RowConstraints;
 import server.PurchaseCar;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -55,17 +56,23 @@ public class ConfirmOrderController implements Initializable {
     public void setContent(Order order) {
         addr.setText(order.getCusAddress());
         brand.setText(order.getCar().getBrand());
-        carPrice.setText((order.getCar().getPrice()*10000)+" 元");
+
+        // 车款
+        Double carPrice_ = order.getCar().getPrice() * 10000;
+        DecimalFormat df = new DecimalFormat("###,###.00");
+        String res_CarPrice = df.format(carPrice_);
+        carPrice.setText(res_CarPrice+" 元");
+
         insurance.setText(formatInsuranceList(order.getInsurances()));
-        insurancePrice.setText(PurchaseCar.getInsuranceListPrice(order.getInsurances()).toString()+" 元");
+        insurancePrice.setText(df.format(PurchaseCar.getInsuranceListPrice(order.getInsurances()) * 10000)+" 元");
         model.setText(order.getCar().getSeries());
         name.setText(order.getCusName());
         regCar.setText(order.getHasLicenseServer() ? "是" : "否");
-        servicePrice.setText(PurchaseCar.getServerPrice(order)+" 元");
+        servicePrice.setText(df.format(PurchaseCar.getServerPrice(order) * 10000)+" 元");
         sid.setText(order.getCusId());
-        taxPrice.setText(order.getPurchaseTax().toString()+" 元");
+        taxPrice.setText(df.format(order.getPurchaseTax() * 10000) +" 元");
         tel.setText(order.getCusPhone());
-        totalPrice.setText(PurchaseCar.getSum(order)+" 元");
+        totalPrice.setText(df.format(PurchaseCar.getSum(order) * 10000)+" 元");
     }
 
     /**

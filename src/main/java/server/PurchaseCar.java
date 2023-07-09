@@ -9,13 +9,21 @@ import utils.ExcelReader;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 public class PurchaseCar {
     private static final OrderDao manage = new OrderDao();
     private static final Logger logger = Logger.getLogger(ExcelReader.class.getName()); // 日志打印类
+
     private static List<Insurance> insuranceList;
+
+    public static double discount_rate = 0.05; // 打折折扣
+    public static final double service_rate = 0.01; // 服务费
+    public static final double tax_rate = 0.05; // 税额
+    public static final double deposit_rate = 0.05; // 定金
+    // 牌照价格
+    public static final double licensePrice = 0.1; // 1000元上牌
+
 
     /**
      * 添加预写入的订单信息
@@ -68,7 +76,7 @@ public class PurchaseCar {
                 }
             }
         }
-        return sum;
+        return sum * 0.0001; // 换算成万元
     }
 
     /**
@@ -78,7 +86,7 @@ public class PurchaseCar {
         double sum = 0;
         sum += order.getCar().getPrice(); // 车辆价格
         sum += order.getDeposit(); // 定金
-        sum += getInsuranceListPrice(order.getInsurances()); // 保险
+        sum += getInsuranceListPrice(order.getInsurances()); // 保险（万元）
         sum += order.getPurchaseTax(); // 税额
         sum -= order.getPmtDiscount(); // 折扣
         if (order.getHasLicenseServer()) sum += 0.1; // 上牌
@@ -89,8 +97,7 @@ public class PurchaseCar {
      * 服务费为订单总额的1%
      */
     public static Double getServerPrice(Order order) {
-        final double rate = 0.01;
-        return getSum(order) * rate;
+        return getSum(order) * service_rate;
     }
 
     /**
@@ -133,11 +140,10 @@ public class PurchaseCar {
     }
 
     /**
-     * 定价为车辆价格的10%
+     * 定价为车辆价格的5%
      */
     private static int culDeposit(double price) {
-        final double rate = 0.1;
-        return (int) (rate * price);
+        return (int) (deposit_rate * price);
     }
 
     /**
@@ -145,23 +151,19 @@ public class PurchaseCar {
      * 纯电动打九五折
      */
     private static int culPmtDiscount(String type, double price) {
-        final double rate = 0.05;
         if (type.equals("纯电动")) {
-            return (int) (rate * price);
+            return (int) (discount_rate * price);
         } else {
-            return (int) price;
+            return 0;
         }
     }
 
     /**
      * 税额
-     * 税额为计税额的10%
+     * 税额为计税额的5%
      */
     private static int culPurchaseTax(List<Insurance> insurances, double price, double deposit, double pmtDiscount, boolean hasLicenseServer) {
-        // 牌照价格
-        final double licensePrice = 0.1;
         // 税额
-        final double rate = 0.1;
         double sum = 0;
         sum += getInsuranceListPrice(insurances);
         sum += price; // 车辆价格
@@ -169,7 +171,7 @@ public class PurchaseCar {
         sum -= pmtDiscount;  // 优惠价格
         if (hasLicenseServer) sum += licensePrice; //上牌价格默认0.
 
-        return (int) (sum * rate);
+        return (int) (sum * tax_rate);
     }
 
 }
