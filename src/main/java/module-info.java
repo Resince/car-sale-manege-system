@@ -20,6 +20,7 @@ module ui {
     opens ui to javafx.fxml;
     opens ui.controllers to javafx.fxml;
     exports ui;
+    exports entity;
     opens entity;
     opens dao;
     opens mapper;

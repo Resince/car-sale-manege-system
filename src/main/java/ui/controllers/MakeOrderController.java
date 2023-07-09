@@ -3,6 +3,7 @@ package ui.controllers;
 import entity.Car;
 import entity.Insurance;
 import entity.Order;
+import entity.User;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
@@ -59,8 +60,9 @@ public class MakeOrderController implements Initializable {
     private final List<String> regCarOpts;
     private final List<MFXTextField> needValidate;
     private List<Insurance> insuranceList;
-    Order order = new Order();
-    ConfirmOrderController confirmOrderController;
+    private Order order = new Order();
+    private User curUser;
+    private ConfirmOrderController confirmOrderController;
 
     public MakeOrderController(Stage stage) {
         this.stage = stage;
@@ -71,11 +73,11 @@ public class MakeOrderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setComboBoxItem();
-        setConfirmDialog();
+        setupComboBoxItem();
+        setupConfirmDialog();
         initConstrains();
         btn_confirm.setOnMouseClicked(c -> {
-            if(AppUtil.checkValid(needValidate)){
+            if (AppUtil.checkValid(needValidate)) {
                 updatePreOrder();
                 dialog.showDialog();
                 initConstrains();
@@ -86,7 +88,7 @@ public class MakeOrderController implements Initializable {
     /**
      * 设置下拉菜单内容
      */
-    private void setComboBoxItem() {
+    private void setupComboBoxItem() {
         Map<String, Set<String>> bsMap = CarManage.getBSMap();
         List<String> brandlist = bsMap.keySet().stream().toList();
         combo_model.setItems(FXCollections.observableList(CarManage.getSeries().stream().toList()));
@@ -104,7 +106,7 @@ public class MakeOrderController implements Initializable {
     /**
      * 设置确认菜单内容
      */
-    private void setConfirmDialog() {
+    private void setupConfirmDialog() {
         MFXScrollPane scrollPane = new MFXScrollPane();
         scrollPane.setMaxSize(450, 380);
         confirmOrderController = new ConfirmOrderController();
@@ -136,7 +138,7 @@ public class MakeOrderController implements Initializable {
         );
     }
 
-    private void clear(){
+    private void clear() {
         combo_brand.clear();
         combo_model.clear();
         combo_regCar.clear();
@@ -158,7 +160,8 @@ public class MakeOrderController implements Initializable {
                 .setCusName(text_name.getText())
                 .setCusPhone(text_tel.getText())
                 .setCusAddress(text_addr.getText())
-                .setInsurances(insuranceList);
+                .setInsurances(insuranceList)
+                .setUser(curUser);
 
         Car selectCar = CarManage.getCarByBrandSeries(new Car()
                 .setBrand(combo_brand.getSelectionModel().getSelectedItem())
@@ -179,6 +182,10 @@ public class MakeOrderController implements Initializable {
         AppUtil.addConstraint(text_sid, AppUtil.ConstraintType.IsSID);
         for (MFXTextField textField : needValidate)
             AppUtil.setValidatorListener(textField);
+    }
+
+    public void setCurUser(User curUser) {
+        this.curUser = curUser;
     }
 }
 

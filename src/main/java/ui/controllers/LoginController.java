@@ -15,7 +15,8 @@ import javafx.scene.input.KeyEvent;
 import server.UserAccess;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,9 +34,9 @@ public class LoginController implements Initializable {
     @FXML
     private MFXTextField text_phone;
 
-    Runnable enter;
+    Consumer<User> enter;
 
-    public LoginController(Runnable enter) {
+    public LoginController(Consumer<User> enter) {
         this.enter = enter;
     }
 
@@ -52,9 +53,7 @@ public class LoginController implements Initializable {
 
         /* DEBUG ONLY */
         //TODO:REMOVE
-        node_icon.setOnMouseClicked(event -> {
-            enter.run();
-        });
+        node_icon.setOnMouseClicked(event -> enter.accept(new User().setType("Admin")));
 
         text_phone.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -68,40 +67,40 @@ public class LoginController implements Initializable {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if (keyEvent.getCode() == KeyCode.ENTER) {
-                    if (checkValid()) {
-                        enter.run();
-                    }
+                    tryEnter();
                 }
             }
         });
-        btn_login.setOnMouseClicked(event -> {
-            if (checkValid()) {
-                enter.run();
-            }
-        });
-
+        btn_login.setOnMouseClicked(event -> tryEnter());
     }
 
-    private boolean checkValid() {
+    private void tryEnter() {
+        User user = checkValid();
+        if (user != null)
+            enter.accept(user);
+    }
+
+    private User checkValid() {
+        Set<String> userTypes = new HashSet<>(Arrays.asList("admin", "seller", "manager"));
         User user = UserAccess.authenticate(text_phone.getText(), text_passwd.getText());
         if (user == null) {
             text_phone.setPromptText("请输入电话号码：");
             text_passwd.clear();
             text_passwd.setPromptText("密码错误");
             text_passwd.requestFocus();
-            return false;
+            return null;
         } else if (user.getType().equals("InvalidUsername")) {
             text_passwd.setPromptText("请输入密码：");
             text_passwd.clear();
             text_phone.clear();
             text_phone.setPromptText("该电话号码不存在");
             text_phone.requestFocus();
-            return false;
-        } else if (user.getType().equals("Admin")) {
-            return true;
-        } else if (user.getType().equals("seller")) {
-            return true;
-        } else return user.getType().equals("manager");
+            return null;
+        } else {
+            if(userTypes.contains(user.getType()))
+                return user;
+            return null;
+        }
     }
 
 }
