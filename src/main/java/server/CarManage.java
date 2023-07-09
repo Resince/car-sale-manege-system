@@ -67,17 +67,17 @@ public class CarManage {
         return manage.searchAllCarList();
     }
 
-    /**
-     * 根据车辆类型进行搜索
-     *
-     * @param type 车辆类型
-     * @return 返回车辆链表
-     */
-    public static List<Car> searchCarByType(String type) {
-        Car c = new Car();
-        c.setType(type);
-        return manage.searchCar(c);
-    }
+//    /**
+//     * 根据车辆类型进行搜索
+//     *
+//     * @param type 车辆类型
+//     * @return 返回车辆链表
+//     */
+//    public static List<Car> searchCarByType(String type) {
+//        Car c = new Car();
+//        c.setType(type);
+//        return manage.searchCar(c);
+//    }
 
     /**
      * 返回第一辆brand&series的Car
@@ -86,65 +86,65 @@ public class CarManage {
         return manage.searchCar(new Car().setSeries(series).setBrand(brand)).get(0);
     }
 
-    /**
-     * 根据车辆品牌进行搜索
-     */
-    public static List<Car> searchCarByBrand(String brand) {
-        Car c = new Car();
-        c.setBrand(brand);
-        return manage.searchCar(c);
-    }
+//    /**
+//     * 根据车辆品牌进行搜索
+//     */
+//    public static List<Car> searchCarByBrand(String brand) {
+//        Car c = new Car();
+//        c.setBrand(brand);
+//        return manage.searchCar(c);
+//    }
 
-    /**
-     * 根据车辆能源类型进行搜索
-     *
-     * @param powerType 车辆能源类型
-     * @return 返回车辆集合
-     */
-    public static List<Car> searchCarByPowerType(String powerType) {
-        Car c = new Car();
-        c.setPowerType(powerType);
-        return manage.searchCar(c);
-    }
+//    /**
+//     * 根据车辆能源类型进行搜索
+//     *
+//     * @param powerType 车辆能源类型
+//     * @return 返回车辆集合
+//     */
+//    public static List<Car> searchCarByPowerType(String powerType) {
+//        Car c = new Car();
+//        c.setPowerType(powerType);
+//        return manage.searchCar(c);
+//    }
 
-    /**
-     * 根据车辆系列进行搜索
-     *
-     * @param series 车辆系列
-     * @return 返回车辆链表
-     */
-    public static List<Car> searchCarBySeries(String series) {
-        Car c = new Car();
-        c.setSeries(series);
-        return manage.searchCar(c);
-    }
+//    /**
+//     * 根据车辆系列进行搜索
+//     *
+//     * @param series 车辆系列
+//     * @return 返回车辆链表
+//     */
+//    public static List<Car> searchCarBySeries(String series) {
+//        Car c = new Car();
+//        c.setSeries(series);
+//        return manage.searchCar(c);
+//    }
 
-    /**
-     * 根据价格区间查找车辆，闭区间
-     *
-     * @param price1 区间左侧
-     * @param price2 区间右侧
-     * @return 返回车辆链表
-     */
-    public static List<Car> searchCarByPrice(double price1, double price2) {
-        return manage.searchCarByPrice(price1, price2);
-    }
+//    /**
+//     * 根据价格区间查找车辆，闭区间
+//     *
+//     * @param price1 区间左侧
+//     * @param price2 区间右侧
+//     * @return 返回车辆集合
+//     */
+//    public static List<Car> searchCarByPrice(double price1, double price2) {
+//        return manage.searchCarByPrice(price1, price2);
+//    }
 
-    /**
-     * 根据多字段查询
-     * 例：
-     * CarManage.searchCarByMultiple(searchCarByPrice(100000, 200000), searchCarByBand("dd");
-     * 根据三个字段查询则再套用一层
-     * 以此类推..
-     *
-     * @param l1 根据字段1查询返回的list
-     * @param l2 根据字段2查询返回的list
-     * @return 返回两次查询结果的交集
-     */
-    public static List<Car> searchCarByMultiple(List<Car> l1, List<Car> l2) {
-        Collection<Car> c = CollectionUtils.intersection(l1, l2);
-        return new ArrayList<>(c);
-    }
+//    /**
+//     * 根据多字段查询
+//     * 例：
+//     * CarManage.searchCarByMultiple(searchCarByPrice(100000, 200000), searchCarByBand("dd");
+//     * 根据三个字段查询则再套用一层
+//     * 以此类推..
+//     *
+//     * @param l1 根据字段1查询返回的list
+//     * @param l2 根据字段2查询返回的list
+//     * @return 返回两次查询结果的交集
+//     */
+//    public static List<Car> searchCarByMultiple(List<Car> l1, List<Car> l2) {
+//        Collection<Car> c = CollectionUtils.intersection(l1, l2);
+//        return new ArrayList<>(c);
+//    }
 
     /**
      * 更新车辆信息

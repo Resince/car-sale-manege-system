@@ -3,7 +3,6 @@ package dao;
 import entity.User;
 import mapper.UserMapper;
 import org.apache.ibatis.session.SqlSession;
-import utils.AuthState;
 import utils.SqlConnection;
 
 import java.util.List;
@@ -35,21 +34,21 @@ public class UserDao {
         return ans;
     }
 
-    /**
-     * 按照非空字段进行搜索
-     *
-     * @param user 非空字段被认为是搜索对象
-     * @return 返回user的list
-     */
-    public List<User> searchUser(User user) {
-        SqlSession sqlSession = SqlConnection.getSession();
-        userDao = sqlSession.getMapper(UserMapper.class);
-        List<User> users = userDao.searchUser(user);
-        sqlSession.close();
-        return users;
-    }
+//    /**
+//     * 按照非空字段进行搜索
+//     *
+//     * @param user 非空字段被认为是搜索对象
+//     * @return 返回user的list
+//     */
+//    public List<User> searchUser(User user) {
+//        SqlSession sqlSession = SqlConnection.getSession();
+//        userDao = sqlSession.getMapper(UserMapper.class);
+//        List<User> users = userDao.searchUser(user);
+//        sqlSession.close();
+//        return users;
+//    }
 
-    public List<User> searchAllCarList(){
+    public List<User> searchAllCarList() {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
         List<User> users = userDao.searchUser(new User());
@@ -73,30 +72,14 @@ public class UserDao {
      * 身份认证，如果只有userId，那么就是寻找是否有这个用户
      * 如果都有且不为空，则是验证这个账号的密码是否正确
      * 但是在验证密码是否是否为正确时，会提前验证是否账号是否存在
-     *
-     * @return AuthState
      */
-    public AuthState authenticate(String inputPhoneNumber, String inputPasswd) {
+    public User authenticate(String inputPhoneNumber, String inputPasswd) {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
         if (userDao.authenticate(inputPhoneNumber, null) == null) {
             sqlSession.close();
-            return AuthState.InvalidUsername;
+            return new User().setType("InvalidUsername");
         }
-        String res = userDao.authenticate(inputPhoneNumber, inputPasswd);
-        if (inputPasswd != null && res == null) {
-            sqlSession.close();
-            return AuthState.InvalidPassword;
-        }
-        if (res.equals("admin")) {
-            sqlSession.close();
-            return AuthState.DoneAdmin;
-        } else if (res.equals("manager")) {
-            sqlSession.close();
-            return AuthState.DoneManager;
-        }else{
-            sqlSession.close();
-            return AuthState.DoneSeller;
-        }
+        return userDao.authenticate(inputPhoneNumber, inputPasswd);
     }
 }

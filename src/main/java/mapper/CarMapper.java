@@ -10,9 +10,9 @@ public interface CarMapper {
 
     int deleteCarById(@Param("carId") int carId);
 
-    List<Car> selectCarByCarId(@Param("carId") int carId);
+    //List<Car> selectCarByCarId(@Param("carId") int carId);
 
-    List<Car> searchCarByPrice(@Param("priceLeft") double priceLeft, @Param("priceRight") double priceRight);
+    //List<Car> searchCarByPrice(@Param("priceLeft") double priceLeft, @Param("priceRight") double priceRight);
 
     List<Car> selectCar(Car car);
 

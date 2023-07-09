@@ -9,6 +9,7 @@ import utils.ExcelReader;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class PurchaseCar {
@@ -99,27 +100,27 @@ public class PurchaseCar {
         return manage.searchOrder(new Order().setIsPay("false").setCar(new Car()).setUser(new User()));
     }
 
-    public static List<Order> getPaidOrderList() {
-        return manage.searchOrder(new Order().setIsPay("true").setCar(new Car()).setUser(new User()));
-    }
+//    public static List<Order> getPaidOrderList() {
+//        return manage.searchOrder(new Order().setIsPay("true").setCar(new Car()).setUser(new User()));
+//    }
 
     public static List<Order> getAllOrderList() {
         return manage.searchOrder(new Order().setCar(new Car()).setUser(new User()));
     }
 
-    /**
-     * 根据订单id搜索订单
-     */
-    public static List<Order> searchOrder(int id) {
-        Order order = new Order();
-        if(order.getUser()==null){
-            order.setUser(new User());
-        }
-        if(order.getCar()==null){
-            order.setCar(new Car());
-        }
-        return manage.searchOrder(order.setOrderId(id));
-    }
+//    /**
+//     * 根据订单id搜索订单
+//     */
+//    public static List<Order> searchOrder(int id) {
+//        Order order = new Order();
+//        if(order.getUser()==null){
+//            order.setUser(new User());
+//        }
+//        if(order.getCar()==null){
+//            order.setCar(new Car());
+//        }
+//        return manage.searchOrder(order.setOrderId(id));
+//    }
 
     public static void deleteOrder(Order order){
         if(order.getUser()==null){
