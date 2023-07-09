@@ -1,5 +1,6 @@
 package ui.controllers;
 
+import entity.User;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -12,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import server.UserAccess;
-import utils.AuthState;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -83,30 +83,25 @@ public class LoginController implements Initializable {
     }
 
     private boolean checkValid() {
-        AuthState res = UserAccess.authenticate(text_phone.getText(), text_passwd.getText());
-        if (res == AuthState.InvalidUsername) {
+        User user = UserAccess.authenticate(text_phone.getText(), text_passwd.getText());
+        if (user == null) {
+            text_phone.setPromptText("请输入电话号码：");
+            text_passwd.clear();
+            text_passwd.setPromptText("密码错误");
+            text_passwd.requestFocus();
+            return false;
+        } else if (user.getType().equals("InvalidUsername")) {
             text_passwd.setPromptText("请输入密码：");
             text_passwd.clear();
             text_phone.clear();
             text_phone.setPromptText("该电话号码不存在");
             text_phone.requestFocus();
             return false;
-        } else if (res == AuthState.InvalidPassword) {
-            text_phone.setPromptText("请输入电话号码：");
-            text_passwd.clear();
-            text_passwd.setPromptText("密码错误");
-            text_passwd.requestFocus();
-            return false;
-        } else if (res == AuthState.DoneAdmin) {
+        } else if (user.getType().equals("Admin")) {
             return true;
-            // todo 返回值为Admin
-        } else if (res == AuthState.DoneManager) {
+        } else if (user.getType().equals("seller")) {
             return true;
-            // todo 返回值为Manager
-        } else {
-            return true;
-            //todo 返回值为Seller
-        }
+        } else return user.getType().equals("manager");
     }
 
 }

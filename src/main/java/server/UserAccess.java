@@ -2,7 +2,6 @@ package server;
 
 import dao.UserDao;
 import entity.User;
-import utils.AuthState;
 import utils.RegState;
 
 import java.util.regex.Pattern;
@@ -57,8 +56,8 @@ public class UserAccess {
             return RegState.InvalidCharacter;
         if (!phoneNumberIsValid(phoneNumber))
             return RegState.InvalidPhoneNumber;
-        if (userDao.authenticate(phoneNumber, null) != AuthState.InvalidUsername)
-            return RegState.UsernameExists;
+//        if (userDao.authenticate(phoneNumber, null) != AuthState.InvalidUsername)
+//            return RegState.UsernameExists;
         if (passwd.length() < 6)
             return RegState.ShortPassword;
         if (passwd.length() > 10)
@@ -74,7 +73,7 @@ public class UserAccess {
     /**
      * 可以用来判断用户名是否合理，以及用户名和密码是否正确
      */
-    public static AuthState authenticate(String phoneNumber, String passwd) {
+    public static User authenticate(String phoneNumber, String passwd) {
         return userDao.authenticate(phoneNumber, passwd);
     }
 
