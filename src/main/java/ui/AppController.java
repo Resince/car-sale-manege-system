@@ -115,6 +115,13 @@ public class AppController implements Initializable {
         /* WAITING loginController TO CALLBACK  enter */
     }
 
+    public void enter() {
+        /* LOGIN SUCCEED */
+        contentPane.setContent(null);
+        navBar.getChildren().setAll(toggleGroup.getToggles().stream().map(t -> (ToggleButton) t).toList());
+        homeToggle.setSelected(true);
+    }
+
     private void initDetailPages() {
         preOrderDetailPage = AppUtil.loadView("fxml/PreOrderDetail.fxml", preOrderDetailController);
         preOrderListController.setAction(order -> {
@@ -148,6 +155,7 @@ public class AppController implements Initializable {
             btn_back.setVisible(true);
             btn_back.setOnMouseClicked(event -> showCarManagePage());
         });
+        carDetailController.setCloseAction(this::showCarManagePage);
     }
 
     private void showMakeOrderPage() {
@@ -169,7 +177,6 @@ public class AppController implements Initializable {
         btn_back.setVisible(false);
         List<Order> orderList = PurchaseCar.getUnpaidOrderList();
         preOrderListController.setOrders(orderList);
-
         setSceneContent(preOrderListPage, "支付订单");
     }
 
@@ -177,15 +184,7 @@ public class AppController implements Initializable {
         btn_back.setVisible(false);
         List<Order> orderList = PurchaseCar.getAllOrderList();
         allOrderListController.setOrders(orderList);
-
         setSceneContent(allOrderListPage, "所有订单");
-    }
-
-    public void enter() {
-        /* LOGIN SUCCEED */
-        contentPane.setContent(null);
-        navBar.getChildren().setAll(toggleGroup.getToggles().stream().map(t -> (ToggleButton) t).toList());
-        homeToggle.setSelected(true);
     }
 
     private Parent addViewToMenu(String fxmlRes, Object controller, String icon, String title, Runnable action, boolean setHome) {

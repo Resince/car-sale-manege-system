@@ -17,11 +17,12 @@ public class UserDao {
     /**
      * 添加user
      */
-    public void addUser(User user) {
+    public SqlState addUser(User user) {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
-        System.out.println(user.getUserId());
+        System.out.println(user.getUserId());//TODO
         sqlSession.commit();
+        return SqlState.Done;
     }
 
     /**

@@ -152,20 +152,14 @@ public class CarManage {
     /**
      * 更新车辆信息
      *
-     * @param carID     必填，不能为空
-     * @param price     不需要修改则传入null
-     * @param type      不需要修改则传入null
-     * @param powerType 不需要修改则传入null
-     * @param brand     不需要修改则传入null
-     * @param series    不需要修改则传入null
-     * @return 返回是否更新成功
+     * @param car 更新的车辆，依据CarId定位 
+     * @return 更新车辆信息
      */
-    public static boolean updateCar(int carID, Double price, String type, String powerType, String brand, String series, int number) {
-        Car c = new Car(carID, price, type, powerType, brand, series, number);
-        if (manage.UpdateCar(c) == SqlState.SqlError) {
+    public static boolean updateCar(Car car) {
+        if (manage.UpdateCar(car) == SqlState.SqlError) {
             logger.warning("数据库更新失败!");
             return false;
-        } else return manage.UpdateCar(c) == SqlState.Done;
+        } else return manage.UpdateCar(car) == SqlState.Done;
     }
 
     public static Map<String, Set<String>> getBSMap() {

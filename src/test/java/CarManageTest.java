@@ -35,7 +35,7 @@ public class CarManageTest {
 
     @Test
     public void testUpdateCar() {
-        System.out.println(CarManage.updateCar(2836, null, null, null, null, "aa", 1));
+        System.out.println(CarManage.updateCar(new Car(2836, null, null, null, null, "aa", 1)));
     }
 
     @Test

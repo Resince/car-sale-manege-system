@@ -35,40 +35,24 @@ public class CarDetailController implements Initializable {
     private MFXTextField text_series;
 
     private List<MFXTextField> needValidate;
+    private Runnable closeAction;
 
     public CarDetailController() {
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btn_confirm.setOnMouseClicked(event -> {
-            if(!AppUtil.checkValid(needValidate)){
-                addCar();
-                // TODO 看看这对不对
-            }
-        });
         initConstrains();
     }
 
     private void initConstrains() {
         needValidate = Arrays.asList(text_brand, text_carId, text_count,
                 text_level, text_powerType, text_price, text_series);
-        for (MFXTextField textField : needValidate){
+        for (MFXTextField textField : needValidate) {
             textField.getStyleClass().add("validated-field");
             AppUtil.addConstraint(textField, AppUtil.ConstraintType.NotNull);
             AppUtil.setValidatorListener(textField);
         }
-    }
-
-    private void addCar(){
-        Car car = new Car()
-                .setBrand(text_brand.getText())
-                .setSeries(text_series.getText())
-                .setPowerType(text_powerType.getText())
-                .setPrice(Double.valueOf(text_price.getText()))
-                .setNumber(Integer.valueOf(text_count.getText()))
-                .setType(text_level.getText());
-        CarManage.addCar(car);
     }
 
     public void setCar(Car car) {
@@ -94,14 +78,57 @@ public class CarDetailController implements Initializable {
 
     public void addCarModeOn() {
         clear();
-        btn_confirm.setText("确认添加");
         subtitle.setText("填写车辆信息");
         text_carId.setVisible(false);
+        btn_confirm.setText("确认添加");
+        btn_confirm.setOnMouseClicked(event -> {
+            if (AppUtil.checkValid(needValidate)) {
+                confirmAddCar();
+                closeAction.run();
+            }
+        });
     }
 
     public void modifyCarModeOn() {
-        btn_confirm.setText("确认修改");
         subtitle.setText("修改车辆信息");
         text_carId.setVisible(true);
+        btn_confirm.setText("确认修改");
+        btn_confirm.setOnMouseClicked(event -> {
+            System.out.println("[CarDetailController::btn_confirm]clicked");
+            if (AppUtil.checkValid(needValidate)) {
+                confirmModifyCar();
+                closeAction.run();
+            }
+        });
+
+    }
+
+    private void confirmAddCar() {
+        Car car = new Car()
+                .setBrand(text_brand.getText())
+                .setSeries(text_series.getText())
+                .setPowerType(text_powerType.getText())
+                .setPrice(Double.valueOf(text_price.getText()))
+                .setNumber(Integer.valueOf(text_count.getText()))
+                .setType(text_level.getText());
+        CarManage.addCar(car);
+    }
+
+    private void confirmModifyCar() {
+        System.out.println("[CarDetailController::confirmModifyCar]begin");
+        Car car = new Car()
+                .setBrand(text_brand.getText())
+                .setSeries(text_series.getText())
+                .setPowerType(text_powerType.getText())
+                .setPrice(Double.valueOf(text_price.getText()))
+                .setNumber(Integer.valueOf(text_count.getText()))
+                .setType(text_level.getText())
+                .setCarId(Integer.valueOf(text_carId.getText()));
+        CarManage.updateCar(car);
+        System.out.println("[CarDetailController::confirmModifyCar]end");
+    }
+
+    public void setCloseAction(Runnable closeAction) {
+        this.closeAction = closeAction;
     }
 }
