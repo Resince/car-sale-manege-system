@@ -84,7 +84,7 @@ public class MakeOrderController implements Initializable {
             }
         });
     }
-    
+
     /**
      * 设置下拉菜单内容
      */

@@ -78,6 +78,7 @@ public class CarDetailController implements Initializable {
 
     public void addCarModeOn() {
         clear();
+        text_carId.setText("自动分配");
         subtitle.setText("填写车辆信息");
         text_carId.setVisible(false);
         btn_confirm.setText("确认添加");
