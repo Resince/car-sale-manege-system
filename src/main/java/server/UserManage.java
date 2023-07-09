@@ -21,11 +21,8 @@ public class UserManage {
     /**
      * 添加单个用户信息
      */
-    public static boolean addUser(User user) {
-        if (manage.addUser(user) == SqlState.SqlError) {
-            logger.warning("数据库添加失败");
-            return false;
-        } else return manage.addUser(user) == SqlState.Done;
+    public static void addUser(User user) {
+       manage.addUser(user);
     }
 
     /**
