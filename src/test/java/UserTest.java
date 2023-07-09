@@ -1,5 +1,6 @@
 import entity.User;
 import org.junit.Test;
+import server.UserAccess;
 import server.UserManage;
 
 public class UserTest {
@@ -12,5 +13,10 @@ public class UserTest {
     @Test
     public void testDeleteUser(){
         UserManage.deleteUserById(1);
+    }
+
+    @Test
+    public void testLogin(){
+        System.out.println(UserAccess.authenticate("18712387192", "asdasdasd"));
     }
 }

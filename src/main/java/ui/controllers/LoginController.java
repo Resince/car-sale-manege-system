@@ -97,15 +97,15 @@ public class LoginController implements Initializable {
             text_passwd.setPromptText("密码错误");
             text_passwd.requestFocus();
             return false;
-        } else if (res == AuthState.DoneCarManager) {
+        } else if (res == AuthState.DoneAdmin) {
             return true;
-            // todo
-        } else if (res == AuthState.DoneCarManager) {
+            // todo 返回值为Admin
+        } else if (res == AuthState.DoneManager) {
             return true;
-            // todo
+            // todo 返回值为Manager
         } else {
             return true;
-            //todo
+            //todo 返回值为Seller
         }
     }
 

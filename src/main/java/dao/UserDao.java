@@ -93,10 +93,10 @@ public class UserDao {
             return AuthState.DoneAdmin;
         } else if (res.equals("manager")) {
             sqlSession.close();
-            return AuthState.DoneCarManager;
+            return AuthState.DoneManager;
         }else{
             sqlSession.close();
-            return AuthState.DoneSalesman;
+            return AuthState.DoneSeller;
         }
     }
 }
