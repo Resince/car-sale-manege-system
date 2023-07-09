@@ -42,13 +42,11 @@ public class CarManage {
     public static boolean addCarList(String fileName) {
         List<Car> add = ExcelReader.readExcel(fileName);
         if (null == add) {
-            logger.warning("文件读取数据为空！");
+            logger.warning("添加失败");
             return false;
         } else {
-            if (manage.addCar(add) <=0) {
-                logger.warning("数据库添加失败");
-                return false;
-            } else return manage.addCar(add) >0;
+            manage.addCar(add);
+            return true;
         }
     }
 

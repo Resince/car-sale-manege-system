@@ -19,7 +19,7 @@ public class CarDao {
     public Car addCar(Car car) {
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
-        carDao.addCar(car);
+        System.out.println(carDao.addCar(car));
         sqlSession.commit();
         sqlSession.close();
         return car;
@@ -27,19 +27,16 @@ public class CarDao {
 
     /**
      * 批量添加车辆
-     *
-     * @param carList 车辆的List
+     * 没有返回值
      */
-    public int addCar(List<Car> carList) {
+    public void addCar(List<Car> carList) {
         SqlSession sqlSession = SqlConnection.getSession(true);
         carDao = sqlSession.getMapper(CarMapper.class);
-        int num = 0;
         for (Car item : carList) {
-            num += carDao.addCar(item);
+            System.out.println(carDao.addCar(item));
         }
         sqlSession.commit();
         sqlSession.close();
-        return num;
     }
 
     /**

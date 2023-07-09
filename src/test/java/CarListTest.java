@@ -6,4 +6,6 @@ public class CarListTest {
     public void testSearchAllCarList(){
         CarManage.searchAllCarList().forEach(System.out::println);
     }
+
+
 }

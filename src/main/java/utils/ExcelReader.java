@@ -196,7 +196,7 @@ public class ExcelReader {
         // 获取类型
         cell = row.getCell(cellNum++);
         String series = convertCellValueToString(cell);
-        resultData.setType(series);
+        resultData.setSeries(series);
 
         // 获取powerType
         cell = row.getCell(cellNum++);
@@ -211,7 +211,7 @@ public class ExcelReader {
         // 获取series
         cell = row.getCell(cellNum++);
         String type = convertCellValueToString(cell);
-        resultData.setSeries(type);
+        resultData.setType(type);
 
         // 获取number
         cell = row.getCell(cellNum++);

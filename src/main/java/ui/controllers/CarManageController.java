@@ -24,13 +24,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.tuple.Pair;
 import server.CarManage;
+
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class CarManageController implements Initializable {
     @FXML
@@ -63,7 +67,7 @@ public class CarManageController implements Initializable {
         metaColumn.add(Pair.of("序号", Car::getCarId));
         metaColumn.add(Pair.of("品牌", Car::getBrand));
         metaColumn.add(Pair.of("系列", Car::getSeries));
-        metaColumn.add(Pair.of("级别", Car::getType));
+        metaColumn.add(Pair.of("类型", Car::getType));
         metaColumn.add(Pair.of("能源", Car::getPowerType));
         metaColumn.add(Pair.of("价格", Car::getPrice));
         metaColumn.add(Pair.of("库存量", Car::getNumber));
@@ -84,7 +88,7 @@ public class CarManageController implements Initializable {
         list_cars.getFilters().add(new IntegerFilter<>("序号", Car::getCarId));
         list_cars.getFilters().add(new StringFilter<>("品牌", Car::getBrand));
         list_cars.getFilters().add(new StringFilter<>("系列", Car::getSeries));
-        list_cars.getFilters().add(new StringFilter<>("级别", Car::getType));
+        list_cars.getFilters().add(new StringFilter<>("类型", Car::getType));
         list_cars.getFilters().add(new StringFilter<>("能源", Car::getPowerType));
         list_cars.getFilters().add(new DoubleFilter<>("价格", Car::getPrice));
         list_cars.getFilters().add(new IntegerFilter<>("库存量", Car::getNumber));

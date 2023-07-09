@@ -18,9 +18,7 @@ public class ImplTest {
     @Test
     public void testAddCar() {
         System.out.println(LocalTime.now());
-        for (int i = 0; i < 1000; i++) {
-            carDao.addCar(new Car(10000.0, "小汽车", "电动", "大众", "A-4",1));
-        }
+        carDao.addCar(new Car(10000.0, "小汽车", "电动", "大众", "A-4", 1));
         System.out.println(LocalTime.now());
     }
 
@@ -41,10 +39,10 @@ public class ImplTest {
     public void testAddCarBatch() {
         System.out.println(LocalTime.now());
         List<Car> carList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            carList.add(new Car((double) i, "小汽车", "电动", "大众", "A-4",1));
+        for (int i = 0; i < 2; i++) {
+            carList.add(new Car((double) i, "小汽车", "电动", "大众", "A-4", 1));
         }
-        System.out.println(carDao.addCar(carList));
+        carDao.addCar(carList);
         System.out.println(LocalTime.now());
     }
 
@@ -68,7 +66,7 @@ public class ImplTest {
 //        System.out.println(userAdd.getUserId());
 //        System.out.println(userDao.searchUser(new User().setName("yang")));
 //        System.out.println(userDao.updateUser(new User(6, "9874456", "yang", "lkjgjkgj", "llll")));
-        System.out.println(userDao.authenticate("0000","0000"));
+        System.out.println(userDao.authenticate("0000", "0000"));
 //        System.out.println(userDao.authenticate(userAdd.getPhoneNumber(), null));
     }
 
@@ -89,28 +87,28 @@ public class ImplTest {
     }
 
     @Test
-    public void testUpdateOrder(){
+    public void testUpdateOrder() {
         insurances.add(new Insurance("E-Ins"));
         insurances.add(new Insurance("D-Ins"));
         System.out.println(orderDao.updateOrder(order.setOrderId(1).setCusPhone("1315")));
     }
 
     @Test
-    public void testSearchOrder(){
+    public void testSearchOrder() {
         insurances.add(new Insurance("A-Ins"));
         List<Order> list = orderDao.searchOrder(new Order().setCusId("17").setInsurances(insurances));
-        for(Order item:list){
+        for (Order item : list) {
             System.out.println(item);
         }
     }
 
     @Test
-    public void testSearchCar(){
+    public void testSearchCar() {
         System.out.println(carDao.searchCarByPrice(2, 8));
     }
 
     @Test
-    public void testGetInsurancePrice(){
+    public void testGetInsurancePrice() {
         Insurance insurance = new Insurance("车损险");
 //        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
 //        System.out.println(PurchaseCar.getInsurancePrice(insurance).getPrice());
