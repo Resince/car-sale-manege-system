@@ -30,6 +30,7 @@
         <RowConstraints maxHeight="30.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
         
         <RowConstraints maxHeight="348.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
@@ -115,7 +116,7 @@
                 <Insets left="20.0" />
             </GridPane.margin>
         </Label>
-        <Label text="总费用" GridPane.rowIndex="18">
+        <Label text="总费用" GridPane.rowIndex="19">
             <GridPane.margin>
                 <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
             </GridPane.margin>
@@ -134,13 +135,19 @@
         <Label fx:id="insurancePrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="15" />
         <Label fx:id="taxPrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="16" />
         <Label fx:id="servicePrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="17" />
-        <Label fx:id="totalPrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+      <Label fx:id="servicePrice1" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+        <Label fx:id="totalPrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="19" />
       <Label alignment="CENTER" text="类型" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin>
       </Label>
       <Label alignment="CENTER" text="能源" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets left="20.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="优惠额" GridPane.rowIndex="18">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin>

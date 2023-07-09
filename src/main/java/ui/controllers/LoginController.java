@@ -53,7 +53,7 @@ public class LoginController implements Initializable {
 
         /* DEBUG ONLY */
         //TODO:REMOVE
-        node_icon.setOnMouseClicked(event -> enter.accept(new User().setType("Admin")));
+        node_icon.setOnMouseClicked(event -> enter.accept(new User().setType("admin").setUserId(1)));
 
         text_phone.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override

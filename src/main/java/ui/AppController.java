@@ -44,6 +44,8 @@ public class AppController implements Initializable {
     @FXML
     private MFXFontIcon btn_back;
     @FXML
+    private MFXFontIcon btn_quit;
+    @FXML
     private MFXFontIcon closeIcon;
     @FXML
     private MFXFontIcon minimizeIcon;
@@ -89,6 +91,7 @@ public class AppController implements Initializable {
     private Parent carDetailPage;
     private Parent userManagePage;
     private Parent userDetailPage;
+    private Parent loginPage;
 
 
     public AppController(Stage stage) {
@@ -137,16 +140,26 @@ public class AppController implements Initializable {
 
         initDetailPages();
 
-        /* START login */
-        Parent view_login = AppUtil.loadView("fxml/Login.fxml", loginController);
-        contentPane.setContent(view_login);
+        loginPage=AppUtil.loadView("fxml/Login.fxml", loginController);
 
+        btn_quit.setOnMouseClicked(event -> startLogin());
+
+        startLogin();
+
+    }
+
+    private void startLogin(){
+        /* START login */
+        btn_quit.setVisible(false);
+        navBar.getChildren().clear();
+        contentPane.setContent(loginPage);
         /* WAITING loginController TO CALLBACK  enter */
     }
 
     public void enter(User user) {
         /* LOGIN SUCCEED */
         contentPane.setContent(null);
+        toggleGroup.getToggles().clear();
         if(user.getType().equals("seller") || user.getType().equals("admin")){
             toggleGroup.getToggles().add(pageToggle.get(MenuPage.MakeOrder));
             toggleGroup.getToggles().add(pageToggle.get(MenuPage.PayOrder));
@@ -161,6 +174,7 @@ public class AppController implements Initializable {
         }
         navBar.getChildren().setAll(toggleGroup.getToggles().stream().map(t -> (ToggleButton) t).toList());
         toggleGroup.getToggles().get(0).setSelected(true);
+        btn_quit.setVisible(true);
     }
 
     private void initDetailPages() {
