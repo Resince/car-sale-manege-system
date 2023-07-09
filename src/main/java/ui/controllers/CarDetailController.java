@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import server.CarManage;
+import ui.App;
 import ui.AppUtil;
 
 import java.net.URL;
@@ -53,6 +54,8 @@ public class CarDetailController implements Initializable {
             AppUtil.addConstraint(textField, AppUtil.ConstraintType.NotNull);
             AppUtil.setValidatorListener(textField);
         }
+        AppUtil.addConstraint(text_count, AppUtil.ConstraintType.IsNonNegativeInt);
+        AppUtil.addConstraint(text_price, AppUtil.ConstraintType.IsPositiveNumeric);
     }
 
     public void setCar(Car car) {

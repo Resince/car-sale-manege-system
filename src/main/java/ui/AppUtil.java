@@ -26,7 +26,9 @@ public class AppUtil {
         AtLeast8,
         NoSpecialChar,
         MustSpecialChar,
-        IsSID
+        IsSID,
+        IsPositiveNumeric,
+        IsNonNegativeInt,
     }
 
     public static Parent loadView(String fxmlName, Object controller) {
@@ -46,6 +48,8 @@ public class AppUtil {
         final String[] specialCharacters = "! @ # & ( ) – [ { } ]: ; ' , ? / * ~ $ ^ + = < > -".split(" ");
         String re_phoneNum = "^1[3456789]\\d{9}$";
         String re_SID = "^([1-6][1-9]|50)\\d{4}(18|19|20)\\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
+        String re_positiveNumeric="^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$";
+        String re_nonNegativeInt="^\\d+$";
 
         BooleanExpression condition = switch (type) {
             case NotNull -> textField.textProperty().length().greaterThan(0);
@@ -64,6 +68,14 @@ public class AppUtil {
             );
             case IsSID -> Bindings.createBooleanBinding(
                     () -> textField.getText().matches(re_SID),
+                    textField.textProperty()
+            );
+            case IsPositiveNumeric -> Bindings.createBooleanBinding(
+                    () -> textField.getText().matches(re_positiveNumeric),
+                    textField.textProperty()
+            );
+            case IsNonNegativeInt -> Bindings.createBooleanBinding(
+                    () -> textField.getText().matches(re_nonNegativeInt),
                     textField.textProperty()
             );
         };
