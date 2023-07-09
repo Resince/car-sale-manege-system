@@ -47,24 +47,33 @@ public class ConfirmOrderController implements Initializable {
     private Label totalPrice;
     @FXML
     private RowConstraints grid9;
+    @FXML
+    private Label type;
+    @FXML
+    private Label power;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
     public void setContent(Order order) {
-        addr.setText(order.getCusAddress());
         brand.setText(order.getCar().getBrand());
-        carPrice.setText((order.getCar().getPrice()*10000)+" 元");
-        insurance.setText(formatInsuranceList(order.getInsurances()));
-        insurancePrice.setText(PurchaseCar.getInsuranceListPrice(order.getInsurances()).toString()+" 元");
         model.setText(order.getCar().getSeries());
+        type.setText(order.getCar().getType());
+        power.setText(order.getCar().getPowerType());
+
         name.setText(order.getCusName());
-        regCar.setText(order.getHasLicenseServer() ? "是" : "否");
-        servicePrice.setText(PurchaseCar.getServerPrice(order)+" 元");
-        sid.setText(order.getCusId());
-        taxPrice.setText(order.getPurchaseTax().toString()+" 元");
         tel.setText(order.getCusPhone());
+        sid.setText(order.getCusId());
+        addr.setText(order.getCusAddress());
+
+        insurance.setText(formatInsuranceList(order.getInsurances()));
+        regCar.setText(order.getHasLicenseServer() ? "是" : "否");
+
+        carPrice.setText((order.getCar().getPrice()*10000)+" 元");
+        insurancePrice.setText(PurchaseCar.getInsuranceListPrice(order.getInsurances()).toString()+" 元");
+        taxPrice.setText(order.getPurchaseTax().toString()+" 元");
+        servicePrice.setText(PurchaseCar.getServerPrice(order)+" 元");
         totalPrice.setText(PurchaseCar.getSum(order)+" 元");
     }
 
@@ -82,7 +91,7 @@ public class ConfirmOrderController implements Initializable {
             }
         }
         insurance.setWrapText(true);
-        grid9.setMaxHeight(25 * insurances.size());
+        grid9.setMaxHeight(Math.max(25,insurances.size()/2*25));
         return sj.toString();
     }
 

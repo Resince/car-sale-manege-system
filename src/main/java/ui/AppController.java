@@ -92,7 +92,7 @@ public class AppController implements Initializable {
         allOrderListController = new OrderListController();
         carManageController = new CarManageController(stage);
         carDetailController = new CarDetailController();
-        userManageController = new UserManageController(stage);
+        userManageController = new UserManageController();
         userDetailController = new UserDetailController();
     }
 
@@ -151,6 +151,7 @@ public class AppController implements Initializable {
             btn_back.setOnMouseClicked(event -> showAllOrderListPage());
         });
         allOrderListController.setSubtitle("选择需要查看的订单");
+        allOrderDetailController.setCloseAction(this::showAllOrderListPage);
 
         carDetailPage = AppUtil.loadView("fxml/CarDetail.fxml", carDetailController);
         carManageController.setAddCarAction(() -> {
@@ -198,6 +199,7 @@ public class AppController implements Initializable {
 
     private void showCarManagePage() {
         btn_back.setVisible(false);
+        System.out.println("[::showCarManagePage]reload");
         List<Car> carList = CarManage.searchAllCarList();
         carManageController.setCars(carList);
         setSceneContent(carManagePage, "车辆管理");

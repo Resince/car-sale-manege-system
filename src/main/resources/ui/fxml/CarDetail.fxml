@@ -14,11 +14,13 @@
    <children>
         <GridPane prefHeight="470.0" prefWidth="650.0" styleClass="detail-field">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="329.0" minWidth="10.0" prefWidth="323.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="338.0" minWidth="10.0" prefWidth="283.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="405.0" minWidth="10.0" prefWidth="275.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="338.0" minWidth="10.0" prefWidth="271.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="70.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="70.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="70.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="70.0" vgrow="SOMETIMES" />
@@ -26,19 +28,19 @@
                 <RowConstraints vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <MFXTextField fx:id="text_brand" floatingText="品牌" prefHeight="54.0" prefWidth="190.0" promptText="填写品牌" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                <MFXTextField fx:id="text_series" floatingText="系列" prefHeight="54.0" prefWidth="190.0" promptText="填写系列" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                <MFXTextField fx:id="text_level" floatingText="级别" prefHeight="54.0" prefWidth="190.0" promptText="填写级别" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                <MFXTextField fx:id="text_powerType" floatingText="能源" prefHeight="54.0" prefWidth="190.0" promptText="填写能源" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                <MFXTextField fx:id="text_price" floatingText="价格" prefHeight="54.0" prefWidth="190.0" promptText="填写价格" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                <MFXTextField fx:id="text_count" floatingText="库存量" prefHeight="54.0" prefWidth="190.0" promptText="填写库存量" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                <MFXTextField fx:id="text_carId" allowEdit="false" floatingText="序号" prefHeight="54.0" prefWidth="190.0" promptText="序号" text="序号" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                <MFXButton fx:id="btn_confirm" buttonType="RAISED" prefHeight="50.0" prefWidth="100.0" text="确认修改" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                <MFXTextField fx:id="text_brand" floatingText="品牌" prefHeight="54.0" prefWidth="190.0" promptText="填写品牌" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                <MFXTextField fx:id="text_series" floatingText="系列" prefHeight="54.0" prefWidth="190.0" promptText="填写系列" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                <MFXTextField fx:id="text_level" floatingText="级别" prefHeight="54.0" prefWidth="190.0" promptText="填写级别" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                <MFXTextField fx:id="text_powerType" floatingText="能源" prefHeight="54.0" prefWidth="190.0" promptText="填写能源" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                <MFXTextField fx:id="text_price" floatingText="价格" prefHeight="54.0" prefWidth="190.0" promptText="填写价格" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                <MFXTextField fx:id="text_count" floatingText="库存量" prefHeight="54.0" prefWidth="190.0" promptText="填写库存量" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                <MFXTextField fx:id="text_carId" allowEdit="false" floatingText="序号" prefHeight="54.0" prefWidth="190.0" promptText="序号" text="序号" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                <MFXButton fx:id="btn_confirm" buttonType="RAISED" prefHeight="50.0" prefWidth="150.0" text="确认修改" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                     <GridPane.margin>
-                        <Insets right="70.0" />
+                        <Insets />
                     </GridPane.margin>
                 </MFXButton>
-                <Label fx:id="subtitle" prefHeight="56.0" prefWidth="269.0" text="填写车辆信息" GridPane.valignment="BOTTOM">
+                <Label fx:id="subtitle" prefHeight="56.0" prefWidth="269.0" text="填写车辆信息" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
                     <GridPane.margin>
                         <Insets left="35.0" />
                     </GridPane.margin>
@@ -46,6 +48,7 @@
                         <Font size="25.0" />
                     </font>
                 </Label>
+            <MFXButton fx:id="btn_deleteCar" buttonType="RAISED" prefHeight="50.0" prefWidth="150.0" text="删除车辆" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
             </children>
          <StackPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

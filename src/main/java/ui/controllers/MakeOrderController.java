@@ -132,9 +132,21 @@ public class MakeOrderController implements Initializable {
                 Map.entry(new MFXButton("Confirm"), event -> {
                     PurchaseCar.addUnpaidOrder(order.setIsPay("false"));
                     dialog.close();
+                    clear();
                 }),
                 Map.entry(new MFXButton("Cancel"), event -> dialog.close())
         );
+    }
+
+    private void clear(){
+        combo_brand.clear();
+        combo_model.clear();
+        combo_regCar.clear();
+        text_name.clear();
+        text_addr.clear();
+        text_sid.clear();
+        text_tel.clear();
+        list_insurance.getSelectionModel().clearSelection();
     }
 
     private void updatePreOrder() {

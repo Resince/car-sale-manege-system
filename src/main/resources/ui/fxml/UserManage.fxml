@@ -35,7 +35,6 @@
                   <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="282.0" spacing="10.0">
                      <children>
                         <MFXButton fx:id="btn_addUser" buttonType="RAISED" depthLevel="LEVEL1" prefHeight="32.0" prefWidth="80.0" text="添加用户" />
-                        <MFXButton fx:id="btn_batchImport" buttonType="RAISED" depthLevel="LEVEL1" prefHeight="32.0" prefWidth="80.0" text="批量导入" />
                      </children>
                      <HBox.margin>
                         <Insets />
