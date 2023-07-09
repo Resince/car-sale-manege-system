@@ -47,20 +47,14 @@ public class UserManage {
 
     /**
      * 更新用户信息
-     *
-     * @param userId     必填，不能为空
-     * @param password     不需要修改则传入null
-     * @param name      不需要修改则传入null
-     * @param phoneNumber 不需要修改则传入null
-     * @param type     不需要修改则传入null
+     * @param user 更新的用户（以工号定位）
      * @return 返回是否更新成功
      */
-    public static boolean updateUser(int userId, String password, String name, String phoneNumber, String type) {
-        User updateUser = new User(userId, password, name, phoneNumber, type);
-        if (manage.updateUser(updateUser) == SqlState.SqlError) {
+    public static boolean updateUser(User user) {
+        if (manage.updateUser(user) == SqlState.SqlError) {
             logger.warning("数据库更新失败!");
             return false;
-        } else return manage.updateUser(updateUser) == SqlState.Done;
+        } else return manage.updateUser(user) == SqlState.Done;
     }
 
 

@@ -31,8 +31,8 @@
                 <RowConstraints vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <MFXTextField fx:id="text_name" floatingText="姓名" prefHeight="54.0" prefWidth="190.0" promptText="填写姓名" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <MFXTextField fx:id="text_tel" floatingText="手机号" prefHeight="54.0" prefWidth="190.0" promptText="填写手机号（用于登录）" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                <MFXTextField fx:id="text_name" floatingText="姓名" prefHeight="54.0" prefWidth="190.0" promptText="填写姓名" textLimit="20" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <MFXTextField fx:id="text_tel" floatingText="手机号" prefHeight="54.0" prefWidth="190.0" promptText="填写手机号（用于登录）" textLimit="11" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                 <MFXButton fx:id="btn_confirm" buttonType="RAISED" prefHeight="50.0" prefWidth="150.0" text="确认修改" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                     <GridPane.margin>
                         <Insets bottom="30.0" />
@@ -46,7 +46,7 @@
                         <Font size="25.0" />
                     </font>
                 </Label>
-            <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-radius: 5; -fx-border-color: #d6d6d6;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+            <VBox fx:id="box_userGroup" prefHeight="200.0" prefWidth="100.0" styleClass="radio-group" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </GridPane.margin>
@@ -62,7 +62,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                      <children>
                         <MFXRadioButton fx:id="rbtn_seller" prefWidth="100.0" text="销售人员" />
-                        <MFXRadioButton fx:id="rbtn_carAdmin" prefWidth="120.0" text="车辆管理员" />
+                        <MFXRadioButton fx:id="rbtn_manager" prefWidth="120.0" text="车辆管理员" />
                         <MFXRadioButton fx:id="rbtn_admin" prefWidth="120.0" text="总管理员" />
                      </children>
                      <padding>
@@ -71,8 +71,13 @@
                   </HBox>
                </children>
             </VBox>
-            <MFXPasswordField fx:id="text_passwd" floatingText="密码" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="190.0" promptText="输入密码" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <MFXPasswordField fx:id="text_confirmPasswd" floatingText="确认密码" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="190.0" promptText="再次输入密码" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <MFXPasswordField fx:id="text_passwd" floatingText="密码" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="190.0" promptText="输入密码" textLimit="16" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <MFXPasswordField fx:id="text_passwd_c" floatingText="确认密码" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="190.0" promptText="再次输入密码" textLimit="16" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <MFXTextField fx:id="text_passwd_a" prefHeight="99.0" prefWidth="438.0" textLimit="16" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+               </GridPane.margin>
+            </MFXTextField>
             </children>
          <StackPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

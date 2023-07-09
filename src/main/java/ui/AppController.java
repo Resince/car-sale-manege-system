@@ -2,6 +2,7 @@ package ui;
 
 import entity.Car;
 import entity.Order;
+import entity.User;
 import io.github.palexdev.materialfx.controls.MFXIconWrapper;
 import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
@@ -23,10 +24,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import server.CarManage;
 import server.PurchaseCar;
+import server.UserManage;
 import ui.controllers.*;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -90,8 +91,8 @@ public class AppController implements Initializable {
         allOrderListController = new OrderListController();
         carManageController = new CarManageController(stage);
         carDetailController = new CarDetailController();
-        userManageController=new UserManageController();
-        userDetailController=new UserDetailController();
+        userManageController = new UserManageController(stage);
+        userDetailController = new UserDetailController();
     }
 
     @Override
@@ -112,7 +113,7 @@ public class AppController implements Initializable {
         preOrderListPage = addViewToMenu("fxml/OrderList.fxml", preOrderListController, "fas-paste", "支付订单", this::showPreOrderListPage);
         allOrderListPage = addViewToMenu("fxml/OrderList.fxml", allOrderListController, "fas-paste", "查看订单", this::showAllOrderListPage);
         carManagePage = addViewToMenu("fxml/CarManage.fxml", carManageController, "fas-paste", "车辆管理", this::showCarManagePage);
-        userManagePage=addViewToMenu("fxml/UserManage.fxml",userManageController,"fas-user","用户管理",this::showUserMangePage);
+        userManagePage = addViewToMenu("fxml/UserManage.fxml", userManageController, "fas-user", "用户管理", this::showUserMangePage);
 
         initDetailPages();
 
@@ -165,15 +166,27 @@ public class AppController implements Initializable {
         });
         carDetailController.setCloseAction(this::showCarManagePage);
 
-        userDetailPage=AppUtil.loadView("fxml/UserDetail.fxml",userDetailController);
-        //TODO
+        userDetailPage = AppUtil.loadView("fxml/UserDetail.fxml", userDetailController);
+        userManageController.setAddUserAction(() -> {
+            userDetailController.addUserModeOn();
+            setSceneContent(userDetailPage, "新用户注册");
+            btn_back.setVisible(true);
+            btn_back.setOnMouseClicked(event -> showUserMangePage());
+        });
+        userManageController.setClickUserAction(user -> {
+            userDetailController.modifyUserModeOn();
+            userDetailController.setUser(user);
+            setSceneContent(userDetailPage, "修改用户信息");
+            btn_back.setVisible(true);
+            btn_back.setOnMouseClicked(event -> showUserMangePage());
+        });
+        userDetailController.setCloseAction(this::showUserMangePage);
     }
 
-    private void showUserMangePage(){
+    private void showUserMangePage() {
         btn_back.setVisible(false);
-
-        //TODO
-
+        List<User> userList = UserManage.searchAllUserList();
+        userManageController.setUsers(userList);
         setSceneContent(userManagePage, "用户管理");
     }
 

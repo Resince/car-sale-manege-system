@@ -68,13 +68,14 @@ public class CarManageController implements Initializable {
         metaColumn.add(Pair.of("价格", Car::getPrice));
         metaColumn.add(Pair.of("库存量", Car::getNumber));
 
+        final double cWidth=570.0/metaColumn.size();
         List<MFXTableColumn<Car>> columns = new ArrayList<>();
         for (Pair<String, Function<Car, ? extends Comparable>> p : metaColumn) {
             MFXTableColumn<Car> column = new MFXTableColumn<>(p.getLeft(), false, Comparator.comparing(p.getRight()));
             column.setRowCellFactory(car -> new MFXTableRowCell<>(p.getRight()));
-            column.setPrefWidth(80);
-            column.setMaxWidth(80);
-            column.setMinWidth(80);
+            column.setPrefWidth(cWidth);
+            column.setMaxWidth(cWidth);
+            column.setMinWidth(cWidth);
             columns.add(column);
         }
 

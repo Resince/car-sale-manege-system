@@ -104,7 +104,6 @@ public class CarDetailController implements Initializable {
                 closeAction.run();
             }
         });
-
     }
 
     private void confirmAddCar() {
@@ -119,7 +118,6 @@ public class CarDetailController implements Initializable {
     }
 
     private void confirmModifyCar() {
-        System.out.println("[CarDetailController::confirmModifyCar]begin");
         Car car = new Car()
                 .setBrand(text_brand.getText())
                 .setSeries(text_series.getText())
@@ -129,7 +127,6 @@ public class CarDetailController implements Initializable {
                 .setType(text_level.getText())
                 .setCarId(Integer.valueOf(text_carId.getText()));
         CarManage.updateCar(car);
-        System.out.println("[CarDetailController::confirmModifyCar]end");
     }
 
     public void setCloseAction(Runnable closeAction) {

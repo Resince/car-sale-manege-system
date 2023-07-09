@@ -48,8 +48,8 @@ public class AppUtil {
         final String[] specialCharacters = "! @ # & ( ) – [ { } ]: ; ' , ? / * ~ $ ^ + = < > -".split(" ");
         String re_phoneNum = "^1[3456789]\\d{9}$";
         String re_SID = "^([1-6][1-9]|50)\\d{4}(18|19|20)\\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
-        String re_positiveNumeric="^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$";
-        String re_nonNegativeInt="^\\d+$";
+        String re_positiveNumeric = "^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$";
+        String re_nonNegativeInt = "^\\d+$";
 
         BooleanExpression condition = switch (type) {
             case NotNull -> textField.textProperty().length().greaterThan(0);
@@ -80,8 +80,20 @@ public class AppUtil {
             );
         };
 
+        String msg = switch (type) {
+            case NotNull -> "不允许为空";
+            case IsPhoneNum -> "非法电话号码";
+            case AtLeast8 -> "至少8位";
+            case NoSpecialChar -> "不允许特殊字符";
+            case MustSpecialChar -> "必须包含特殊字符";
+            case IsSID -> "非法身份证号";
+            case IsPositiveNumeric -> "必须为正数";
+            case IsNonNegativeInt -> "必须为非负整数";
+        };
+
         textField.getValidator().constraint(Constraint.Builder.build()
                 .setSeverity(Severity.ERROR)
+                .setMessage(msg)
                 .setCondition(condition)
                 .get()
         );
@@ -92,7 +104,6 @@ public class AppUtil {
     public static void setValidatorListener(MFXTextField node) {
         node.getValidator().validProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                System.out.println("valid now");
                 node.pseudoClassStateChanged(INVALID_PSEUDO_CLASS, false);
             }
         });
@@ -110,6 +121,7 @@ public class AppUtil {
         boolean res = true;
         for (MFXTextField node : needValidate) {
             if (!node.validate().isEmpty()) {
+                System.out.println("[invalid]" + node.validate().get(0).getMessage());
                 node.pseudoClassStateChanged(AppUtil.INVALID_PSEUDO_CLASS, true);
                 res = false;
             }

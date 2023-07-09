@@ -8,6 +8,17 @@
     -mfx-color: -mfx-red;
 }
 
+.radio-group {
+    -fx-border-radius: 5;
+    -fx-border-color: #d6d6d6;
+}
+
+.radio-group:invalid {
+    -fx-border-color: -mfx-red;
+    -fx-text-fill: -mfx-red;
+    -mfx-color: -mfx-red;
+}
+
 .detail-field {
     -fx-border-width: 2;
     -fx-border-color: #d6d6d6;
