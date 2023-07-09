@@ -12,7 +12,7 @@ import java.util.List;
 public class OrderTest {
     OrderDao orderDao = new OrderDao();
     List<Insurance> insuranceList = new ArrayList<>();
-    Car car = new Car().setCarId(2863);
+    Car car = new Car().setCarId(3492);
     Order order = new Order(new User().setUserId(6),car,"2023-11-11","12345","haha","12434114",insuranceList,true,"全额",500,300,"2033-11-11",300,"大连理工大学","false");
 
     @Test

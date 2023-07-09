@@ -4,7 +4,6 @@ import entity.Car;
 import mapper.CarMapper;
 import org.apache.ibatis.session.SqlSession;
 import utils.SqlConnection;
-import utils.SqlState;
 
 import java.util.List;
 
@@ -22,6 +21,7 @@ public class CarDao {
         carDao = sqlSession.getMapper(CarMapper.class);
         carDao.addCar(car);
         sqlSession.commit();
+        sqlSession.close();
         return car;
     }
 
@@ -29,30 +29,31 @@ public class CarDao {
      * 批量添加车辆
      *
      * @param carList 车辆的List
-     * @return 返回SqlState
      */
-    public SqlState addCar(List<Car> carList) {
+    public int addCar(List<Car> carList) {
         SqlSession sqlSession = SqlConnection.getSession(true);
         carDao = sqlSession.getMapper(CarMapper.class);
+        int num = 0;
         for (Car item : carList) {
-            carDao.addCar(item);
+            num += carDao.addCar(item);
         }
         sqlSession.commit();
-        return SqlState.Done;
+        sqlSession.close();
+        return num;
     }
 
     /**
      * 根据carId删除车辆
      *
      * @param carID carId应从原有的类中指定
-     * @return 返回SqlState
      */
-    public SqlState deleteCarById(int carID) {
+    public int deleteCarById(int carID) {
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
         int ans = carDao.deleteCarById(carID);
         sqlSession.commit();
-        return SqlState.Done;
+        sqlSession.close();
+        return ans;
     }
 
     /**
@@ -64,7 +65,9 @@ public class CarDao {
     public List<Car> searchCar(Car car) {
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
-        return carDao.selectCar(car);
+        List<Car> carList = carDao.selectCar(car);
+        sqlSession.close();
+        return carList;
     }
 
     /**
@@ -77,13 +80,17 @@ public class CarDao {
     public List<Car> searchCarByPrice(double priceLeft, double priceRight) {
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
-        return carDao.searchCarByPrice(priceLeft, priceRight);
+        List<Car> carList = carDao.searchCarByPrice(priceLeft, priceRight);
+        sqlSession.close();
+        return carList;
     }
 
     public List<Car> searchAllCarList(){
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
-        return carDao.selectCar(new Car());
+        List<Car> carList = carDao.selectCar(new Car());
+        sqlSession.close();
+        return carList;
     }
 
     /**
@@ -96,13 +103,16 @@ public class CarDao {
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
         List<Car> c = carDao.selectCarByCarId(carId);
+        sqlSession.close();
         return (c == null) ? null : c.get(0);
     }
 
     public List<Car> searchBrandSeries() {
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
-        return carDao.searchBrandSeries();
+        List<Car> carList = carDao.searchBrandSeries();
+        sqlSession.close();
+        return carList;
     }
 
     /**
@@ -112,11 +122,12 @@ public class CarDao {
      * @return 返回 SqlState
      * 有两种car参数实例创建方法
      */
-    public SqlState UpdateCar(Car car) {
+    public int UpdateCar(Car car) {
         SqlSession sqlSession = SqlConnection.getSession();
         carDao = sqlSession.getMapper(CarMapper.class);
         int ans = carDao.updateCar(car);
         sqlSession.commit();
-        return SqlState.Done;
+        sqlSession.close();
+        return ans ;
     }
 }

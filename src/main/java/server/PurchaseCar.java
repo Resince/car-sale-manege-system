@@ -6,7 +6,6 @@ import entity.Insurance;
 import entity.Order;
 import entity.User;
 import utils.ExcelReader;
-import utils.SqlState;
 
 import java.util.Date;
 import java.util.List;
@@ -32,10 +31,10 @@ public class PurchaseCar {
      * 将订单修改为已支付状态
      */
     public static boolean addPaidOrder(Order order) {
-        if (manage.updateOrder(order.setIsPay(String.valueOf(true))) == SqlState.SqlError) {
+        if (manage.updateOrder(order.setIsPay(String.valueOf(true))) <=0) {
             logger.warning("数据库更新失败");
             return false;
-        } else return manage.updateOrder(order.setIsPay(String.valueOf(true))) == SqlState.Done;
+        } else return manage.updateOrder(order.setIsPay(String.valueOf(true))) >0;
     }
 
     /**

@@ -1,13 +1,10 @@
 package dao;
 
-import entity.Car;
 import entity.User;
-import mapper.CarMapper;
 import mapper.UserMapper;
 import org.apache.ibatis.session.SqlSession;
 import utils.AuthState;
 import utils.SqlConnection;
-import utils.SqlState;
 
 import java.util.List;
 
@@ -17,23 +14,25 @@ public class UserDao {
     /**
      * 添加user
      */
-    public SqlState addUser(User user) {
+    public int addUser(User user) {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
-        System.out.println(user.getUserId());//TODO
+        int ans = userDao.addUser(user);
         sqlSession.commit();
-        return SqlState.Done;
+        sqlSession.close();
+        return ans;
     }
 
     /**
      * 根据userId删除用户
      */
-    public SqlState deleteUserById(int userId) {
+    public int deleteUserById(int userId) {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
         int ans = userDao.deleteUserById(userId);
         sqlSession.commit();
-        return SqlState.Done;
+        sqlSession.close();
+        return ans;
     }
 
     /**
@@ -45,24 +44,29 @@ public class UserDao {
     public List<User> searchUser(User user) {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
-        return userDao.searchUser(user);
+        List<User> users = userDao.searchUser(user);
+        sqlSession.close();
+        return users;
     }
 
     public List<User> searchAllCarList(){
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
-        return userDao.searchUser(new User());
+        List<User> users = userDao.searchUser(new User());
+        sqlSession.close();
+        return users;
     }
 
     /**
      * 按照非空字段进行更新，空字段保留
      */
-    public SqlState updateUser(User user) {
+    public int updateUser(User user) {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
         int ans = userDao.updateUser(user);
         sqlSession.commit();
-        return SqlState.Done;
+        sqlSession.close();
+        return ans;
     }
 
     /**
@@ -76,17 +80,22 @@ public class UserDao {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
         if (userDao.authenticate(inputPhoneNumber, null) == null) {
+            sqlSession.close();
             return AuthState.InvalidUsername;
         }
         String res = userDao.authenticate(inputPhoneNumber, inputPasswd);
         if (inputPasswd != null && res == null) {
+            sqlSession.close();
             return AuthState.InvalidPassword;
         }
         if (res.equals("Admin")) {
+            sqlSession.close();
             return AuthState.DoneAdmin;
         } else if (res.equals("CarManager")) {
+            sqlSession.close();
             return AuthState.DoneCarManager;
         }else{
+            sqlSession.close();
             return AuthState.DoneSalesman;
         }
     }
