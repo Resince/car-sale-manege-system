@@ -33,7 +33,7 @@
             <children>
                 <MFXTextField fx:id="text_name" floatingText="姓名" prefHeight="54.0" prefWidth="190.0" promptText="填写姓名" textLimit="20" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <MFXTextField fx:id="text_tel" floatingText="手机号" prefHeight="54.0" prefWidth="190.0" promptText="填写手机号（用于登录）" textLimit="11" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                <MFXButton fx:id="btn_confirm" buttonType="RAISED" prefHeight="50.0" prefWidth="150.0" text="确认修改" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                <MFXButton fx:id="btn_confirm" buttonType="RAISED" prefHeight="50.0" prefWidth="150.0" text="确认修改" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                     <GridPane.margin>
                         <Insets bottom="30.0" />
                     </GridPane.margin>
@@ -78,6 +78,11 @@
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </GridPane.margin>
             </MFXTextField>
+            <MFXButton fx:id="btn_deleteUser" buttonType="RAISED" prefHeight="50.0" prefWidth="150.0" text="删除用户" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="30.0" />
+               </GridPane.margin>
+            </MFXButton>
             </children>
          <StackPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

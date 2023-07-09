@@ -28,8 +28,17 @@ import server.UserManage;
 import ui.controllers.*;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+
+enum MenuPage{
+    MakeOrder,
+    PayOrder,
+    AllOrder,
+    CarManage,
+    UserManage
+}
 
 public class AppController implements Initializable {
     @FXML
@@ -53,7 +62,9 @@ public class AppController implements Initializable {
     private double xOffset;
     private double yOffset;
     private final ToggleGroup toggleGroup;
-    private ToggleButton homeToggle;
+    private final HashMap<MenuPage,ToggleButton> pageToggle;
+    private final HashMap<MenuPage,String> pageName;
+    private User curUser;
 
     /* Controllers */
     private final MakeOrderController makeOrderController;
@@ -81,6 +92,14 @@ public class AppController implements Initializable {
 
 
     public AppController(Stage stage) {
+        pageName=new HashMap<>();
+        pageName.put(MenuPage.MakeOrder,"签订订单");
+        pageName.put(MenuPage.PayOrder,"支付订单");
+        pageName.put(MenuPage.AllOrder,"所有订单");
+        pageName.put(MenuPage.CarManage,"车辆管理");
+        pageName.put(MenuPage.UserManage,"用户管理");
+        pageToggle=new HashMap<>();
+
         this.stage = stage;
         this.toggleGroup = new ToggleGroup();
         ToggleButtonsUtil.addAlwaysOneSelectedSupport(toggleGroup);
@@ -92,7 +111,7 @@ public class AppController implements Initializable {
         allOrderListController = new OrderListController();
         carManageController = new CarManageController(stage);
         carDetailController = new CarDetailController();
-        userManageController = new UserManageController(stage);
+        userManageController = new UserManageController();
         userDetailController = new UserDetailController();
     }
 
@@ -110,11 +129,11 @@ public class AppController implements Initializable {
         });
 
         /* SETUP menu BUT NOT SHOW */
-        makeOrderPage = addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", "签订订单", this::showMakeOrderPage, true);
-        preOrderListPage = addViewToMenu("fxml/OrderList.fxml", preOrderListController, "fas-paste", "支付订单", this::showPreOrderListPage);
-        allOrderListPage = addViewToMenu("fxml/OrderList.fxml", allOrderListController, "fas-paste", "查看订单", this::showAllOrderListPage);
-        carManagePage = addViewToMenu("fxml/CarManage.fxml", carManageController, "fas-paste", "车辆管理", this::showCarManagePage);
-        userManagePage = addViewToMenu("fxml/UserManage.fxml", userManageController, "fas-user", "用户管理", this::showUserMangePage);
+        makeOrderPage = addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", MenuPage.MakeOrder, this::showMakeOrderPage);
+        preOrderListPage = addViewToMenu("fxml/OrderList.fxml", preOrderListController, "fas-paste", MenuPage.PayOrder, this::showPreOrderListPage);
+        allOrderListPage = addViewToMenu("fxml/OrderList.fxml", allOrderListController, "fas-paste", MenuPage.AllOrder, this::showAllOrderListPage);
+        carManagePage = addViewToMenu("fxml/CarManage.fxml", carManageController, "fas-paste", MenuPage.CarManage, this::showCarManagePage);
+        userManagePage = addViewToMenu("fxml/UserManage.fxml", userManageController, "fas-user", MenuPage.UserManage, this::showUserMangePage);
 
         initDetailPages();
 
@@ -125,11 +144,23 @@ public class AppController implements Initializable {
         /* WAITING loginController TO CALLBACK  enter */
     }
 
-    public void enter() {
+    public void enter(User user) {
         /* LOGIN SUCCEED */
         contentPane.setContent(null);
+        if(user.getType().equals("seller") || user.getType().equals("admin")){
+            toggleGroup.getToggles().add(pageToggle.get(MenuPage.MakeOrder));
+            toggleGroup.getToggles().add(pageToggle.get(MenuPage.PayOrder));
+            toggleGroup.getToggles().add(pageToggle.get(MenuPage.AllOrder));
+            makeOrderController.setCurUser(user);
+        }
+        if (user.getType().equals("manager") || user.getType().equals("admin")) {
+            toggleGroup.getToggles().add(pageToggle.get(MenuPage.CarManage));
+        }
+        if(user.getType().equals("admin")){
+            toggleGroup.getToggles().add(pageToggle.get(MenuPage.UserManage));
+        }
         navBar.getChildren().setAll(toggleGroup.getToggles().stream().map(t -> (ToggleButton) t).toList());
-        homeToggle.setSelected(true);
+        toggleGroup.getToggles().get(0).setSelected(true);
     }
 
     private void initDetailPages() {
@@ -151,6 +182,7 @@ public class AppController implements Initializable {
             btn_back.setOnMouseClicked(event -> showAllOrderListPage());
         });
         allOrderListController.setSubtitle("选择需要查看的订单");
+        allOrderDetailController.setCloseAction(this::showAllOrderListPage);
 
         carDetailPage = AppUtil.loadView("fxml/CarDetail.fxml", carDetailController);
         carManageController.setAddCarAction(() -> {
@@ -198,6 +230,7 @@ public class AppController implements Initializable {
 
     private void showCarManagePage() {
         btn_back.setVisible(false);
+        System.out.println("[::showCarManagePage]reload");
         List<Car> carList = CarManage.searchAllCarList();
         carManageController.setCars(carList);
         setSceneContent(carManagePage, "车辆管理");
@@ -221,23 +254,16 @@ public class AppController implements Initializable {
         setSceneContent(allOrderListPage, "所有订单");
     }
 
-    private Parent addViewToMenu(String fxmlRes, Object controller, String icon, String title, Runnable action, boolean setHome) {
+    private Parent addViewToMenu(String fxmlRes, Object controller, String icon, MenuPage p, Runnable action) {
         Parent view = AppUtil.loadView(fxmlRes, controller);
-        ToggleButton toggle = createToggle(icon, title);
-        toggle.setToggleGroup(toggleGroup);
-
+        ToggleButton toggle = createToggle(icon, pageName.get(p));
+        pageToggle.put(p,toggle);
         toggle.selectedProperty().addListener((observableValue, oldVal, newVal) -> {
             if (!oldVal && newVal) {
                 action.run();
             }
         });
-        if (setHome)
-            homeToggle = toggle;
         return view;
-    }
-
-    private Parent addViewToMenu(String fxmlRes, Object controller, String icon, String title, Runnable action) {
-        return addViewToMenu(fxmlRes, controller, icon, title, action, false);
     }
 
     private void setSceneContent(Parent view, String title) {

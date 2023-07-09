@@ -34,6 +34,8 @@ public class CarDetailController implements Initializable {
     private MFXTextField text_price;
     @FXML
     private MFXTextField text_series;
+    @FXML
+    private MFXButton btn_deleteCar;
 
     private List<MFXTextField> needValidate;
     private Runnable closeAction;
@@ -44,6 +46,10 @@ public class CarDetailController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initConstrains();
+        btn_deleteCar.setOnMouseClicked(event -> {
+            CarManage.deleteCar(Integer.parseInt(text_carId.getText()));
+            closeAction.run();
+        });
     }
 
     private void initConstrains() {
@@ -81,6 +87,7 @@ public class CarDetailController implements Initializable {
 
     public void addCarModeOn() {
         clear();
+        btn_deleteCar.setVisible(false);
         text_carId.setText("自动分配");
         subtitle.setText("填写车辆信息");
         text_carId.setVisible(false);
@@ -94,6 +101,7 @@ public class CarDetailController implements Initializable {
     }
 
     public void modifyCarModeOn() {
+        btn_deleteCar.setVisible(true);
         subtitle.setText("修改车辆信息");
         text_carId.setVisible(true);
         btn_confirm.setText("确认修改");

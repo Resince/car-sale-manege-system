@@ -31,36 +31,18 @@ public class UserManageController implements Initializable {
     @FXML
     private MFXButton btn_addUser;
     @FXML
-    private MFXButton btn_batchImport;
-    @FXML
     private MFXTableView<User> list_users;
-
-    private final Stage stage;
-    private final FileChooser fileChooser;
-
-    public UserManageController(Stage stage) {
-        this.stage = stage;
-        fileChooser=new FileChooser();
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btn_batchImport.setOnMouseClicked(event -> {
-            File file = fileChooser.showOpenDialog(stage);
-            if (file != null) {
-                //TODO
-                System.out.println(file.getAbsolutePath());
-            }
-        });
-
-        List<Pair<String, Function<User, ? extends Comparable>>> metaColumn=new ArrayList<>();
+        List<Pair<String, Function<User, ? extends Comparable>>> metaColumn = new ArrayList<>();
         metaColumn.add(Pair.of("工号", User::getUserId));
         metaColumn.add(Pair.of("姓名", User::getName));
         metaColumn.add(Pair.of("用户组", User::getType));
         metaColumn.add(Pair.of("电话号", User::getPhoneNumber));
         metaColumn.add(Pair.of("密码", User::getPassword));
 
-        final double cWidth=570.0/metaColumn.size();
+        final double cWidth = 570.0 / metaColumn.size();
         List<MFXTableColumn<User>> columns = new ArrayList<>();
         for (Pair<String, Function<User, ? extends Comparable>> p : metaColumn) {
             MFXTableColumn<User> column = new MFXTableColumn<>(p.getLeft(), false, Comparator.comparing(p.getRight()));
@@ -81,7 +63,7 @@ public class UserManageController implements Initializable {
     }
 
     public void setUsers(List<User> userList) {
-        list_users.setItems(FXCollections.observableList(userList));
+        list_users.getItems().setAll(FXCollections.observableList(userList));
     }
 
     public void setAddUserAction(Runnable action) {

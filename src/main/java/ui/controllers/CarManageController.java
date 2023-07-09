@@ -109,7 +109,7 @@ public class CarManageController implements Initializable {
     }
 
     public void setCars(List<Car> carList) {
-        list_cars.setItems(FXCollections.observableList(carList));
+        list_cars.getItems().setAll(FXCollections.observableList(carList));
     }
 
 

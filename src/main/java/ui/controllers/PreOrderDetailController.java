@@ -73,7 +73,7 @@ public class PreOrderDetailController implements Initializable {
         rbtn_full.setOnMouseClicked(event -> {
             label_num.setVisible(false);
             combo_num.setVisible(false);
-            combo_num.setText("");
+            combo_num.setText("支付");
             label_payment.setText(String.format("全款支付%.4f万元", curTot));
         });
         rbtn_installment.setOnMouseClicked(event -> {
@@ -155,7 +155,7 @@ public class PreOrderDetailController implements Initializable {
         label_payment.setText("");
         label_num.setVisible(false);
         combo_num.setVisible(false);
-        combo_num.setText("");
+        combo_num.setText("支付");
         date_delivery.clear();
         toggleGroup.selectToggle(null);
         combo_num.clear();

@@ -76,7 +76,7 @@ public class OrderListController implements Initializable {
      * @param orderList 订单列表
      */
     public void setOrders(List<Order> orderList) {
-        table_orderList.setItems(FXCollections.observableList(orderList));
+        table_orderList.getItems().setAll(FXCollections.observableList(orderList));
     }
 
     /**

@@ -44,6 +44,8 @@ public class UserDetailController implements Initializable {
     private MFXTextField text_passwd_a;
     @FXML
     private VBox box_userGroup;
+    @FXML
+    private MFXButton btn_deleteUser;
 
     private final ToggleGroup toggleGroup;
     private List<MFXTextField> needValidate;
@@ -67,7 +69,7 @@ public class UserDetailController implements Initializable {
         AppUtil.addConstraint(text_passwd_a, AppUtil.ConstraintType.AtLeast8);
         AppUtil.addConstraint(text_passwd, AppUtil.ConstraintType.AtLeast8);
         AppUtil.addConstraint(text_passwd_c, AppUtil.ConstraintType.AtLeast8);
-        AppUtil.addConstraint(text_tel,AppUtil.ConstraintType.IsPhoneNum);
+        AppUtil.addConstraint(text_tel, AppUtil.ConstraintType.IsPhoneNum);
         text_passwd_c.getValidator().constraint(Constraint.Builder.build()
                 .setSeverity(Severity.ERROR)
                 .setMessage("两次密码输入不一致")
@@ -76,6 +78,11 @@ public class UserDetailController implements Initializable {
                         text_passwd_c.textProperty()))
                 .get()
         );
+
+        btn_deleteUser.setOnMouseClicked(event -> {
+            UserManage.deleteUserById(curUserId);
+            closeAction.run();
+        });
     }
 
     private void clear() {
@@ -90,6 +97,7 @@ public class UserDetailController implements Initializable {
     public void addUserModeOn() {
         clear();
         subtitle.setText("填写用户信息");
+        btn_deleteUser.setVisible(false);
         text_passwd.setVisible(true);
         text_passwd_c.setVisible(true);
         text_passwd_a.setVisible(false);
@@ -114,6 +122,7 @@ public class UserDetailController implements Initializable {
 
     public void modifyUserModeOn() {
         subtitle.setText("修改用户信息");
+        btn_deleteUser.setVisible(true);
         text_passwd_a.setVisible(true);
         text_passwd.setVisible(false);
         text_passwd_c.setVisible(false);
@@ -155,7 +164,7 @@ public class UserDetailController implements Initializable {
         });
     }
 
-     private String getSelectedUserGroup() {
+    private String getSelectedUserGroup() {
         MFXRadioButton s_btn = (MFXRadioButton) toggleGroup.getSelectedToggle();
         if (s_btn == null) {
             System.out.println("[UserDetailController::getSelectedUserGroup]null");

@@ -27,6 +27,7 @@ public class AllOrderDetailController implements Initializable {
 
     private final ConfirmOrderController confirmOrderController;
     private Order order;
+    private Runnable closeAction;
 
     public AllOrderDetailController() {
         confirmOrderController = new ConfirmOrderController();
@@ -39,8 +40,8 @@ public class AllOrderDetailController implements Initializable {
         ScrollUtils.addSmoothScrolling(pane_orderDetail);
         btn_deleteOrder.setOnMouseClicked(event -> {
             if (order != null) {
-                // todo 删除后返回
                 PurchaseCar.deleteOrder(order);
+                closeAction.run();
             }
         });
     }
@@ -48,5 +49,9 @@ public class AllOrderDetailController implements Initializable {
     public void setOrder(Order order) {
         this.order = order;
         confirmOrderController.setContent(order);
+    }
+
+    public void setCloseAction(Runnable closeAction) {
+        this.closeAction = closeAction;
     }
 }
