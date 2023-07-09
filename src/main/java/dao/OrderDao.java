@@ -30,20 +30,20 @@ public class OrderDao {
         return order;
     }
 
-    /**
-     * 添加保险信息
-     *
-     * @param name  保险的名字
-     * @param price 保险的价格
-     */
-    public int addIns(String name, double price) {
-        SqlSession sqlSession = SqlConnection.getSession();
-        orderDao = sqlSession.getMapper(OrderMapper.class);
-        int n = orderDao.addIns(name, price);
-        sqlSession.commit();
-        sqlSession.close();
-        return n;
-    }
+//    /**
+//     * 添加保险信息
+//     *
+//     * @param name  保险的名字
+//     * @param price 保险的价格
+//     */
+//    public int addIns(String name, double price) {
+//        SqlSession sqlSession = SqlConnection.getSession();
+//        orderDao = sqlSession.getMapper(OrderMapper.class);
+//        int n = orderDao.addIns(name, price);
+//        sqlSession.commit();
+//        sqlSession.close();
+//        return n;
+//    }
 
     /**
      * 搜索订单<br>

@@ -67,20 +67,20 @@ public class CarDao {
         return carList;
     }
 
-    /**
-     * 左闭右闭价格区间查找车辆
-     *
-     * @param priceLeft  价格区间左侧
-     * @param priceRight 价格区间右侧
-     * @return 返回车辆列表
-     */
-    public List<Car> searchCarByPrice(double priceLeft, double priceRight) {
-        SqlSession sqlSession = SqlConnection.getSession();
-        carDao = sqlSession.getMapper(CarMapper.class);
-        List<Car> carList = carDao.searchCarByPrice(priceLeft, priceRight);
-        sqlSession.close();
-        return carList;
-    }
+//    /**
+//     * 左闭右闭价格区间查找车辆
+//     *
+//     * @param priceLeft  价格区间左侧
+//     * @param priceRight 价格区间右侧
+//     * @return 返回车辆列表
+//     */
+//    public List<Car> searchCarByPrice(double priceLeft, double priceRight) {
+//        SqlSession sqlSession = SqlConnection.getSession();
+//        carDao = sqlSession.getMapper(CarMapper.class);
+//        List<Car> carList = carDao.searchCarByPrice(priceLeft, priceRight);
+//        sqlSession.close();
+//        return carList;
+//    }
 
     public List<Car> searchAllCarList(){
         SqlSession sqlSession = SqlConnection.getSession();
@@ -90,19 +90,19 @@ public class CarDao {
         return carList;
     }
 
-    /**
-     * 根据carID搜索车辆
-     *
-     * @param carId 非空
-     * @return 返回 carList
-     */
-    public Car selectCarByCarId(int carId) {
-        SqlSession sqlSession = SqlConnection.getSession();
-        carDao = sqlSession.getMapper(CarMapper.class);
-        List<Car> c = carDao.selectCarByCarId(carId);
-        sqlSession.close();
-        return (c == null) ? null : c.get(0);
-    }
+//    /**
+//     * 根据carID搜索车辆
+//     *
+//     * @param carId 非空
+//     * @return 返回 carList
+//     */
+//    public Car selectCarByCarId(int carId) {
+//        SqlSession sqlSession = SqlConnection.getSession();
+//        carDao = sqlSession.getMapper(CarMapper.class);
+//        List<Car> c = carDao.selectCarByCarId(carId);
+//        sqlSession.close();
+//        return (c == null) ? null : c.get(0);
+//    }
 
     public List<Car> searchBrandSeries() {
         SqlSession sqlSession = SqlConnection.getSession();

@@ -32,13 +32,13 @@ public class UserAccess {
      */
     public static int strIsValid(String str) {
         int flag_n = 0, flag_c = 0;
-        for (char c : str.toCharArray()) {
-            if (c >= '0' && c <= '9')
-                flag_n = 1;
-            else if (c >= 'a' && c <= 'z')
-                flag_c = 1;
-            else
-                return 0;
+            for (char c : str.toCharArray()) {
+                if (c >= '0' && c <= '9')
+                    flag_n = 1;
+                else if (c >= 'a' && c <= 'z')
+                    flag_c = 1;
+                else
+                    return 0;
         }
         return flag_n + flag_c;
     }

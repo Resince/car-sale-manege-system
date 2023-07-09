@@ -12,7 +12,7 @@ public interface UserMapper {
 
     List<User> searchUser(User user);
 
-    List<User> searchUserById(@Param("userId")Integer UserId);
+    //List<User> searchUserById(@Param("userId")Integer UserId);
 
     int updateUser(User user);
 

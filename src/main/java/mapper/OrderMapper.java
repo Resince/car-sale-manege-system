@@ -11,7 +11,7 @@ public interface OrderMapper {
 
     int addPurIns(@Param("insName")String insName, @Param("orderId") int orderId);
 
-    int addIns(@Param("insName") String insName,@Param("price") double price);
+    //int addIns(@Param("insName") String insName,@Param("price") double price);
 
     List<Order> searchOrder(Order order);
 

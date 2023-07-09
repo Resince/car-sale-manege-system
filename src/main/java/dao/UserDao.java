@@ -34,19 +34,19 @@ public class UserDao {
         return ans;
     }
 
-    /**
-     * 按照非空字段进行搜索
-     *
-     * @param user 非空字段被认为是搜索对象
-     * @return 返回user的list
-     */
-    public List<User> searchUser(User user) {
-        SqlSession sqlSession = SqlConnection.getSession();
-        userDao = sqlSession.getMapper(UserMapper.class);
-        List<User> users = userDao.searchUser(user);
-        sqlSession.close();
-        return users;
-    }
+//    /**
+//     * 按照非空字段进行搜索
+//     *
+//     * @param user 非空字段被认为是搜索对象
+//     * @return 返回user的list
+//     */
+//    public List<User> searchUser(User user) {
+//        SqlSession sqlSession = SqlConnection.getSession();
+//        userDao = sqlSession.getMapper(UserMapper.class);
+//        List<User> users = userDao.searchUser(user);
+//        sqlSession.close();
+//        return users;
+//    }
 
     public List<User> searchAllCarList() {
         SqlSession sqlSession = SqlConnection.getSession();

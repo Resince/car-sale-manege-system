@@ -42,11 +42,11 @@
         values (#{insName},#{orderId})
     </insert>
 
-    <insert id="addIns">
-        insert Insurances
-        (insName,price)
-        values (#{insName},#{price})
-    </insert>
+<!--    <insert id="addIns">-->
+<!--        insert Insurances-->
+<!--        (insName,price)-->
+<!--        values (#{insName},#{price})-->
+<!--    </insert>-->
     
     <!--  查找  -->
     <select id="searchOrder" resultMap="resultMapSearchOrder">
