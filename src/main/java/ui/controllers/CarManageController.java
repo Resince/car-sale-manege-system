@@ -54,6 +54,7 @@ public class CarManageController implements Initializable {
         btn_batchImport.setOnMouseClicked(event -> {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
+                System.out.println(file.getAbsolutePath());
                 CarManage.addCarList(file.getAbsolutePath());
             }
         });

@@ -1,6 +1,5 @@
 package utils;
 
-import dao.CarDao;
 import entity.Car;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -57,23 +56,19 @@ public class ExcelReader {
         try {
             // 获取Excel后缀名
             String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
-
             // 获取Excel文件
             File excelFile = new File(fileName);
             if (!excelFile.exists()) {
                 logger.warning("指定的Excel文件不存在！");
                 return null;
             }
-
             // 获取Excel工作簿
             inputStream = new FileInputStream(excelFile);
             workbook = getWorkbook(inputStream, fileType);
-
             // 读取excel中的数据
             if (workbook != null) {
                 return parseExcel(workbook);
             } else return null;
-
         } catch (Exception e) {
             logger.warning("解析Excel失败，文件名：" + fileName + "错误信息：" + e.getMessage());
             return null;
@@ -107,26 +102,21 @@ public class ExcelReader {
             if (sheet == null) {
                 continue;
             }
-
             // 获取第一行数据
             int firstRowNum = sheet.getFirstRowNum();
             Row firstRw = sheet.getRow(firstRowNum);
             if (null == firstRw) {
                 logger.warning("解析Excel失败，在第一行没有读取到任何数据！");
             }
-
             // 解析每一行的数据，构造数据对象
             int rowStart = firstRowNum + 1;
             int rowEnd = sheet.getPhysicalNumberOfRows();
             for (int rowNum = rowStart; rowNum < rowEnd; rowNum ++ ) {
                 Row row = sheet.getRow(rowNum);
-
                 if (null == row) {
                     continue;
                 }
-
                 Car resultData = convertRowToData(row);
-
                 if (null == resultData) {
                     logger.warning("第" + row.getRowNum() + "行数据不合法，已忽略！");
                     continue;
@@ -205,8 +195,8 @@ public class ExcelReader {
 
         // 获取类型
         cell = row.getCell(cellNum++);
-        String type = convertCellValueToString(cell);
-        resultData.setType(type);
+        String series = convertCellValueToString(cell);
+        resultData.setType(series);
 
         // 获取powerType
         cell = row.getCell(cellNum++);
@@ -220,17 +210,16 @@ public class ExcelReader {
 
         // 获取series
         cell = row.getCell(cellNum++);
-        String series = convertCellValueToString(cell);
-        resultData.setSeries(series);
+        String type = convertCellValueToString(cell);
+        resultData.setSeries(type);
 
         // 获取number
         cell = row.getCell(cellNum++);
         String number = convertCellValueToString(cell);
         if (null == price || "".equals(price)) {
-            // 价格为空
             resultData.setNumber(0);
         } else {
-            resultData.setNumber(Integer.parseInt(number));
+            resultData.setNumber(Integer.parseInt(number.split("\\.")[0]));
         }
 
         return resultData;
