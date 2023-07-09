@@ -1,28 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
 <?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="700.0" stylesheets="@../css/Widgets.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PreOrderDetailController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="118.0" minWidth="10.0" prefWidth="85.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.0" minWidth="10.0" prefWidth="256.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="432.0" minWidth="10.0" prefWidth="348.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="70.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="69.0" vgrow="SOMETIMES" />
-  </rowConstraints>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PreOrderDetailController">
    <children>
-      <MFXScrollPane fx:id="pane_orderDetail" prefHeight="295.0" prefWidth="360.0" styleClass="detail-field" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowSpan="4" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
-         <GridPane.margin>
+      <GridPane prefHeight="470.0" prefWidth="700.0" styleClass="frame" stylesheets="@../css/Widgets.css">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="20.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="297.0" minWidth="10.0" prefWidth="118.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="297.0" minWidth="10.0" prefWidth="188.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="330.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="65.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="55.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="55.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="55.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="55.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="15.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="106.0" minHeight="-Infinity" prefHeight="66.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="65.0" minHeight="45.0" prefHeight="60.0" />
+        </rowConstraints>
+         <children>
+            <MFXScrollPane fx:id="pane_orderDetail" prefHeight="295.0" prefWidth="360.0" styleClass="detail-field" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowSpan="8" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </GridPane.margin>
+            </MFXScrollPane>
+            <Label text="准备支付" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font name="DengXian Bold" size="29.0" />
+               </font>
+            </Label>
+            <Label alignment="BASELINE_CENTER" prefHeight="35.0" prefWidth="159.0" text="总金额" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="label_total" prefHeight="35.0" prefWidth="194.0" text="12345.1234 万元" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label alignment="BASELINE_CENTER" prefHeight="35.0" prefWidth="201.0" text="付款方式" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Label>
+            <HBox fx:id="box_payMethod" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="160.0" spacing="30.0" styleClass="radio-group" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+               <children>
+                  <MFXRadioButton fx:id="rbtn_full" contentDisplay="CENTER" prefHeight="30.0" prefWidth="62.0" text="全款" />
+                  <MFXRadioButton fx:id="rbtn_installment" contentDisplay="CENTER" prefHeight="33.0" prefWidth="62.0" text="分期" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </HBox>
+            <Label fx:id="label_num" alignment="BASELINE_CENTER" prefHeight="35.0" prefWidth="223.0" text="分期次数" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <MFXDatePicker fx:id="date_delivery" prefHeight="45.0" prefWidth="160.0" promptText="请选择" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </MFXDatePicker>
+            <Label alignment="BASELINE_CENTER" prefHeight="35.0" prefWidth="161.0" text="交付日期" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <MFXButton fx:id="btn_confirm" buttonType="RAISED" depthLevel="LEVEL1" prefHeight="40.0" prefWidth="160.0" text="确认支付" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin></MFXButton>
+            <Label fx:id="label_payment" alignment="CENTER" prefHeight="69.0" prefWidth="306.0" text="全款12345.1234万元分期12其阿松大瓦房" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font name="KaiTi" size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
+            <MFXComboBox fx:id="combo_num" prefHeight="45.0" prefWidth="160.0" promptText="请选择" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </MFXComboBox>
+         </children>
+         <StackPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </GridPane.margin>
-      </MFXScrollPane>
+         </StackPane.margin>
+      </GridPane>
    </children>
-</GridPane>
+</StackPane>

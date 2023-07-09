@@ -21,6 +21,12 @@
 
 .detail-field {
     -fx-border-width: 2;
+    -fx-border-color: #e9e9e9;
+    -fx-border-radius: 10;
+}
+
+.frame {
+    -fx-border-width: 2;
     -fx-border-color: #d6d6d6;
     -fx-border-radius: 10;
 }

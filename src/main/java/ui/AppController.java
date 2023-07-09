@@ -69,6 +69,7 @@ public class AppController implements Initializable {
 
 
     /* pages */
+    private Parent makeOrderPage;
     private Parent preOrderDetailPage;
     private Parent allOrderDetailPage;
     private Parent preOrderListPage;
@@ -109,7 +110,7 @@ public class AppController implements Initializable {
         });
 
         /* SETUP menu BUT NOT SHOW */
-        addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", "签订订单", null, true);
+        makeOrderPage = addViewToMenu("fxml/MakeOrder.fxml", makeOrderController, "fas-pen-to-square", "签订订单", this::showMakeOrderPage, true);
         preOrderListPage = addViewToMenu("fxml/OrderList.fxml", preOrderListController, "fas-paste", "支付订单", this::showPreOrderListPage);
         allOrderListPage = addViewToMenu("fxml/OrderList.fxml", allOrderListController, "fas-paste", "查看订单", this::showAllOrderListPage);
         carManagePage = addViewToMenu("fxml/CarManage.fxml", carManageController, "fas-paste", "车辆管理", this::showCarManagePage);
@@ -140,6 +141,7 @@ public class AppController implements Initializable {
             btn_back.setOnMouseClicked(event -> showPreOrderListPage());
         });
         preOrderListController.setSubtitle("选择想要支付的订单");
+        preOrderDetailController.setCloseAction(this::showPreOrderListPage);
 
         allOrderDetailPage = AppUtil.loadView("fxml/AllOrderDetail.fxml", allOrderDetailController);
         allOrderListController.setAction(order -> {
@@ -191,7 +193,7 @@ public class AppController implements Initializable {
     }
 
     private void showMakeOrderPage() {
-
+        setSceneContent(makeOrderPage,"填写订单");
     }
 
     private void showCarManagePage() {
@@ -226,9 +228,7 @@ public class AppController implements Initializable {
 
         toggle.selectedProperty().addListener((observableValue, oldVal, newVal) -> {
             if (!oldVal && newVal) {
-                if (action != null)
-                    action.run();
-                setSceneContent(view, title);
+                action.run();
             }
         });
         if (setHome)
