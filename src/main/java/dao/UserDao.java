@@ -14,13 +14,13 @@ public class UserDao {
     /**
      * 添加user
      */
-    public int addUser(User user) {
+    public User addUser(User user) {
         SqlSession sqlSession = SqlConnection.getSession();
         userDao = sqlSession.getMapper(UserMapper.class);
         int ans = userDao.addUser(user);
         sqlSession.commit();
         sqlSession.close();
-        return ans;
+        return user;
     }
 
     /**

@@ -8,4 +8,9 @@ public class UserTest {
     public void testAddUser(){
         UserManage.addUser(new User().setPassword("124315243").setName("yang").setType("admin").setPassword("11231413241").setPhoneNumber("12314141"));
     }
+
+    @Test
+    public void testDeleteUser(){
+        UserManage.deleteUserById(1);
+    }
 }

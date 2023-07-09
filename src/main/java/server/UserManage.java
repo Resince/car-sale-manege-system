@@ -20,18 +20,16 @@ public class UserManage {
     /**
      * 添加单个用户信息
      */
-    public static void addUser(User user) {
+    public static User addUser(User user) {
        manage.addUser(user);
+       return user;
     }
 
     /**
      * 根据用户id删除用户
      */
-    public static boolean deleteUserById(int userId) {
-        if (manage.deleteUserById(userId) <=0) {
-            logger.warning("数据库添加失败");
-            return false;
-        } else return manage.deleteUserById(userId) >0;
+    public static void deleteUserById(int userId) {
+      manage.deleteUserById(userId);
     }
 
 

@@ -38,7 +38,7 @@
     </select>
 
     <!--  删除  -->
-    <delete id="deleteByUserId" parameterType="int">
+    <delete id="deleteUserById" parameterType="int">
         delete from user
         where userId = #{userId}
     </delete>

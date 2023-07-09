@@ -75,40 +75,42 @@
 ```mermaid
 erDiagram 
     User {
-        int userId pk "not null"
-        string password "not null"
-        string name "not null"
-        string phoneNumber "not null"
-        string type "not null"
+        userId      int 	pk	"auto_increment"
+    	password    varchar(30) "not null"
+    	name        varchar(30) "not null"
+    	phoneNumber varchar(30) "not null"
+    	type        varchar(30) "not null"
     }
     User |o--o| Order: in
     Order{
-    	int orderId pk
-    	int cusID
-    	LocalDate orderTime
-        string cusName
-        string cusPhone
-        int hasLicenseServer
-    	string payMethod 
-    	int pmtDiscount
-    	int deposit
-    	LocalDate deliveryTime
-    	int purchaseTax
+    	orderId          int         pk  "auto_increment"
+        cusID            varchar(30) "not null"
+        orderTime        date        "not null"
+        cusName          varchar(30) "not null"
+        cusPhone         varchar(30) "not null"
+        cusAddress       varchar(50) "not null"
+        hasLicenseServer varchar(10) "not null"
+        payMethod        varchar(30) "null"
+        pmtDiscount      int         "not null"
+        deposit          int         "not null"
+        deliveryTime     date        "null"
+        purchaseTax      int         "not null"
+        isPay            varchar(30) "not null"
     }
     Car |o--o| Order: in
     Car {
-        int carId PK "not null"
-        double price "not null"
-        string structure "not null"
-        string powertype "not null"
-        string brand "not null"
-        string series "not null"
-        string type "not null"
+        carId     int    pk  "auto_increment"
+        price     double      "not null"
+        type      varchar(50) "not null"
+        powerType varchar(50) "not null"
+        brand     varchar(50) "not null"
+        series    varchar(50) "not null"
+        number    int         "not null"
     }
     Insurances }o--o| Order: purIns
     Insurances {
-    	string insName pk
-    	double price
+    	string insName pk "not null"
+    	double price "not null"
     }
 ```
 
