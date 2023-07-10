@@ -3,7 +3,6 @@ package server;
 
 import dao.CarDao;
 import entity.Car;
-import org.apache.commons.collections4.CollectionUtils;
 import utils.ExcelReader;
 
 import java.util.*;
@@ -54,7 +53,6 @@ public class CarManage {
      * 根据carID进行删除
      *
      * @param carID 汽车id
-     * @return SqlState
      */
     public static boolean deleteCar(int carID) {
         if (manage.deleteCarById(carID) <=0) {

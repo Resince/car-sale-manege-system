@@ -91,7 +91,7 @@ public class MakeOrderController implements Initializable {
     private void setupComboBoxItem() {
         Map<String, Set<String>> bsMap = CarManage.getBSMap();
         List<String> brandlist = bsMap.keySet().stream().toList();
-        combo_model.setItems(FXCollections.observableList(CarManage.getSeries().stream().toList()));
+        combo_model.getItems().setAll(FXCollections.observableList(CarManage.getSeries().stream().toList()));
         combo_brand.setItems(FXCollections.observableList(brandlist));
         combo_brand.getSelectionModel().selectedItemProperty().addListener(
                 (ObservableValue<? extends String> ov, String old_value, String new_value) -> {

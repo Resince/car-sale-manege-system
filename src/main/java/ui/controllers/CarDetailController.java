@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import server.CarManage;
-import ui.App;
 import ui.AppUtil;
 
 import java.net.URL;

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.ConfirmOrderController">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.ConfirmOrderController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="90.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="230.0" />
@@ -135,7 +133,7 @@
         <Label fx:id="insurancePrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="15" />
         <Label fx:id="taxPrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="16" />
         <Label fx:id="servicePrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="17" />
-      <Label fx:id="servicePrice1" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+      <Label fx:id="pmtDiscount" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="18" />
         <Label fx:id="totalPrice" prefWidth="280.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="19" />
       <Label alignment="CENTER" text="类型" GridPane.rowIndex="3">
          <GridPane.margin>
