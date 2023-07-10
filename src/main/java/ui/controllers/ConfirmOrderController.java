@@ -64,23 +64,24 @@ public class ConfirmOrderController implements Initializable {
 
         // 车款
         Double carPrice_ = order.getCar().getPrice() * 10000;
-        DecimalFormat df = new DecimalFormat("###,###.00");
+        DecimalFormat df = new DecimalFormat("#.00");
         String res_CarPrice = df.format(carPrice_);
         carPrice.setText(res_CarPrice + " 元");
 
         insurance.setText(formatInsuranceList(order.getInsurances()));
-        insurancePrice.setText(df.format(PurchaseCar.getInsuranceListPrice(order.getInsurances()) * 10000) + " 元");
+        insurancePrice.setText(df.format(PurchaseCar.getInsuranceListPrice(order.getInsurances())) + " 元");
         model.setText(order.getCar().getSeries());
         name.setText(order.getCusName());
         regCar.setText(order.getHasLicenseServer() ? "是" : "否");
-        servicePrice.setText(df.format(PurchaseCar.getServerPrice(order) * 10000) + " 元");
+        servicePrice.setText(df.format(PurchaseCar.getServerPrice(order)) + " 元");
         sid.setText(order.getCusId());
-        taxPrice.setText(order.getPurchaseTax() * 10000 + " 元");
+        taxPrice.setText(df.format(order.getPurchaseTax()) + " 元");
         tel.setText(order.getCusPhone());
-        totalPrice.setText(df.format(PurchaseCar.getSum(order) * 10000) + " 元");
+        double sum = PurchaseCar.getSum(order) + PurchaseCar.getServerPrice(order);
+        totalPrice.setText(sum + " 元");
         type.setText(order.getCar().getType());
         power.setText(order.getCar().getPowerType());
-        pmtDiscount.setText(order.getPmtDiscount() * 10000 + " 元");
+        pmtDiscount.setText(order.getPmtDiscount() + " 元");
     }
 
     /**
