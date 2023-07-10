@@ -16,7 +16,13 @@
               <children>
                   <Pane prefHeight="135.0" prefWidth="240.0" style="-fx-background-color: #00b894; -fx-background-radius: 20 0 0 0;">
                <children>
-                  <MFXFontIcon fx:id="btn_quit" description="fas-arrow-right-from-bracket" layoutX="25.0" layoutY="90.0" rotate="180.0" size="50" wrappingWidth="50" />
+                  <MFXFontIcon fx:id="btn_quit" description="fas-arrow-right-from-bracket" layoutX="25.0" layoutY="90.0" rotate="180.0" size="50" visible="false" wrappingWidth="50" />
+                  <Pane fx:id="logo" layoutX="20.0" layoutY="24.0" prefHeight="94.0" prefWidth="200.0" styleClass="logo" visible="false" />
+                  <Label fx:id="info" layoutX="75.0" layoutY="30.0" prefHeight="77.0" prefWidth="141.0" text="欢迎管理员XXXXXX" wrapText="true">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
                </children></Pane>
                   <VBox fx:id="navBar" prefHeight="405.0" prefWidth="240.0" spacing="5.0">
                <padding>
@@ -35,7 +41,7 @@
                   <Insets top="10.0" />
                </HBox.margin>
             </MFXFontIcon>
-            <Label fx:id="title" alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="315.0" text="标题">
+            <Label fx:id="title" alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="315.0" text="登录">
                <HBox.margin>
                   <Insets right="260.0" />
                </HBox.margin>

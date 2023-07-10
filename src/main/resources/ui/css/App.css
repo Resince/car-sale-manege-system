@@ -27,3 +27,9 @@
     -fx-opacity: 1;
     -mfx-color: -mfx-red;
 }
+
+.logo{
+    -fx-background-image: url("../AMSS_logo.png");
+    -fx-background-size:100% 100%;
+    -fx-background-repeat:no-repeat;
+}

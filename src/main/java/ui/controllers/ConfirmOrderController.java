@@ -25,6 +25,10 @@ public class ConfirmOrderController implements Initializable {
     @FXML
     private Label brand;
     @FXML
+    private Label type;
+    @FXML
+    private Label power;
+    @FXML
     private Label carPrice;
     @FXML
     private Label insurance;
@@ -73,6 +77,8 @@ public class ConfirmOrderController implements Initializable {
         taxPrice.setText(df.format(order.getPurchaseTax() * 10000) +" 元");
         tel.setText(order.getCusPhone());
         totalPrice.setText(df.format(PurchaseCar.getSum(order) * 10000)+" 元");
+        type.setText(order.getCar().getType());
+        power.setText(order.getCar().getPowerType());
     }
 
     /**

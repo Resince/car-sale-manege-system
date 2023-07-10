@@ -33,6 +33,7 @@ public class AppUtil {
 
     public static Parent loadView(String fxmlName, Object controller) {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlName));
+        System.out.println(App.class.getResource(fxmlName));
         if (controller != null)
             loader.setControllerFactory(c -> controller);
         try {

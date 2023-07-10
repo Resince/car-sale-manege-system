@@ -17,10 +17,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import server.CarManage;
 import server.PurchaseCar;
@@ -30,9 +29,10 @@ import ui.controllers.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
-enum MenuPage{
+enum MenuPage {
     MakeOrder,
     PayOrder,
     AllOrder,
@@ -59,13 +59,17 @@ public class AppController implements Initializable {
     private MFXScrollPane contentPane;
     @FXML
     private Label title;
+    @FXML
+    private Pane logo;
+    @FXML
+    private Label info;
 
     private final Stage stage;
     private double xOffset;
     private double yOffset;
     private final ToggleGroup toggleGroup;
-    private final HashMap<MenuPage,ToggleButton> pageToggle;
-    private final HashMap<MenuPage,String> pageName;
+    private final HashMap<MenuPage, ToggleButton> pageToggle;
+    private final HashMap<MenuPage, String> pageName;
     private User curUser;
 
     /* Controllers */
@@ -95,13 +99,13 @@ public class AppController implements Initializable {
 
 
     public AppController(Stage stage) {
-        pageName=new HashMap<>();
-        pageName.put(MenuPage.MakeOrder,"签订订单");
-        pageName.put(MenuPage.PayOrder,"支付订单");
-        pageName.put(MenuPage.AllOrder,"所有订单");
-        pageName.put(MenuPage.CarManage,"车辆管理");
-        pageName.put(MenuPage.UserManage,"用户管理");
-        pageToggle=new HashMap<>();
+        pageName = new HashMap<>();
+        pageName.put(MenuPage.MakeOrder, "签订订单");
+        pageName.put(MenuPage.PayOrder, "支付订单");
+        pageName.put(MenuPage.AllOrder, "所有订单");
+        pageName.put(MenuPage.CarManage, "车辆管理");
+        pageName.put(MenuPage.UserManage, "用户管理");
+        pageToggle = new HashMap<>();
 
         this.stage = stage;
         this.toggleGroup = new ToggleGroup();
@@ -140,7 +144,7 @@ public class AppController implements Initializable {
 
         initDetailPages();
 
-        loginPage=AppUtil.loadView("fxml/Login.fxml", loginController);
+        loginPage = AppUtil.loadView("fxml/Login.fxml", loginController);
 
         btn_quit.setOnMouseClicked(event -> startLogin());
 
@@ -148,9 +152,12 @@ public class AppController implements Initializable {
 
     }
 
-    private void startLogin(){
+    private void startLogin() {
         /* START login */
+        title.setText("登录");
         btn_quit.setVisible(false);
+        info.setVisible(false);
+        logo.setVisible(true);
         navBar.getChildren().clear();
         contentPane.setContent(loginPage);
         /* WAITING loginController TO CALLBACK  enter */
@@ -158,9 +165,10 @@ public class AppController implements Initializable {
 
     public void enter(User user) {
         /* LOGIN SUCCEED */
+        curUser=user;
         contentPane.setContent(null);
         toggleGroup.getToggles().clear();
-        if(user.getType().equals("seller") || user.getType().equals("admin")){
+        if (user.getType().equals("seller") || user.getType().equals("admin")) {
             toggleGroup.getToggles().add(pageToggle.get(MenuPage.MakeOrder));
             toggleGroup.getToggles().add(pageToggle.get(MenuPage.PayOrder));
             toggleGroup.getToggles().add(pageToggle.get(MenuPage.AllOrder));
@@ -169,12 +177,21 @@ public class AppController implements Initializable {
         if (user.getType().equals("manager") || user.getType().equals("admin")) {
             toggleGroup.getToggles().add(pageToggle.get(MenuPage.CarManage));
         }
-        if(user.getType().equals("admin")){
+        if (user.getType().equals("admin")) {
             toggleGroup.getToggles().add(pageToggle.get(MenuPage.UserManage));
         }
         navBar.getChildren().setAll(toggleGroup.getToggles().stream().map(t -> (ToggleButton) t).toList());
         toggleGroup.getToggles().get(0).setSelected(true);
+        logo.setVisible(false);
         btn_quit.setVisible(true);
+        info.setVisible(true);
+        String role = switch (curUser.getType()) {
+            case "admin" -> "主管理员";
+            case "manager" -> "车辆管理";
+            case "seller" -> "销售员";
+            default -> "";
+        };
+        info.setText(String.format("欢迎%s\n%s",role,curUser.getName()));
     }
 
     private void initDetailPages() {
@@ -239,7 +256,7 @@ public class AppController implements Initializable {
     }
 
     private void showMakeOrderPage() {
-        setSceneContent(makeOrderPage,"填写订单");
+        setSceneContent(makeOrderPage, "填写订单");
     }
 
     private void showCarManagePage() {
@@ -271,7 +288,7 @@ public class AppController implements Initializable {
     private Parent addViewToMenu(String fxmlRes, Object controller, String icon, MenuPage p, Runnable action) {
         Parent view = AppUtil.loadView(fxmlRes, controller);
         ToggleButton toggle = createToggle(icon, pageName.get(p));
-        pageToggle.put(p,toggle);
+        pageToggle.put(p, toggle);
         toggle.selectedProperty().addListener((observableValue, oldVal, newVal) -> {
             if (!oldVal && newVal) {
                 action.run();
