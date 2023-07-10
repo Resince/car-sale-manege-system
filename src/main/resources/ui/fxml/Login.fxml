@@ -31,8 +31,8 @@
                 <Insets top="40.0" />
             </GridPane.margin>
         </MFXIconWrapper>
-        <MFXPasswordField fx:id="text_passwd" prefHeight="55.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-        <MFXTextField fx:id="text_phone" prefHeight="55.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+        <MFXPasswordField fx:id="text_passwd" floatingText="密码" prefHeight="55.0" prefWidth="300.0" promptText="输入密码" textLimit="20" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+        <MFXTextField fx:id="text_phone" floatingText="手机号" prefHeight="55.0" prefWidth="300.0" promptText="输入手机号" textLimit="11" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
         <MFXButton fx:id="btn_login" buttonType="RAISED" prefHeight="45.0" prefWidth="300.0" text="登录" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets />
