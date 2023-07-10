@@ -77,11 +77,13 @@ public class ConfirmOrderController implements Initializable {
         sid.setText(order.getCusId());
         taxPrice.setText(df.format(order.getPurchaseTax()) + " 元");
         tel.setText(order.getCusPhone());
+
         double sum = PurchaseCar.getSum(order) + PurchaseCar.getServerPrice(order);
         totalPrice.setText(sum + " 元");
+
         type.setText(order.getCar().getType());
         power.setText(order.getCar().getPowerType());
-        pmtDiscount.setText(order.getPmtDiscount() + " 元");
+        pmtDiscount.setText(df.format(order.getPmtDiscount()) + " 元");
     }
 
     /**
